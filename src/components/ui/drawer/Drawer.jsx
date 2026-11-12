@@ -158,9 +158,9 @@ export function Drawer({
   // Layout mode positioning classes
   const positionClasses = isModal
     ? cn(
-        'fixed inset-y-0 z-50 shadow-2xl max-w-[85vw] transition-transform duration-300 ease-in-out',
+        'fixed inset-y-0 z-40 shadow-2xl max-w-[85vw] transition-transform duration-200 ease-in-out',
         side === 'left' ? 'left-0 border-r' : 'right-0 border-l',
-        defaultWidth,
+        side === 'right' ? 'w-80' : 'w-64',
         isOpen
           ? 'translate-x-0'
           : side === 'left'
@@ -168,13 +168,15 @@ export function Drawer({
           : 'translate-x-full pointer-events-none invisible'
       )
     : cn(
-        'relative shrink-0 h-full transition-all duration-300 ease-in-out',
+        'relative shrink-0 h-full transition-[width,opacity] duration-200 ease-in-out',
         side === 'left' ? 'border-r' : 'border-l',
         !isOpen
-          ? 'w-0 overflow-hidden opacity-0 pointer-events-none invisible border-none!'
+          ? 'w-0 min-w-0 max-w-0 overflow-hidden opacity-0 pointer-events-none invisible !border-0'
           : isCompact && side === 'left'
-          ? `${compactWidth} overflow-hidden`
-          : defaultWidth
+          ? 'w-16 min-w-16 max-w-16 overflow-hidden'
+          : side === 'right'
+          ? 'w-80 min-w-80 max-w-80'
+          : 'w-64 min-w-64 max-w-64'
       );
 
   const defaultRole = isModal
@@ -213,7 +215,7 @@ export function Drawer({
           data-testid="drawer-backdrop"
           aria-hidden="true"
           onClick={closeOnBackdropClick ? closeDrawer : undefined}
-          className="fixed inset-0 bg-black/50 z-40 transition-opacity duration-300 ease-in-out backdrop-blur-xs"
+          className="fixed inset-0 bg-black/50 z-30 transition-opacity duration-200 ease-in-out backdrop-blur-xs"
         />
       )}
 
