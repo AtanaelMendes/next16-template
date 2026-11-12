@@ -1,8 +1,6 @@
-'use client';
-
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useCallback, useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 
 const ButtonDropDown = ({ id, label, small, type, block, className, items }) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -65,18 +63,18 @@ const ButtonDropDown = ({ id, label, small, type, block, className, items }) => 
                     <div className={"flex justify-center w-full"}>
                         <span>{label || ""}</span>
                     </div>
-                    <div className={"w-[30px] flex justify-center"}>
+                    <div className={"w-7.5 flex justify-center"}>
                         <FontAwesomeIcon className={`ease-in-out duration-300 ${isOpen ? "rotate-180" : ""}`} icon={faChevronDown} width="14" height="14" />
                     </div>
                 </div>
             </button>
 
-            {isOpen && (<div id="dropdownChildren" ref={menuRef} className={`z-10 bg-white rounded shadow-lg absolute w-fit min-w-[100px] max-w-[200px] mt-1`}>
+            {isOpen && (<div id="dropdownChildren" ref={menuRef} className={`z-10 bg-white rounded shadow-lg absolute w-fit min-w-25 max-w-50 mt-1`}>
                 <ul className="space-y-1 self-end block p-1 w-full divide-y divide-gray-200">
                     {items.map((item, index) => (
                         <li key={index} className={`
                             self-end px-2 py-1
-                            ${item.hoverClassName || "hover:bg-blue-200 hover:text-primary hover:rounded cursor-pointer"} 
+                            ${item.hoverClassName || "hover:bg-blue-200 hover:text-primary hover:rounded cursor-pointer"}
                             transition-colors duration-300 ease-in-out`}>
                             <div className={`${item.itemClassName || ""} flex items-center p-1`} onClick={() => { item.action(); setIsOpen(false); }} >
                                 {item.icon && <FontAwesomeIcon icon={item.icon} className='mr-2' width="16" height="16" />}

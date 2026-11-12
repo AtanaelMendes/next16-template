@@ -1,5 +1,3 @@
-'use client';
-
 import React from 'react';
 import { cn } from '@/lib/utils';
 
@@ -13,21 +11,21 @@ import { cn } from '@/lib/utils';
  * @param {string} [props.dataTestId='drawer-content']
  */
 export function DrawerContent({
-  children,
-  className = '',
-  dataTestId,
-  ...props
+    children,
+    className = '',
+    dataTestId,
+    ...props
 }) {
-  return (
-    <div
-      data-testid={dataTestId || props['data-testid'] || 'drawer-content'}
-      className={cn(
-        'flex-1 overflow-y-auto overflow-x-hidden p-4 min-h-0',
-        className
-      )}
-      {...props}
-    >
-      {children}
-    </div>
-  );
+    return (
+        <div
+            data-testid={dataTestId || props['data-testid'] || 'drawer-content'}
+            className={cn(
+                'flex-1 overflow-y-auto overflow-x-hidden p-4 min-h-0',
+                className
+            )}
+            {...props}
+        >
+            {children}
+        </div>
+    );
 }

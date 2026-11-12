@@ -1,5 +1,3 @@
-'use client';
-
 import { useEffect, useState, useCallback } from "react";
 import Loading from "@/components/feedback/Loading";
 import { cn } from "@/assets/utils";
@@ -58,7 +56,7 @@ const Iframe = ({ id, src, title, params, visible, active, className, callback})
     }, [iframSrc, active]);
 
     return (
-        <div className={`flex-col w-full h-full min-h-[400px] min-w-[400px] ${visible ? "flex" : "hidden"} relative`}>
+        <div className={`flex-col w-full h-full min-h-100 min-w-100 ${visible ? "flex" : "hidden"} relative`}>
             <Loading active={!ready} />
             {renderFrame()}
         </div>

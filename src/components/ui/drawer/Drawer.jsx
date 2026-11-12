@@ -1,5 +1,3 @@
-'use client';
-
 import React, { useRef, useState, useEffect, useId } from 'react';
 import {
   DrawerContext,

@@ -1,5 +1,3 @@
-'use client';
-
 import SmallLoading from "@/components/feedback/SmallLoading";
 import { FieldLabel } from "@/components/ui/display/Typography";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -155,8 +153,6 @@ const InputText = ({
 
     const getMaskedValue = (string) => {
         switch (mask) {
-            case "altura":
-                return maskAltura(string);
             case "cep":
                 return maskCEP(string);
             case "cnpj":
@@ -189,36 +185,19 @@ const InputText = ({
         <>
             <div className={`relative w-full`}>
                 {label && (
-                    <div className='flex absolute top-[-9px] left-2 w-fit z-10 text-xs px-0.5 rounded-md mb-0 pb-0 text-nowrap before:bg-white before:top-0.5 before:left-0 before:absolute before:w-full before:h-[12px] before:-z-10 before:content-[""] before:rounded-lg'>
+                    <div className='flex absolute -top-2.25 left-2 w-fit z-10 text-xs px-0.5 rounded-md mb-0 pb-0 text-nowrap before:bg-white before:top-0.5 before:left-0 before:absolute before:w-full before:h-3 before:-z-10 before:content-[""] before:rounded-lg'>
                         <label htmlFor={id}>
                             <FieldLabel className={cn(required ? 'ml-4' : 'ml-0 mb-0 pb-0', 'text-gray-500')}>
                                 {label || ""}
                             </FieldLabel>
                         </label>
                         {required && (
-                            <FontAwesomeIcon
-                                icon={faAsterisk}
-                                width="8"
-                                height="8"
-                                color="red"
-                                className="self-start absolute"
-                            />
+                            <FontAwesomeIcon icon={faAsterisk} width="8" height="8" color="red" className="self-start absolute" />
                         )}
                         {hint && (
                             <>
-                            <TooltipComponent
-                                        asChild
-                                        content={hint}
-                                        usePortal={false}
-                                >
-                                    <FontAwesomeIcon
-                                        icon={faInfoCircle}
-                                        width="16"
-                                        height="16"
-                                        color="blue"
-                                        className="self-start ml-2"
-                                        tabIndex={-1}
-                                    />
+                                <TooltipComponent asChild content={hint} usePortal={false}>
+                                    <FontAwesomeIcon icon={faInfoCircle} width="16" height="16" color="blue" className="self-start ml-2" tabIndex={-1} />
                                 </TooltipComponent>
                             </>
                         )}
@@ -247,7 +226,7 @@ const InputText = ({
                         className
                     )}
                 />
-                 {clearable && inputVal && (
+                {clearable && inputVal && (
                     <div
                         onClick={clearValue}
                         className={cn(
@@ -260,23 +239,18 @@ const InputText = ({
                             disabled || readOnly ? "hidden" : ""
                         )}
                     >
-                        <FontAwesomeIcon 
-                            icon={faX} 
-                            width="10" 
-                            height="10"
-                            className="transform hover:scale-110 transition-transform duration-150" 
-                        />
+                        <FontAwesomeIcon  icon={faX}  width="10"  height="10" className="transform hover:scale-110 transition-transform duration-150" />
                     </div>
                 )}
                 {loading && (
-                    <div className="absolute bottom-[8px] right-[8px]">
+                    <div className="absolute bottom-2 right-2">
                         <SmallLoading active={loading} />
                     </div>
                 )}
                 {mask === "currency" && (
-                    <div className={`absolute ${small ? 'bottom-[4px]' : 'bottom-[9px]'} left-[8px] text-gray-900 text-sm`}>R$</div>
+                    <div className={`absolute ${small ? 'bottom-1' : 'bottom-2.25'} left-2 text-gray-900 text-sm`}>R$</div>
                 )}
-                {helperText && <div className="text-xs text-blue-600 absolute bottom-[-12px] right-0"> {helperText} </div>}
+                {helperText && <div className="text-xs text-blue-600 absolute -bottom-3 right-0"> {helperText} </div>}
             </div>
             {renderError()}
         </>

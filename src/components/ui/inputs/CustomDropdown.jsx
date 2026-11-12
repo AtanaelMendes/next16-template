@@ -1,6 +1,4 @@
-'use client';
-
-import { faCaretDown, faExternalLink, faInfoCircle, faSortDown } from "@fortawesome/free-solid-svg-icons";
+import { faCaretDown, faExternalLink, faInfoCircle} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState, useEffect, useRef } from "react";
 import { FieldLabel } from "@/components/ui/display/Typography";
@@ -46,7 +44,7 @@ const CustomDropdown = ({ id, label, options, onSelect, placeholder, showIconLin
                     <>
                         <TooltipComponent
                             content={
-                                <div className="text-xs z-[100] max-w-[300px]">{hint}</div>
+                                <div className="text-xs z-100 max-w-75">{hint}</div>
                             }
                             asChild
                             usePortal={false}
@@ -83,7 +81,7 @@ const CustomDropdown = ({ id, label, options, onSelect, placeholder, showIconLin
                             onClick={() => handleSelect(option.value)}
                         >
                             <span className="text-gray-600 font-semibold text-sm">{option.label}</span>
-                            <span className="bg-primary text-white text-xs font-semibold min-w-[28px] h-[28px] flex items-center justify-center rounded-full">
+                            <span className="bg-primary text-white text-xs font-semibold min-w-7 h-7 flex items-center justify-center rounded-full">
                                 {option.count}
                             </span>
                         </div>

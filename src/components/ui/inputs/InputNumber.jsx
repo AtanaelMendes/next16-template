@@ -1,5 +1,3 @@
-'use client';
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAsterisk } from '@fortawesome/free-solid-svg-icons';
 import { cn, empty } from "@/assets/utils";
@@ -49,20 +47,14 @@ const InputNumber = ({ label, value, onChange, placeholder, id, name, required, 
 
     return (
         <div className="w-full relative">
-            {label && <div className='flex absolute top-[-9px] left-2 w-fit z-10 text-xs px-0.5 rounded-md mb-0 pb-0 text-nowrap before:bg-white before:top-0.5 before:left-0 before:absolute before:w-full before:h-[12px] before:-z-10 before:content-[""] before:rounded-lg'>
+            {label && <div className='flex absolute -top-2.25 left-2 w-fit z-10 text-xs px-0.5 rounded-md mb-0 pb-0 text-nowrap before:bg-white before:top-0.5 before:left-0 before:absolute before:w-full before:h-3 before:-z-10 before:content-[""] before:rounded-lg'>
                 <label htmlFor={id}>
                     <FieldLabel className={cn(required ? 'ml-4' : 'ml-0 mb-0 pb-0', 'text-gray-500')}>
                         {label || ""}
                     </FieldLabel>
                 </label>
                 {required && (
-                    <FontAwesomeIcon
-                        icon={faAsterisk}
-                        width="8"
-                        height="8"
-                        color="red"
-                        className="self-start absolute"
-                    />
+                    <FontAwesomeIcon icon={faAsterisk} width="8" height="8" color="red" className="self-start absolute" />
                 )}
             </div>}
 
@@ -87,7 +79,7 @@ const InputNumber = ({ label, value, onChange, placeholder, id, name, required, 
                 `}
                 placeholder={placeholder || ""} />
             {renderError()}
-            {helperText && <div className="text-xs text-blue-600 absolute bottom-[-12px] right-0"> {helperText} </div>}
+            {helperText && <div className="text-xs text-blue-600 absolute -bottom-3 right-0"> {helperText} </div>}
         </div>
     );
 }

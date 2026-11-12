@@ -1,5 +1,3 @@
-'use client';
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAsterisk, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import PillsBadge from "@/components/ui/buttons/PillsBadge";
@@ -97,26 +95,20 @@ const InputTextArea = React.memo(function ({
             {label && (
                 <label htmlFor={id} className={`${small ? 'mb-0.5 text-xs' : 'mb-2'} text-sm font-medium text-gray-900 inline-flex`}>
                     {required && (
-                        <FontAwesomeIcon
-                            icon={faAsterisk}
-                            width="10"
-                            height="10"
-                            color="red"
-                            className="self-start"
-                        />
+                        <FontAwesomeIcon icon={faAsterisk} width="10" height="10" color="red" className="self-start" />
                     )}
                     {label}
                 </label>
             )}
             <div className={`relative`}>
                 {RenderTextArea}
-                {!btnSent && <div className={cn("absolute bottom-[2px] right-[6px] text-right")}>
+                {!btnSent && <div className={cn("absolute bottom-0.5 right-1.5 text-right")}>
                     <PillsBadge type={counterStyle} small>
                         Total: {value?.length || 0}
                         {maxLength ? `/ ${maxLength}` : ""}
                     </PillsBadge>
                 </div>}
-                {typeof btnSent === "function" && <div className={cn("absolute bottom-[2px] right-[6px] text-right")}>
+                {typeof btnSent === "function" && <div className={cn("absolute bottom-0.5 right-1.5 text-right")}>
                     <Button buttonType="success" size={"small"} outline className="w-fit" onClick={btnSent}>
                         <FontAwesomeIcon icon={faPaperPlane} width="16" height="16" className=""/>
                     </Button>

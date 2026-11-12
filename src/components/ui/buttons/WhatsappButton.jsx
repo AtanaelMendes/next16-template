@@ -11,8 +11,12 @@ const normalizarTelefone = (numero) => {
 const WhatsappButton = ({ nrTelefone, className, small, tooltip }) => {
 	let div = (
 		<div
-			className={`rounded-full shadow-md shadow-green-500 ${small ? " w-[25px] h-[25px] p-[5px] " : " w-[35px] h-[35px] p-[7px] "
-				} bg-green-500 hover:bg-green-400 ${className}`}
+			className={
+				`rounded-full shadow-md shadow-green-500
+				bg-green-500 hover:bg-green-400
+				${small ? ` w-6.5 h-6.5 p-1.25 ` : " w-8.75 h-8.75 p-1.75 "}
+				${className}`
+			}
 			data-tooltip-id="wpp_tooltip"
 		>
 			<a href={`https://wa.me/${normalizarTelefone(nrTelefone)}`} target="_blank" rel="noopener noreferrer">

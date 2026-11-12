@@ -1,5 +1,3 @@
-'use client';
-
 import Button from '@/components/ui/buttons/Button';
 
 const DialogFields = ({title, children, visible, type, onCancel, onSave, disabled, labelConfirm}) => {

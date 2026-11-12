@@ -1,5 +1,3 @@
-'use client';
-
 import { faCloudUploadAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useAppContext } from "@/context/AppContext";
@@ -12,7 +10,7 @@ const InputFile = (props) => {
     const [selectedFileName, setSelectedFileName] = useState(null);
     const fileInputRef = useRef(null);
 
-    const allowedExtensions = [".doc", ".docx", ".pdf", ".jpg", ".jpeg", ".png"];
+    const allowedExtensions = ["doc", "docx", "pdf", "jpg", "jpeg", "png", "xlsx", "xml", "csv", "json", "md"];
 
     const handleDragOver = (event) => {
         event.preventDefault();

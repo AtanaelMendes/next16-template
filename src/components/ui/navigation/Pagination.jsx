@@ -1,5 +1,3 @@
-'use client';
-
 import { cn } from '@/assets/utils'
 import {
 	faChevronLeft,

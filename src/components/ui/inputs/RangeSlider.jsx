@@ -1,5 +1,3 @@
-'use client';
-
 import { cn } from '@/assets/utils'
 import { FieldLabel } from '@/components/ui/display/Typography'
 
@@ -32,7 +30,7 @@ const RangeSlider = ({
 				<span
 					key={index}
 					className={cn(
-						'text-sm font-medium text-gray-900 -bottom-6 start-0',
+						'text-sm font-medium text-gray-900 -bottom-6 inset-s-0',
 						disabled ? 'cursor-not-allowed' : 'cursor-pointer'
 					)}
 					onClick={() => {
@@ -48,7 +46,7 @@ const RangeSlider = ({
 	return (
 		<div className={cn('w-full relative', className)}>
 			{label && (
-				<div className='flex absolute top-[-9px] left-2 w-fit z-10 text-xs px-0.5 rounded-md mb-0 pb-0 text-nowrap before:bg-white before:top-0.5 before:left-0 before:absolute before:w-full before:h-[12px] before:-z-10 before:content-[""] before:rounded-lg'>
+				<div className='flex absolute -top-2.25 left-2 w-fit z-10 text-xs px-0.5 rounded-md mb-0 pb-0 text-nowrap before:bg-white before:top-0.5 before:left-0 before:absolute before:w-full before:h-3 before:-z-10 before:content-[""] before:rounded-lg'>
 					<FieldLabel className={cn(required ? 'ml-4' : 'ml-0 mb-0 pb-0', 'text-gray-500')}>
 						{label}
 					</FieldLabel>

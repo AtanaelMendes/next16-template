@@ -1,5 +1,3 @@
-'use client';
-
 import { useEffect, useState } from "react";
 import { useAppContext } from "@/context/AppContext";
 import { empty } from "@/assets/utils";

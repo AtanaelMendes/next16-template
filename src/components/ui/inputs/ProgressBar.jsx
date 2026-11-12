@@ -1,5 +1,3 @@
-'use client';
-
 import { Caption } from '@/components/ui/display/Typography';
 import { useEffect, useState } from "react";
 import { cn } from "@/assets/utils";
@@ -14,7 +12,7 @@ const ProgressBar = ({ id, width, value }) => {
     return (
         <>
             <Caption className={"me-2"}>Limite:</Caption>
-            <div id={id} className={cn("bg-gray-300 rounded-full h-2", width || "w-[200px]")}>
+            <div id={id} className={cn("bg-gray-300 rounded-full h-2", width || "w-50")}>
                 {/* Usando `style={{ width: progress + '%' }}` para evitar erro no Tailwind */}
                 <div
                     className={cn("bg-blue-600 h-2 rounded-full transition-all duration-300")}

@@ -1,9 +1,7 @@
-'use client';
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAsterisk } from "@fortawesome/free-solid-svg-icons";
 import { FieldLabel } from "@/components/ui/display/Typography";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Select from "react-tailwindcss-select";
 
 import { cn, empty } from "@/assets/utils";

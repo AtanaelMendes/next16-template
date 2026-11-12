@@ -7,11 +7,11 @@ const Loading = ({ active, className }) => {
     return (
         <div
             className={cn(
-                "flex absolute w-full h-full bg-white z-[999] top-[0px] left[0px] items-center justify-center",
+                "flex absolute w-full h-full bg-white z-999 top-0 left-0 items-center justify-center",
                 className
             )}
         >
-            <div className="h-[200px] w-[180px] relative text-center">
+            <div className="h-50 w-45 relative text-center">
                 <Image
                     src={`https://www.rhbrasil.com.br/images/logos/rhbrasil/icon-rhb-blue.png`}
                     fill

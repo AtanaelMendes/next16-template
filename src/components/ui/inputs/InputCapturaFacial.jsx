@@ -1,5 +1,3 @@
-'use client';
-
 import { useCallback, useEffect, useState, useRef } from "react";
 import Button from '@/components/ui/buttons/Button';
 import { useAppContext } from "@/context/AppContext";
@@ -7,8 +5,7 @@ import { faTrash, faUpload } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
 
-const ProfilePicture = ({ init, id, onChange, currentImage, ...props }) => {
-    const [ready, setReady] = useState(false);
+const InputCapturaFacial = ({ init, id, onChange, currentImage, ...props }) => {
     const [dragActive, setDragActive] = useState(false);
     const [preview, setPreview] = useState(currentImage || null);
     const [isCapturing, setIsCapturing] = useState(false);
@@ -70,24 +67,13 @@ const ProfilePicture = ({ init, id, onChange, currentImage, ...props }) => {
 
         // Parar câmera MediaPipe, mas NUNCA destruir faceDetection
         if (mediaPipeCameraRef.current) {
-            console.log('🛑 Parando camera MediaPipe...');
             mediaPipeCameraRef.current.stop();
             mediaPipeCameraRef.current = null;
         }
-
-        // JAMAIS fechar faceDetection - sempre preservar
-        console.log('🔒 Instância do MediaPipe PERMANENTEMENTE preservada');
-
-        console.log('✅ Limpeza suave MediaPipe concluída - instância preservada');
     };
 
     // Verificar suporte a MediaPipe Face Detection - CÓPIA EXATA do photo-modal.js
     const checkMediaPipeSupport = async () => {
-        console.log('🔍 Verificando MediaPipe Face Detection...');
-
-        // SEMPRE tentar usar MediaPipe se disponível (NUNCA desabilitar permanentemente)
-        console.log('🔄 MediaPipe NUNCA é desabilitado permanentemente');
-
         // PRIORIDADE: Se MediaPipe já está funcionando, SEMPRE reutilizar
         if (mediaPipeReady && faceDetectionRef.current) {
             console.log('♻️ MediaPipe JÁ FUNCIONA - reutilizando instância existente (ZERO recriação)');
@@ -99,19 +85,13 @@ const ProfilePicture = ({ init, id, onChange, currentImage, ...props }) => {
             return true;
         }
 
-        console.log('🔍 Inicializando nova instância MediaPipe...');
-        console.log('🌐 User Agent:', navigator.userAgent.substring(0, 100));
-        console.log('🌐 Navigator.mediaDevices disponível:', !!navigator.mediaDevices);
-
         // Evitar múltiplas inicializações simultâneas
         if (isInitializingMediaPipe) {
-            console.log('⏳ MediaPipe já está sendo inicializado...');
             return mediaPipeReady;
         }
 
         // Verificar tentativas máximas
         if (mediaPipeInitAttempts >= MAX_MEDIAPIPE_ATTEMPTS) {
-            console.log('❌ Máximo de tentativas MediaPipe atingido, usando fallback');
             return await checkNativeFaceDetection();
         }
 
@@ -121,10 +101,8 @@ const ProfilePicture = ({ init, id, onChange, currentImage, ...props }) => {
         try {
             // NÃO limpar instâncias anteriores - apenas verificar se já existe
             if (faceDetectionRef.current) {
-                console.log('♻️ Instância MediaPipe já existe, validando...');
                 // Verificar se a instância ainda está funcionando
                 if (mediaPipeReady) {
-                    console.log('✅ Instância MediaPipe válida, reutilizando');
                     setIsInitializingMediaPipe(false);
                     return true;
                 }
@@ -132,7 +110,6 @@ const ProfilePicture = ({ init, id, onChange, currentImage, ...props }) => {
 
             // Verificar se MediaPipe está disponível
             if (typeof window !== 'undefined' && typeof window.FaceDetection !== 'undefined') {
-                console.log('✅ MediaPipe FaceDetection detectado!');
 
                 // Criar instância com timeout
                 const initSuccess = await new Promise((resolve, reject) => {
@@ -152,20 +129,11 @@ const ProfilePicture = ({ init, id, onChange, currentImage, ...props }) => {
                             minDetectionConfidence: 0.05, // Ainda mais baixo para detectar faces distantes
                         });
 
-                        console.log('⚙️ MediaPipe configurado com minDetectionConfidence: 0.05 (faces distantes)');
-
                         // Criar callback wrapper com logs detalhados e proteção de erro - EXATO como photo-modal.js
                         faceDetection.onResults(function (results) {
                             try {
-                                console.log('🎯 MediaPipe onResults DIRETO:', {
-                                    detections: results.detections?.length || 0,
-                                    hasImage: !!results.image,
-                                    timestamp: Date.now() - (window.startTime || Date.now())
-                                });
-
                                 // Contador de callbacks recebidos
                                 window.mediaPipeCallbackCount = (window.mediaPipeCallbackCount || 0) + 1;
-                                console.log('📊 Total de callbacks MediaPipe recebidos:', window.mediaPipeCallbackCount);
 
                                 // Chamar função principal com proteção
                                 onFaceDetectionResults(results);
@@ -183,7 +151,6 @@ const ProfilePicture = ({ init, id, onChange, currentImage, ...props }) => {
                         setIsInitializingMediaPipe(false);
 
                         clearTimeout(timeout);
-                        console.log('✅ MediaPipe Face Detection inicializado - Modo MEDIAPIPE ativado');
                         resolve(true);
 
                     } catch (error) {
@@ -212,12 +179,10 @@ const ProfilePicture = ({ init, id, onChange, currentImage, ...props }) => {
 
             // Tentar novamente ou usar fallback
             if (mediaPipeInitAttempts < MAX_MEDIAPIPE_ATTEMPTS) {
-                const waitTime = mediaPipeInitAttempts * 1500; // Delay progressivo: 1.5s, 3s, 4.5s...
-                console.log(`🔄 Tentando novamente em ${waitTime}ms... (tentativa ${mediaPipeInitAttempts + 1}/${MAX_MEDIAPIPE_ATTEMPTS})`);
+                const waitTime = mediaPipeInitAttempts * 1500;
                 await new Promise(resolve => setTimeout(resolve, waitTime));
                 return await checkMediaPipeSupport();
             } else {
-                console.log('🔄 Todas as tentativas MediaPipe esgotadas, usando fallback nativo...');
                 return await checkNativeFaceDetection();
             }
         }
@@ -227,12 +192,10 @@ const ProfilePicture = ({ init, id, onChange, currentImage, ...props }) => {
     const checkNativeFaceDetection = async () => {
         try {
             if ('FaceDetector' in window) {
-                console.log('✅ Face Detection API nativa detectada!');
                 const faceDetector = new FaceDetector({
                     maxDetectedFaces: 1,
                     fastMode: true
                 });
-                console.log('✅ FaceDetector criado com sucesso');
                 return true;
             } else {
                 console.log('❌ Face Detection API não suportada, usando simulação');
@@ -249,32 +212,14 @@ const ProfilePicture = ({ init, id, onChange, currentImage, ...props }) => {
         try {
             window.mediaPipeCallbackReceived = true; // Marcar que callback foi recebido
 
-            console.log('🔍 onFaceDetectionResults chamado:', {
-                isDetectingFace: mediaPipeCallbackReceived.current, // Usar ref em vez de state
-                detectionsCount: results.detections?.length || 0,
-                timestamp: Date.now(),
-                hasImage: !!results.image,
-                imageWidth: results.image?.width,
-                imageHeight: results.image?.height
-            });
-
             // Validar se results existe e tem estrutura esperada
             if (!results || typeof results !== 'object') {
                 console.warn('⚠️ Results inválido ou inexistente');
                 return;
             }
 
-            // Log detalhado dos resultados
-            if (results.detections && Array.isArray(results.detections) && results.detections.length > 0) {
-                console.log('🎯 Detecções encontradas:', results.detections.map(d => ({
-                    score: d.score,
-                    boundingBox: d.boundingBox
-                })));
-            }
-
             // Usar ref em vez de state para verificação
             if (!mediaPipeCallbackReceived.current) {
-                console.log('⏹️ mediaPipeCallbackReceived.current é false, retornando');
                 return;
             }
 
@@ -283,7 +228,6 @@ const ProfilePicture = ({ init, id, onChange, currentImage, ...props }) => {
 
         } catch (error) {
             console.error('❌ Erro em onFaceDetectionResults:', error);
-            console.log('🔧 Continuando execução sem parar vídeo...');
             // NÃO fazer fallback aqui - apenas logar e continuar
         }
     };
@@ -291,8 +235,6 @@ const ProfilePicture = ({ init, id, onChange, currentImage, ...props }) => {
     // Processar resultados de detecção - EXATO do photo-modal.js
     const processDetectionResults = (results) => {
         try {
-            console.log(`🔍 PROCESSANDO RESULTADOS: ${results.detections?.length || 0} rosto(s) detectado(s)`);
-
             if (results.detections && Array.isArray(results.detections) && results.detections.length > 0) {
                 const detection = results.detections[0];
 
@@ -321,18 +263,11 @@ const ProfilePicture = ({ init, id, onChange, currentImage, ...props }) => {
                     Math.abs(centerX - idealCenterX) <= tolerance &&
                     Math.abs(centerY - idealCenterY) <= tolerance;
 
-                console.log('📍 Posicionamento:', {
-                    centerX: centerX.toFixed(3),
-                    centerY: centerY.toFixed(3),
-                    isWellPositioned,
-                    bbox
-                });
-
                 setFaceInPosition(isWellPositioned);
                 setFacePositionReady(true);
 
                 if (isWellPositioned) {
-                    setPositionInstructions('✅ Perfeito! Rosto bem posicionado - clique para capturar');
+                    setPositionInstructions('Perfeito! Rosto bem posicionado - clique para capturar');
                 } else {
                     if (centerX < idealCenterX - tolerance) {
                         setPositionInstructions('← Mova um pouco para a direita');
@@ -360,21 +295,15 @@ const ProfilePicture = ({ init, id, onChange, currentImage, ...props }) => {
 
     // Tratar erros do MediaPipe - EXATO do photo-modal.js
     const handleMediaPipeError = () => {
-        console.log('🔧 handleMediaPipeError: iniciando fallback para simulação');
-
         // Simular detecção positiva para permitir captura
         setFaceInPosition(true);
         setFacePositionReady(true);
         setPositionInstructions('✨ Modo simulação ativo - clique em "Capturar Foto" quando estiver pronto');
-
-        console.log('✅ Simulação de detecção facial ativa');
     };
 
     // Processar resultados do MediaPipe
     const processMediaPipeResults = (results) => {
         try {
-            console.log(`� PROCESSANDO MEDIAPIPE: ${results.detections?.length || 0} rosto(s) detectado(s)`);
-
             if (results.detections && Array.isArray(results.detections) && results.detections.length > 0) {
                 const detection = results.detections[0];
 
@@ -411,32 +340,24 @@ const ProfilePicture = ({ init, id, onChange, currentImage, ...props }) => {
 
                 const confidence = detection.score && detection.score[0] ? detection.score[0] : 0.5;
 
-                console.log('📐 MediaPipe métricas:', {
-                    centerX: centerX.toFixed(2),
-                    centerY: centerY.toFixed(2),
-                    sizeRatio: sizeRatio.toFixed(2),
-                    confidence: Math.round(confidence * 100) + '%'
-                });
-
                 if (distanceX <= toleranceX && distanceY <= toleranceY &&
                     sizeRatio >= 0.2 && sizeRatio <= 4.0 && confidence > 0.05) {
                     // Rosto bem posicionado
-                    console.log('✅ MediaPipe: ROSTO BEM POSICIONADO');
                     setFaceInPosition(true);
                     setFacePositionReady(true);
-                    setPositionInstructions('✅ Perfeito! Rosto detectado - Clique para capturar');
+                    setPositionInstructions('Perfeito! Rosto detectado - Clique para capturar');
                 } else if (sizeRatio < 0.2) {
                     setFaceInPosition(false);
                     setFacePositionReady(true);
-                    setPositionInstructions('📏 Pode chegar um pouco mais perto da câmera');
+                    setPositionInstructions('Pode chegar um pouco mais perto da câmera');
                 } else if (sizeRatio > 4.0) {
                     setFaceInPosition(false);
                     setFacePositionReady(true);
-                    setPositionInstructions('📏 Afaste-se um pouco da câmera');
+                    setPositionInstructions('Afaste-se um pouco da câmera');
                 } else {
                     setFaceInPosition(false);
                     setFacePositionReady(true);
-                    setPositionInstructions('↔️ Centralize seu rosto na moldura');
+                    setPositionInstructions('Centralize seu rosto na moldura');
                 }
             } else {
                 // Nenhum rosto detectado
@@ -454,11 +375,7 @@ const ProfilePicture = ({ init, id, onChange, currentImage, ...props }) => {
     // Iniciar detecção nativa Face Detection API - EXATO do photo-modal.js
     const startNativeFaceDetection = async () => {
         try {
-            console.log('🔧 startNativeFaceDetection: iniciando Face Detection API nativa');
-
             if ('FaceDetector' in window) {
-                console.log('✅ Face Detection API disponível!');
-
                 const faceDetector = new FaceDetector({
                     maxDetectedFaces: 1,
                     fastMode: true
@@ -466,7 +383,6 @@ const ProfilePicture = ({ init, id, onChange, currentImage, ...props }) => {
 
                 // Simular detecção com análise de pixels básica
                 setFaceDetectionMethod('native');
-                console.log('🎯 Face Detection API ativa');
 
                 // Para simplificar, usar simulação direta
                 startSimulatedFaceDetection();
@@ -484,7 +400,6 @@ const ProfilePicture = ({ init, id, onChange, currentImage, ...props }) => {
 
     // Iniciar simulação de detecção facial - EXATO do photo-modal.js
     const startSimulatedFaceDetection = () => {
-        console.log('🎭 startSimulatedFaceDetection: iniciando simulação');
         setFaceDetectionMethod('simulation');
 
         // Simular detecção positiva para permitir captura
@@ -497,29 +412,21 @@ const ProfilePicture = ({ init, id, onChange, currentImage, ...props }) => {
         setFaceInPosition(true);
         setFacePositionReady(true);
         setPositionInstructions('✨ Modo simulação ativo - clique em "Capturar Foto" quando estiver pronto');
-
-        console.log('✅ Simulação de detecção facial ativa');
     };
 
     // Função para detectar rosto em arquivo de imagem
     const detectFaceInFile = async (file) => {
-        console.log('🔍 Iniciando detecção facial no arquivo:', file.name);
-
         try {
             // Método 1: Tentar MediaPipe primeiro (mais preciso)
             if (mediaPipeReady && faceDetectionRef.current) {
-                console.log('🔬 Usando MediaPipe para detecção facial...');
                 const result = await detectFaceWithMediaPipe(file);
                 if (result !== null) {
-                    console.log('✅ MediaPipe detectou:', result ? 'rosto encontrado' : 'nenhum rosto');
                     return result;
                 }
             }
 
             // Método 2: Face Detection API nativa
             if ('FaceDetector' in window) {
-                console.log('🔍 Usando Face Detection API nativa...');
-
                 // Criar uma imagem a partir do arquivo
                 const imageBitmap = await createImageBitmap(file);
 
@@ -532,12 +439,9 @@ const ProfilePicture = ({ init, id, onChange, currentImage, ...props }) => {
                 // Detectar rostos
                 const faces = await faceDetector.detect(imageBitmap);
 
-                console.log(`👥 Face Detection API: ${faces.length} rosto(s) detectado(s)`);
-
                 // Analisar qualidade dos rostos detectados
                 if (faces.length > 0) {
                     const faceQuality = analyzeFaceQuality(faces, imageBitmap);
-                    console.log('📊 Qualidade dos rostos:', faceQuality);
 
                     // Considerar rosto válido se houver pelo menos um com qualidade aceitável
                     return faceQuality.hasGoodQuality;
@@ -548,11 +452,7 @@ const ProfilePicture = ({ init, id, onChange, currentImage, ...props }) => {
             } else {
                 console.log('⚠️ Face Detection API não disponível');
             }
-
-            // Método 3: Análise básica de pixel (fallback)
-            console.log('🎭 Usando análise básica de pixels como fallback...');
             const hasBasicFaceFeatures = await analyzeImageForFaceFeatures(file);
-            console.log('🔍 Análise básica detectou características faciais:', hasBasicFaceFeatures);
 
             return hasBasicFaceFeatures;
 
@@ -561,7 +461,6 @@ const ProfilePicture = ({ init, id, onChange, currentImage, ...props }) => {
 
             // Em caso de erro, usar análise de fallback mais simples
             try {
-                console.log('🔧 Tentando fallback simples...');
                 const basicAnalysis = await analyzeImageBasic(file);
                 return basicAnalysis;
             } catch (fallbackError) {
@@ -632,10 +531,6 @@ const ProfilePicture = ({ init, id, onChange, currentImage, ...props }) => {
 
             if (faceRatio >= 0.05 && faceRatio <= 0.8 && aspectRatio >= 1.0 && aspectRatio <= 2.0) {
                 hasGoodQuality = true;
-                console.log('✅ Rosto com boa qualidade encontrado:', {
-                    area: `${(faceRatio * 100).toFixed(1)}%`,
-                    aspect: aspectRatio.toFixed(2)
-                });
                 break;
             }
         }
@@ -704,12 +599,6 @@ const ProfilePicture = ({ init, id, onChange, currentImage, ...props }) => {
             // Heurística: se há uma porcentagem razoável de tons de pele e contraste
             const hasFaceFeatures = skinRatio > 0.1 && contrastRatio > 0.05;
 
-            console.log('📊 Análise básica:', {
-                skinRatio: (skinRatio * 100).toFixed(1) + '%',
-                contrastRatio: (contrastRatio * 100).toFixed(1) + '%',
-                result: hasFaceFeatures
-            });
-
             return hasFaceFeatures;
 
         } catch (error) {
@@ -740,7 +629,6 @@ const ProfilePicture = ({ init, id, onChange, currentImage, ...props }) => {
 
             // Se conseguiu criar imageBitmap e tem dimensões razoáveis
             const isValidImage = imageBitmap.width >= 50 && imageBitmap.height >= 50;
-            console.log('🔍 Análise básica simples:', isValidImage);
 
             return isValidImage;
 
@@ -762,15 +650,12 @@ const ProfilePicture = ({ init, id, onChange, currentImage, ...props }) => {
 
         // Proteção contra execução múltipla
         if (window.isProcessingProfileFile) {
-            console.log('⚠️ Já processando um arquivo, ignorando...');
             return;
         }
 
         window.isProcessingProfileFile = true;
 
         try {
-            console.log('📁 Processando arquivo:', file.name, file.size, 'bytes');
-
             // Validação de tipo
             if (!file.type.startsWith('image/')) {
                 toast.error('Por favor, selecione apenas arquivos de imagem');
@@ -783,21 +668,13 @@ const ProfilePicture = ({ init, id, onChange, currentImage, ...props }) => {
                 return;
             }
 
-            console.log('🔍 Iniciando validação de detecção facial...');
-
-            // Mostrar loading de validação
-            toast.info('🔍 Verificando se há rosto detectável na imagem...');
-
             try {
                 // Realizar detecção facial
                 const faceDetected = await detectFaceInFile(file);
 
                 if (faceDetected) {
-                    console.log('✅ Rosto detectado com sucesso!');
                     toast.success('✅ Rosto detectado com sucesso!');
                 } else {
-                    console.log('⚠️ Nenhum rosto detectado');
-
                     // Usar confirm do navegador para compatibilidade
                     const confirmUpload = window.confirm(
                         '⚠️ Nenhum rosto foi detectado na imagem.\n\n' +
@@ -810,11 +687,8 @@ const ProfilePicture = ({ init, id, onChange, currentImage, ...props }) => {
                     );
 
                     if (!confirmUpload) {
-                        console.log('❌ Usuário cancelou upload');
                         return;
                     }
-
-                    console.log('⚠️ Usuário optou por continuar sem rosto detectado');
                 }
 
             } catch (error) {
@@ -842,8 +716,6 @@ const ProfilePicture = ({ init, id, onChange, currentImage, ...props }) => {
             if (typeof onChange === 'function') {
                 onChange('ds_foto_candidato', file);
             }
-
-            console.log('✅ Arquivo processado com sucesso');
 
         } finally {
             // Sempre liberar o lock após um tempo
@@ -883,16 +755,12 @@ const ProfilePicture = ({ init, id, onChange, currentImage, ...props }) => {
     const startFacePositionMonitoring = async () => {
         // Verificar se já está rodando
         if (isMonitoringStarted) {
-            console.log('⏸️ Monitoramento já está ativo, ignorando nova chamada');
             return;
         }
-
-        console.log('🎥 Iniciando monitoramento de posição facial...');
         setIsMonitoringStarted(true);
 
         // Limpar detecção anterior se existir
         if (isDetectingFace) {
-            console.log('🛑 Parando detecção anterior...');
             stopFacePositionMonitoring();
             await new Promise(resolve => setTimeout(resolve, 300));
         }
@@ -900,16 +768,13 @@ const ProfilePicture = ({ init, id, onChange, currentImage, ...props }) => {
         // Ativar detecção - definir flag como ativa
         setIsDetectingFace(true);
         mediaPipeCallbackReceived.current = true; // Ativar callback
-        console.log('🔴 isDetectingFace e callback flag definidos como true');
 
         // Verificar suporte MediaPipe com a mesma lógica do photo-modal.js
         const hasMediaPipe = await checkMediaPipeSupport();
 
         if (hasMediaPipe) {
-            console.log('🚀 Iniciando detecção facial MEDIAPIPE');
             await startMediaPipeFaceDetection();
         } else {
-            console.log('🚀 Iniciando detecção facial NATIVA/FALLBACK');
             startNativeFaceDetection();
         }
     };
@@ -923,13 +788,11 @@ const ProfilePicture = ({ init, id, onChange, currentImage, ...props }) => {
         }
 
         const video = videoRef.current;
-        console.log('📸 Iniciando MediaPipe com vídeo:', video.videoWidth, 'x', video.videoHeight);
 
         try {
             // IMPORTANTE: Limpar câmera anterior APENAS se existir
             if (mediaPipeCameraRef.current) {
                 try {
-                    console.log('🛑 Parando câmera MediaPipe anterior...');
                     mediaPipeCameraRef.current.stop();
                 } catch (e) {
                     console.warn('⚠️ Erro ao parar câmera anterior:', e);
@@ -942,7 +805,6 @@ const ProfilePicture = ({ init, id, onChange, currentImage, ...props }) => {
 
             // Verificar se vídeo está pronto
             if (video.readyState < 2) {
-                console.log('⏳ Aguardando vídeo ficar pronto...');
                 await new Promise((resolve) => {
                     const timeout = setTimeout(resolve, 2000); // Timeout de segurança
                     video.addEventListener('canplay', () => {
@@ -952,8 +814,6 @@ const ProfilePicture = ({ init, id, onChange, currentImage, ...props }) => {
                 });
             }
 
-            // Inicializar nova câmera do MediaPipe - REUTILIZANDO a instância existente
-            console.log('🎬 Criando nova Camera MediaPipe (preservando FaceDetection)...');
             const camera = new window.Camera(video, {
                 onFrame: async () => {
                     // Verificação simples e direta - apenas se callback está ativo
@@ -990,21 +850,8 @@ const ProfilePicture = ({ init, id, onChange, currentImage, ...props }) => {
                 height: 480
             });
 
-            console.log('▶️ Iniciando camera MediaPipe...');
             await camera.start();
             mediaPipeCameraRef.current = camera;
-            console.log('✅ Câmera MediaPipe iniciada com sucesso (instância FaceDetection preservada)');
-
-            // Teste de timeout para verificar funcionamento (reduzi para 2 segundos)
-            setTimeout(() => {
-                if (mediaPipeCallbackReceived.current) {
-                    console.log('✅ MediaPipe funcionando - callbacks sendo processados');
-                } else {
-                    console.warn('⚠️ MediaPipe sem callbacks em 2 segundos, verificando...');
-                    // MediaPipe pode estar funcionando mesmo sem receber callback ainda
-                    // Apenas logar, não usar fallback imediatamente
-                }
-            }, 2000);
 
         } catch (error) {
             console.error('❌ Erro ao inicializar Camera MediaPipe:', error);
@@ -1012,218 +859,11 @@ const ProfilePicture = ({ init, id, onChange, currentImage, ...props }) => {
         }
     };
 
-    // REMOVIDO: Detecção nativa melhorada (duplicada - usando versão do photo-modal.js)
-    /*
-    const startNativeFaceDetection = () => {
-        if (positionCheckRef.current) {
-            clearInterval(positionCheckRef.current);
-        }
-
-        // Verificar se o navegador suporta Face Detection API
-        const hasFaceDetection = 'FaceDetector' in window;
-        console.log('Face Detection API disponível:', hasFaceDetection);
-
-        if (hasFaceDetection) {
-            detectFaceWithAPI();
-        } else {
-            detectFaceWithPixelAnalysis();
-        }
-
-        positionCheckRef.current = setInterval(() => {
-            if (!isDetectingFace) return;
-
-            if (hasFaceDetection) {
-                detectFaceWithAPI();
-            } else {
-                detectFaceWithPixelAnalysis();
-            }
-        }, 500);
-    };
-
-    // Detecção usando Face Detection API nativa
-    const detectFaceWithAPI = async () => {
-        if (!videoRef.current || !canvasRef.current) return;
-
-        try {
-            const video = videoRef.current;
-            const canvas = canvasRef.current;
-            const ctx = canvas.getContext('2d', { willReadFrequently: true });
-
-            // Configurar canvas
-            canvas.width = video.videoWidth;
-            canvas.height = video.videoHeight;
-
-            // Desenhar frame atual
-            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-            // Criar detector de rosto
-            const faceDetector = new FaceDetector({
-                maxDetectedFaces: 1,
-                fastMode: true
-            });
-
-            // Detectar rostos no canvas
-            const faces = await faceDetector.detect(canvas);
-
-            if (faces.length > 0) {
-                const face = faces[0];
-                const faceBox = face.boundingBox;
-
-                // Calcular centro do rosto
-                const faceCenterX = faceBox.x + faceBox.width / 2;
-                const faceCenterY = faceBox.y + faceBox.height / 2;
-
-                // Área ideal para o rosto (centro da tela)
-                const idealCenterX = canvas.width / 2;
-                const idealCenterY = canvas.height / 2;
-
-                // Calcular distância do centro ideal
-                const distanceX = Math.abs(faceCenterX - idealCenterX);
-                const distanceY = Math.abs(faceCenterY - idealCenterY);
-
-                // Tolerância para posicionamento (em pixels)
-                const toleranceX = canvas.width * 0.15; // 15% da largura
-                const toleranceY = canvas.height * 0.15; // 15% da altura
-
-                // Verificar tamanho do rosto (muito pequeno = longe, muito grande = perto)
-                const faceSize = faceBox.width * faceBox.height;
-                const idealSize = (canvas.width * 0.3) * (canvas.height * 0.4); // 30% x 40% da tela
-                const sizeRatio = faceSize / idealSize;
-
-                if (distanceX <= toleranceX && distanceY <= toleranceY &&
-                    sizeRatio >= 0.5 && sizeRatio <= 2.0) {
-                    // Rosto bem posicionado
-                    setFaceInPosition(true);
-                    setFacePositionReady(true);
-                    setPositionInstructions('✅ Perfeito! Rosto detectado e bem posicionado');
-                } else if (sizeRatio < 0.5) {
-                    // Muito longe
-                    setFaceInPosition(false);
-                    setFacePositionReady(true);
-                    setPositionInstructions('📏 Chegue mais perto da câmera');
-                } else if (sizeRatio > 2.0) {
-                    // Muito perto
-                    setFaceInPosition(false);
-                    setFacePositionReady(true);
-                    setPositionInstructions('📏 Afaste-se um pouco da câmera');
-                } else {
-                    // Fora de posição
-                    setFaceInPosition(false);
-                    setFacePositionReady(true);
-                    setPositionInstructions('↔️ Centralize seu rosto na moldura');
-                }
-            } else {
-                // Nenhum rosto detectado
-                setFaceInPosition(false);
-                setFacePositionReady(false);
-                setPositionInstructions('👤 Posicione seu rosto na moldura');
-            }
-        } catch (error) {
-            console.warn('Erro na Face Detection API:', error);
-            // Fallback para análise de pixels
-            detectFaceWithPixelAnalysis();
-        }
-    };
-    */
-
-    // Detecção usando análise inteligente de pixels (fallback)
-    const detectFaceWithPixelAnalysis = () => {
-        if (!videoRef.current || !canvasRef.current) return;
-
-        const video = videoRef.current;
-        const canvas = canvasRef.current;
-        const ctx = canvas.getContext('2d', { willReadFrequently: true });
-
-        // Configurar canvas
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
-
-        // Desenhar frame atual
-        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-        // Obter dados da imagem
-        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        const data = imageData.data;
-
-        // Analisar região central onde esperamos o rosto
-        const centerX = Math.floor(canvas.width / 2);
-        const centerY = Math.floor(canvas.height / 2);
-        const faceRegionSize = Math.min(canvas.width, canvas.height) * 0.3;
-
-        let skinPixels = 0;
-        let totalPixels = 0;
-        let brightnessSum = 0;
-        let contrastAreas = 0;
-
-        // Verificar região facial em grid
-        for (let y = centerY - faceRegionSize / 2; y < centerY + faceRegionSize / 2; y += 8) {
-            for (let x = centerX - faceRegionSize / 2; x < centerX + faceRegionSize / 2; x += 8) {
-                if (x >= 0 && x < canvas.width && y >= 0 && y < canvas.height) {
-                    const idx = (Math.floor(y) * canvas.width + Math.floor(x)) * 4;
-                    const r = data[idx];
-                    const g = data[idx + 1];
-                    const b = data[idx + 2];
-
-                    // Detectar tons de pele (rough skin detection)
-                    const isSkinTone = (
-                        r > 95 && g > 40 && b > 20 &&
-                        r > g && r > b &&
-                        Math.abs(r - g) > 15 &&
-                        Math.max(r, g, b) - Math.min(r, g, b) > 15
-                    );
-
-                    if (isSkinTone) skinPixels++;
-
-                    const brightness = (r + g + b) / 3;
-                    brightnessSum += brightness;
-
-                    // Detectar contraste (indicativo de características faciais)
-                    if (brightness < 80 || brightness > 180) {
-                        contrastAreas++;
-                    }
-
-                    totalPixels++;
-                }
-            }
-        }
-
-        const skinRatio = skinPixels / totalPixels;
-        const avgBrightness = brightnessSum / totalPixels;
-        const contrastRatio = contrastAreas / totalPixels;
-
-        // Lógica de detecção baseada em características faciais
-        if (skinRatio > 0.15 && avgBrightness > 60 && avgBrightness < 200 && contrastRatio > 0.1) {
-            // Análise mais detalhada para posicionamento
-            if (skinRatio > 0.25 && contrastRatio > 0.15) {
-                setFaceInPosition(true);
-                setFacePositionReady(true);
-                setPositionInstructions('✅ Rosto detectado! Clique para capturar');
-            } else {
-                setFaceInPosition(false);
-                setFacePositionReady(true);
-                setPositionInstructions('📍 Ajuste sua posição na moldura');
-            }
-        } else if (skinRatio > 0.05) {
-            // Rosto parcialmente detectado
-            setFaceInPosition(false);
-            setFacePositionReady(true);
-            setPositionInstructions('👀 Mantenha seu rosto na moldura');
-        } else {
-            // Nenhum rosto detectado
-            setFaceInPosition(false);
-            setFacePositionReady(false);
-            setPositionInstructions('👤 Posicione seu rosto na moldura');
-        }
-    };
-
     const stopFacePositionMonitoring = () => {
-        console.log('🛑 Parando monitoramento facial...');
-
         // Resetar flags
         setIsDetectingFace(false);
         setIsMonitoringStarted(false);
-        mediaPipeCallbackReceived.current = false; // Desativar callback
-        console.log('🔄 Flags de detecção e callback desativadas');
+        mediaPipeCallbackReceived.current = false;
 
         if (positionCheckRef.current) {
             clearInterval(positionCheckRef.current);
@@ -1232,30 +872,18 @@ const ProfilePicture = ({ init, id, onChange, currentImage, ...props }) => {
 
         // Limpar câmera MediaPipe mas preservar instância
         cleanupMediaPipe();
-
-        console.log('✅ Monitoramento facial parado');
     };
 
     // Camera handlers - versão melhorada baseada no photo-modal.js
     const startCamera = async () => {
-        console.log('📹 Iniciando câmera...');
         setCameraLoading(true);
 
         // SEMPRE resetar flags de monitoramento para nova sessão
         setIsMonitoringStarted(false);
         setIsDetectingFace(false);
-        console.log('🔄 Flags de monitoramento resetadas para nova sessão');
-
-        // NÃO resetar contadores se MediaPipe já estiver funcionando (como photo-modal.js)
-        if (!mediaPipeReady || !faceDetectionRef.current) {
-            console.log('🔄 Primeiro uso - permitindo nova inicialização MediaPipe');
-        } else {
-            console.log('🔒 MediaPipe já funciona - mantendo instância existente');
-        }
 
         // Resetar callback flag
         mediaPipeCallbackReceived.current = false;
-        console.log('🔄 Callback flag resetado para nova sessão');
 
         try {
             // Configuração de câmera
@@ -1268,9 +896,7 @@ const ProfilePicture = ({ init, id, onChange, currentImage, ...props }) => {
                 audio: false
             };
 
-            console.log('Solicitando getUserMedia...');
             const mediaStream = await navigator.mediaDevices.getUserMedia(constraints);
-            console.log('Stream obtido com sucesso:', mediaStream);
 
             setStream(mediaStream);
             setIsCapturing(true);
@@ -1278,49 +904,32 @@ const ProfilePicture = ({ init, id, onChange, currentImage, ...props }) => {
             // Aguardar o próximo ciclo de renderização para o video estar disponível
             setTimeout(() => {
                 if (videoRef.current) {
-                    console.log('Configurando vídeo...');
                     const video = videoRef.current;
 
                     video.srcObject = mediaStream;
 
                     // Timeout de segurança
                     const safetyTimeout = setTimeout(() => {
-                        console.log('Timeout de segurança - removendo loading');
                         setCameraLoading(false);
                     }, 8000);
 
                     // Quando o vídeo estiver pronto
                     const onCanPlay = () => {
-                        console.log('Vídeo pronto para reproduzir');
                         clearTimeout(safetyTimeout);
                         setCameraLoading(false);
 
                         // Aguardar estabilização antes de iniciar detecção
                         setTimeout(() => {
-                            console.log('🎯 Iniciando detecção facial após vídeo estabilizar...');
                             startFacePositionMonitoring();
                         }, 500); // Reduzido para ser mais responsivo
-                    };
-
-                    const onLoadedMetadata = () => {
-                        console.log('Metadata carregada - dimensões:', video.videoWidth, 'x', video.videoHeight);
                     };
 
                     video.addEventListener('canplay', onCanPlay, { once: true });
                     video.addEventListener('loadedmetadata', onLoadedMetadata, { once: true });
 
-                    console.log('Event listeners adicionados, chamando play()...');
-
                     // Tentar reproduzir
-                    video.play()
-                        .then(() => {
-                            console.log('Vídeo reproduzindo com sucesso');
-                        })
-                        .catch(err => {
-                            console.warn('Erro no play, mas continuando:', err);
-                        });
+                    video.play().catch(err => { console.warn('Erro no play, mas continuando:', err); });
                 } else {
-                    console.error('videoRef.current ainda é null após timeout!');
                     setCameraLoading(false);
                 }
             }, 100);
@@ -1341,12 +950,10 @@ const ProfilePicture = ({ init, id, onChange, currentImage, ...props }) => {
     };
 
     const stopCamera = () => {
-        console.log('📹 Parando câmera...');
 
         // Resetar flags de detecção PRIMEIRO
         setIsDetectingFace(false);
         setIsMonitoringStarted(false);
-        console.log('🔄 Flags de detecção resetadas em stopCamera');
 
         // Parar monitoramento de rosto
         stopFacePositionMonitoring();
@@ -1355,7 +962,6 @@ const ProfilePicture = ({ init, id, onChange, currentImage, ...props }) => {
         if (stream) {
             stream.getTracks().forEach(track => {
                 track.stop();
-                console.log('Track parado:', track.kind);
             });
             setStream(null);
         }
@@ -1371,14 +977,10 @@ const ProfilePicture = ({ init, id, onChange, currentImage, ...props }) => {
         setFaceInPosition(false);
         setFacePositionReady(false);
         setPositionInstructions('Posicione seu rosto na moldura');
-
-        console.log('✅ Câmera parada com sucesso');
     };
 
     const capturePhoto = async () => {
         if (!videoRef.current || !canvasRef.current) return;
-
-        console.log('📷 Iniciando captura de foto...');
 
         const canvas = canvasRef.current;
         const video = videoRef.current;
@@ -1447,8 +1049,6 @@ const ProfilePicture = ({ init, id, onChange, currentImage, ...props }) => {
                         }
                     }
 
-                    console.log('✅ Foto validada, processando...');
-
                 } catch (error) {
                     console.error('❌ Erro na validação da foto capturada:', error);
                     // Em caso de erro, continuar normalmente
@@ -1489,7 +1089,7 @@ const ProfilePicture = ({ init, id, onChange, currentImage, ...props }) => {
                         <img
                             src={preview}
                             alt="Profile preview"
-                            className="w-[256px] h-[256px] rounded-full object-cover border-4 border-gray-200"
+                            className="w-[256px] h-64 rounded-full object-cover border-4 border-gray-200"
                         />
                     </div>
 
@@ -1572,7 +1172,7 @@ const ProfilePicture = ({ init, id, onChange, currentImage, ...props }) => {
             {/* Controles de câmera */}
             {isCapturing ? (
                 <div className="space-y-4 h-full">
-                    <div className="relative rounded-lg overflow-hidden m-auto max-w-[300px] max-h-[300px] w-[300px] h-[300px]">
+                    <div className="relative rounded-lg overflow-hidden m-auto max-w-75 max-h-75 w-75 h-75">
                         {cameraLoading && (
                             <div className="absolute inset-0  flex items-center justify-center z-10">
                                 <div className="text-white text-center">
@@ -1597,7 +1197,7 @@ const ProfilePicture = ({ init, id, onChange, currentImage, ...props }) => {
                             playsInline
                             muted
                             controls={false}
-                            className="w-full h-full object-cover max-w-[300px] max-h-[300px] bg-black"
+                            className="w-full h-full object-cover max-w-75 max-h-75 bg-black"
                             onLoadedMetadata={(e) => {
                                 console.log('Video onLoadedMetadata:', e.target.videoWidth, e.target.videoHeight);
                             }}

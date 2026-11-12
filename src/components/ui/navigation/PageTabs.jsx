@@ -1,5 +1,3 @@
-'use client';
-
 import { cn } from "@/assets/utils";
 import { faRotateRight, faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

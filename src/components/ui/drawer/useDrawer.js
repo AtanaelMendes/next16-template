@@ -1,31 +1,29 @@
-'use client';
-
 import {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  useCallback,
-  useRef,
-} from 'react';
+    createContext,
+    useContext,
+    useState,
+    useEffect,
+    useCallback,
+    useRef,
+} from "react";
 
 // ============================================================================
 // Focus Management & Accessibility Helpers
 // ============================================================================
 
 export const FOCUSABLE_SELECTOR = [
-  'a[href]:not([tabindex="-1"])',
-  'area[href]:not([tabindex="-1"])',
-  'input:not([disabled]):not([type="hidden"]):not([tabindex="-1"])',
-  'select:not([disabled]):not([tabindex="-1"])',
-  'textarea:not([disabled]):not([tabindex="-1"])',
-  'button:not([disabled]):not([tabindex="-1"])',
-  'iframe:not([tabindex="-1"])',
-  'object:not([tabindex="-1"])',
-  'embed:not([tabindex="-1"])',
-  '[tabindex]:not([tabindex="-1"])',
-  '[contenteditable="true"]:not([tabindex="-1"])',
-].join(', ');
+    'a[href]:not([tabindex="-1"])',
+    'area[href]:not([tabindex="-1"])',
+    'input:not([disabled]):not([type="hidden"]):not([tabindex="-1"])',
+    'select:not([disabled]):not([tabindex="-1"])',
+    'textarea:not([disabled]):not([tabindex="-1"])',
+    'button:not([disabled]):not([tabindex="-1"])',
+    'iframe:not([tabindex="-1"])',
+    'object:not([tabindex="-1"])',
+    'embed:not([tabindex="-1"])',
+    '[tabindex]:not([tabindex="-1"])',
+    '[contenteditable="true"]:not([tabindex="-1"])',
+].join(", ");
 
 /**
  * Returns all visible focusable elements within a container element.
@@ -36,22 +34,22 @@ export const FOCUSABLE_SELECTOR = [
  * @returns {HTMLElement[]}
  */
 export function getFocusableElements(container) {
-  if (!container || typeof window === 'undefined') return [];
-  const elements = Array.from(container.querySelectorAll(FOCUSABLE_SELECTOR));
-  return elements.filter((el) => {
-    if (el.getAttribute('tabindex') === '-1' || el.hasAttribute('disabled') || el.disabled) {
-      return false;
-    }
-    const style = window.getComputedStyle(el);
-    if (style.visibility === 'hidden' || style.display === 'none') {
-      return false;
-    }
-    return (
-      el.offsetWidth > 0 ||
-      el.offsetHeight > 0 ||
-      el.getClientRects().length > 0
-    );
-  });
+    if (!container || typeof window === "undefined") return [];
+    const elements = Array.from(container.querySelectorAll(FOCUSABLE_SELECTOR));
+    return elements.filter((el) => {
+        if (
+            el.getAttribute("tabindex") === "-1" ||
+            el.hasAttribute("disabled") ||
+            el.disabled
+        ) {
+            return false;
+        }
+        const style = window.getComputedStyle(el);
+        if (style.visibility === "hidden" || style.display === "none") {
+            return false;
+        }
+        return el.offsetWidth > 0 || el.offsetHeight > 0 || el.getClientRects().length > 0;
+    });
 }
 
 // ============================================================================
@@ -59,29 +57,29 @@ export function getFocusableElements(container) {
 // ============================================================================
 
 let activeLocksCount = 0;
-let originalOverflowStyle = '';
+let originalOverflowStyle = "";
 
 /**
  * Locks document body scroll with reference counting to prevent multi-instance race conditions.
  */
 export function lockBodyScroll() {
-  if (typeof document === 'undefined') return;
-  if (activeLocksCount === 0) {
-    originalOverflowStyle = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-  }
-  activeLocksCount++;
+    if (typeof document === "undefined") return;
+    if (activeLocksCount === 0) {
+        originalOverflowStyle = document.body.style.overflow;
+        document.body.style.overflow = "hidden";
+    }
+    activeLocksCount++;
 }
 
 /**
  * Unlocks document body scroll when all active locks have been released.
  */
 export function unlockBodyScroll() {
-  if (typeof document === 'undefined') return;
-  activeLocksCount = Math.max(0, activeLocksCount - 1);
-  if (activeLocksCount === 0) {
-    document.body.style.overflow = originalOverflowStyle || '';
-  }
+    if (typeof document === "undefined") return;
+    activeLocksCount = Math.max(0, activeLocksCount - 1);
+    if (activeLocksCount === 0) {
+        document.body.style.overflow = originalOverflowStyle || "";
+    }
 }
 
 // ============================================================================
@@ -93,36 +91,36 @@ export function unlockBodyScroll() {
  * SecurityError (private browsing), QuotaExceededError, SSR guards, and syntax errors.
  */
 export const safeStorage = {
-  getItem: (key, fallback = null) => {
-    if (typeof window === 'undefined' || !key) return fallback;
-    try {
-      const item = window.localStorage.getItem(key);
-      if (item === null) return fallback;
-      return JSON.parse(item);
-    } catch {
-      return fallback;
-    }
-  },
+    getItem: (key, fallback = null) => {
+        if (typeof window === "undefined" || !key) return fallback;
+        try {
+            const item = window.localStorage.getItem(key);
+            if (item === null) return fallback;
+            return JSON.parse(item);
+        } catch {
+            return fallback;
+        }
+    },
 
-  setItem: (key, value) => {
-    if (typeof window === 'undefined' || !key) return false;
-    try {
-      window.localStorage.setItem(key, JSON.stringify(value));
-      return true;
-    } catch {
-      return false;
-    }
-  },
+    setItem: (key, value) => {
+        if (typeof window === "undefined" || !key) return false;
+        try {
+            window.localStorage.setItem(key, JSON.stringify(value));
+            return true;
+        } catch {
+            return false;
+        }
+    },
 
-  removeItem: (key) => {
-    if (typeof window === 'undefined' || !key) return false;
-    try {
-      window.localStorage.removeItem(key);
-      return true;
-    } catch {
-      return false;
-    }
-  },
+    removeItem: (key) => {
+        if (typeof window === "undefined" || !key) return false;
+        try {
+            window.localStorage.removeItem(key);
+            return true;
+        } catch {
+            return false;
+        }
+    },
 };
 
 // ============================================================================
@@ -138,39 +136,38 @@ export const safeStorage = {
  * @returns {[any, Function, boolean]} [state, setState, isHydrated]
  */
 export function useHydratedDrawerState(storageKey, defaultState = false) {
-  const [state, setState] = useState(defaultState);
-  const [isHydrated, setIsHydrated] = useState(false);
+    const [state, setState] = useState(defaultState);
+    const [isHydrated, setIsHydrated] = useState(false);
 
-  useEffect(() => {
-    setIsHydrated(true);
-    if (!storageKey || typeof window === 'undefined') return;
+    useEffect(() => {
+        setIsHydrated(true);
+        if (!storageKey || typeof window === "undefined") return;
 
-    const saved = safeStorage.getItem(storageKey, null);
-    if (saved !== null) {
-      const resolved =
-        typeof saved === 'object' && saved !== null ? saved.open : saved;
-      if (typeof resolved === 'boolean') {
-        setState(resolved);
-      } else if (saved !== undefined) {
-        setState(saved);
-      }
-    }
-  }, [storageKey]);
-
-  const updateState = useCallback(
-    (next) => {
-      setState((prev) => {
-        const resolved = typeof next === 'function' ? next(prev) : next;
-        if (storageKey) {
-          safeStorage.setItem(storageKey, resolved);
+        const saved = safeStorage.getItem(storageKey, null);
+        if (saved !== null) {
+            const resolved = typeof saved === "object" && saved !== null ? saved.open : saved;
+            if (typeof resolved === "boolean") {
+                setState(resolved);
+            } else if (saved !== undefined) {
+                setState(saved);
+            }
         }
-        return resolved;
-      });
-    },
-    [storageKey]
-  );
+    }, [storageKey]);
 
-  return [state, updateState, isHydrated];
+    const updateState = useCallback(
+        (next) => {
+            setState((prev) => {
+                const resolved = typeof next === "function" ? next(prev) : next;
+                if (storageKey) {
+                    safeStorage.setItem(storageKey, resolved);
+                }
+                return resolved;
+            });
+        },
+        [storageKey],
+    );
+
+    return [state, updateState, isHydrated];
 }
 
 // ============================================================================
@@ -196,189 +193,186 @@ export function useHydratedDrawerState(storageKey, defaultState = false) {
  * @param {string} [options.compactStorageKey]
  */
 export function useDrawerState({
-  open: controlledOpen,
-  defaultOpen = false,
-  onOpenChange,
-  compact: controlledCompact,
-  defaultCompact = false,
-  onCompactChange,
-  storageKey,
-  compactStorageKey,
+    open: controlledOpen,
+    defaultOpen = false,
+    onOpenChange,
+    compact: controlledCompact,
+    defaultCompact = false,
+    onCompactChange,
+    storageKey,
+    compactStorageKey,
 } = {}) {
-  const isControlledOpen = controlledOpen !== undefined;
-  const isControlledCompact = controlledCompact !== undefined;
+    const isControlledOpen = controlledOpen !== undefined;
+    const isControlledCompact = controlledCompact !== undefined;
 
-  // Phase 1: Initialize strictly with defaults to match SSR output
-  const [internalOpen, setInternalOpen] = useState(defaultOpen);
-  const [internalCompact, setInternalCompact] = useState(defaultCompact);
-  const [isHydrated, setIsHydrated] = useState(false);
+    // Phase 1: Initialize strictly with defaults to match SSR output
+    const [internalOpen, setInternalOpen] = useState(defaultOpen);
+    const [internalCompact, setInternalCompact] = useState(defaultCompact);
+    const [isHydrated, setIsHydrated] = useState(false);
 
-  // Phase 2: Post-mount hydration from localStorage for uncontrolled modes
-  useEffect(() => {
-    setIsHydrated(true);
-    if (typeof window === 'undefined') return;
+    // Phase 2: Post-mount hydration from localStorage for uncontrolled modes
+    useEffect(() => {
+        setIsHydrated(true);
+        if (typeof window === "undefined") return;
 
-    if (!isControlledOpen && storageKey) {
-      const saved = safeStorage.getItem(storageKey, null);
-      if (saved !== null) {
-        const resolved =
-          typeof saved === 'object' && saved !== null ? saved.open : saved;
-        if (typeof resolved === 'boolean') {
-          setInternalOpen(resolved);
-          onOpenChange?.(resolved);
+        if (!isControlledOpen && storageKey) {
+            const saved = safeStorage.getItem(storageKey, null);
+            if (saved !== null) {
+                const resolved = typeof saved === "object" && saved !== null ? saved.open : saved;
+                if (typeof resolved === "boolean") {
+                    setInternalOpen(resolved);
+                    onOpenChange?.(resolved);
+                }
+            }
         }
-      }
-    }
 
-    if (!isControlledCompact && compactStorageKey) {
-      const saved = safeStorage.getItem(compactStorageKey, null);
-      if (saved !== null) {
-        const resolved =
-          typeof saved === 'object' && saved !== null ? saved.compact : saved;
-        if (typeof resolved === 'boolean') {
-          setInternalCompact(resolved);
-          onCompactChange?.(resolved);
+        if (!isControlledCompact && compactStorageKey) {
+            const saved = safeStorage.getItem(compactStorageKey, null);
+            if (saved !== null) {
+                const resolved =
+                    typeof saved === "object" && saved !== null ? saved.compact : saved;
+                if (typeof resolved === "boolean") {
+                    setInternalCompact(resolved);
+                    onCompactChange?.(resolved);
+                }
+            }
         }
-      }
-    }
-  }, [
-    storageKey,
-    compactStorageKey,
-    isControlledOpen,
-    isControlledCompact,
-    onOpenChange,
-    onCompactChange,
-  ]);
+    }, [
+        storageKey,
+        compactStorageKey,
+        isControlledOpen,
+        isControlledCompact,
+        onOpenChange,
+        onCompactChange,
+    ]);
 
-  // Cross-tab synchronization
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
+    // Cross-tab synchronization
+    useEffect(() => {
+        if (typeof window === "undefined") return;
 
-    const handleStorage = (event) => {
-      if (
-        !isControlledOpen &&
-        storageKey &&
-        event.key === storageKey &&
-        event.newValue !== null
-      ) {
-        try {
-          const parsed = JSON.parse(event.newValue);
-          const resolved =
-            typeof parsed === 'object' && parsed !== null ? parsed.open : parsed;
-          if (typeof resolved === 'boolean') {
-            setInternalOpen(resolved);
-            onOpenChange?.(resolved);
-          }
-        } catch {
-          // Ignore external malformed entries
-        }
-      }
+        const handleStorage = (event) => {
+            if (
+                !isControlledOpen &&
+                storageKey &&
+                event.key === storageKey &&
+                event.newValue !== null
+            ) {
+                try {
+                    const parsed = JSON.parse(event.newValue);
+                    const resolved =
+                        typeof parsed === "object" && parsed !== null ? parsed.open : parsed;
+                    if (typeof resolved === "boolean") {
+                        setInternalOpen(resolved);
+                        onOpenChange?.(resolved);
+                    }
+                } catch {
+                    // Ignore external malformed entries
+                }
+            }
 
-      if (
-        !isControlledCompact &&
-        compactStorageKey &&
-        event.key === compactStorageKey &&
-        event.newValue !== null
-      ) {
-        try {
-          const parsed = JSON.parse(event.newValue);
-          const resolved =
-            typeof parsed === 'object' && parsed !== null
-              ? parsed.compact
-              : parsed;
-          if (typeof resolved === 'boolean') {
-            setInternalCompact(resolved);
-            onCompactChange?.(resolved);
-          }
-        } catch {
-          // Ignore external malformed entries
-        }
-      }
-    };
+            if (
+                !isControlledCompact &&
+                compactStorageKey &&
+                event.key === compactStorageKey &&
+                event.newValue !== null
+            ) {
+                try {
+                    const parsed = JSON.parse(event.newValue);
+                    const resolved =
+                        typeof parsed === "object" && parsed !== null ? parsed.compact : parsed;
+                    if (typeof resolved === "boolean") {
+                        setInternalCompact(resolved);
+                        onCompactChange?.(resolved);
+                    }
+                } catch {
+                    // Ignore external malformed entries
+                }
+            }
+        };
 
-    window.addEventListener('storage', handleStorage);
-    return () => window.removeEventListener('storage', handleStorage);
-  }, [
-    storageKey,
-    compactStorageKey,
-    isControlledOpen,
-    isControlledCompact,
-    onOpenChange,
-    onCompactChange,
-  ]);
+        window.addEventListener("storage", handleStorage);
+        return () => window.removeEventListener("storage", handleStorage);
+    }, [
+        storageKey,
+        compactStorageKey,
+        isControlledOpen,
+        isControlledCompact,
+        onOpenChange,
+        onCompactChange,
+    ]);
 
-  const isOpen = isControlledOpen ? Boolean(controlledOpen) : Boolean(internalOpen);
-  const isCompact = isControlledCompact
-    ? Boolean(controlledCompact)
-    : Boolean(internalCompact);
-
-  const setOpen = useCallback(
-    (next) => {
-      const current = isControlledOpen ? Boolean(controlledOpen) : Boolean(internalOpen);
-      const nextVal = typeof next === 'function' ? next(current) : next;
-
-      if (!isControlledOpen) {
-        setInternalOpen(nextVal);
-        if (storageKey) {
-          safeStorage.setItem(storageKey, nextVal);
-        }
-      }
-
-      onOpenChange?.(nextVal);
-    },
-    [isControlledOpen, controlledOpen, internalOpen, storageKey, onOpenChange]
-  );
-
-  const setCompact = useCallback(
-    (next) => {
-      const current = isControlledCompact
+    const isOpen = isControlledOpen ? Boolean(controlledOpen) : Boolean(internalOpen);
+    const isCompact = isControlledCompact
         ? Boolean(controlledCompact)
         : Boolean(internalCompact);
-      const nextVal = typeof next === 'function' ? next(current) : next;
 
-      if (!isControlledCompact) {
-        setInternalCompact(nextVal);
-        if (compactStorageKey) {
-          safeStorage.setItem(compactStorageKey, nextVal);
-        }
-      }
+    const setOpen = useCallback(
+        (next) => {
+            const current = isControlledOpen ? Boolean(controlledOpen) : Boolean(internalOpen);
+            const nextVal = typeof next === "function" ? next(current) : next;
 
-      onCompactChange?.(nextVal);
-    },
-    [
-      isControlledCompact,
-      controlledCompact,
-      internalCompact,
-      compactStorageKey,
-      onCompactChange,
-    ]
-  );
+            if (!isControlledOpen) {
+                setInternalOpen(nextVal);
+                if (storageKey) {
+                    safeStorage.setItem(storageKey, nextVal);
+                }
+            }
 
-  const openDrawer = useCallback(() => setOpen(true), [setOpen]);
-  const closeDrawer = useCallback(() => setOpen(false), [setOpen]);
-  const toggle = useCallback(() => setOpen((prev) => !prev), [setOpen]);
-  const toggleCompact = useCallback(() => setCompact((prev) => !prev), [setCompact]);
+            onOpenChange?.(nextVal);
+        },
+        [isControlledOpen, controlledOpen, internalOpen, storageKey, onOpenChange],
+    );
 
-  return {
-    open: isOpen,
-    isOpen,
-    compact: isCompact,
-    isCompact,
-    isControlled: isControlledOpen,
-    isControlledCompact,
-    isHydrated,
-    setOpen,
-    setCompact,
-    openDrawer,
-    close: closeDrawer,
-    closeDrawer,
-    toggle,
-    toggleCompact,
-  };
+    const setCompact = useCallback(
+        (next) => {
+            const current = isControlledCompact
+                ? Boolean(controlledCompact)
+                : Boolean(internalCompact);
+            const nextVal = typeof next === "function" ? next(current) : next;
+
+            if (!isControlledCompact) {
+                setInternalCompact(nextVal);
+                if (compactStorageKey) {
+                    safeStorage.setItem(compactStorageKey, nextVal);
+                }
+            }
+
+            onCompactChange?.(nextVal);
+        },
+        [
+            isControlledCompact,
+            controlledCompact,
+            internalCompact,
+            compactStorageKey,
+            onCompactChange,
+        ],
+    );
+
+    const openDrawer = useCallback(() => setOpen(true), [setOpen]);
+    const closeDrawer = useCallback(() => setOpen(false), [setOpen]);
+    const toggle = useCallback(() => setOpen((prev) => !prev), [setOpen]);
+    const toggleCompact = useCallback(() => setCompact((prev) => !prev), [setCompact]);
+
+    return {
+        open: isOpen,
+        isOpen,
+        compact: isCompact,
+        isCompact,
+        isControlled: isControlledOpen,
+        isControlledCompact,
+        isHydrated,
+        setOpen,
+        setCompact,
+        openDrawer,
+        close: closeDrawer,
+        closeDrawer,
+        toggle,
+        toggleCompact,
+    };
 }
 
 export function useDrawer(options) {
-  return useDrawerState(options);
+    return useDrawerState(options);
 }
 
 // ============================================================================
@@ -401,137 +395,135 @@ export function useDrawer(options) {
  * @param {React.RefObject<HTMLElement>} [options.triggerRef]
  */
 export function useDrawerAccessibility({
-  drawerRef,
-  open,
-  isOpen,
-  side,
-  variant,
-  isTemporary,
-  onClose,
-  initialFocusRef,
-  triggerRef,
+    drawerRef,
+    open,
+    isOpen,
+    side,
+    variant,
+    isTemporary,
+    onClose,
+    initialFocusRef,
+    triggerRef,
 }) {
-  const activeOpen = Boolean(open !== undefined ? open : isOpen);
-  const activeTemporary =
-    isTemporary !== undefined
-      ? Boolean(isTemporary)
-      : variant === 'temporary';
+    const activeOpen = Boolean(open !== undefined ? open : isOpen);
+    const activeTemporary =
+        isTemporary !== undefined ? Boolean(isTemporary) : variant === "temporary";
 
-  const savedTriggerRef = useRef(null);
-  const prevOpenRef = useRef(activeOpen);
+    const savedTriggerRef = useRef(null);
+    const prevOpenRef = useRef(activeOpen);
 
-  // 1. Capture active element trigger when drawer is opened
-  useEffect(() => {
-    if (activeOpen && activeTemporary) {
-      if (triggerRef?.current) {
-        savedTriggerRef.current = triggerRef.current;
-      } else if (typeof document !== 'undefined' && document.activeElement) {
-        savedTriggerRef.current = document.activeElement;
-      }
-    }
-  }, [activeOpen, activeTemporary, triggerRef]);
-
-  // 2. Reference-counted body scroll lock
-  useEffect(() => {
-    if (activeOpen && activeTemporary) {
-      lockBodyScroll();
-      return () => {
-        unlockBodyScroll();
-      };
-    }
-  }, [activeOpen, activeTemporary]);
-
-  // 3. Initial focus transfer into drawer
-  useEffect(() => {
-    if (!activeOpen || !activeTemporary) return;
-
-    let rafId = requestAnimationFrame(() => {
-      if (!drawerRef?.current) return;
-
-      if (initialFocusRef?.current) {
-        initialFocusRef.current.focus();
-        return;
-      }
-
-      const focusables = getFocusableElements(drawerRef.current);
-      if (focusables.length > 0) {
-        focusables[0].focus();
-      } else {
-        if (!drawerRef.current.hasAttribute('tabindex')) {
-          drawerRef.current.setAttribute('tabindex', '-1');
+    // 1. Capture active element trigger when drawer is opened
+    useEffect(() => {
+        if (activeOpen && activeTemporary) {
+            if (triggerRef?.current) {
+                savedTriggerRef.current = triggerRef.current;
+            } else if (typeof document !== "undefined" && document.activeElement) {
+                savedTriggerRef.current = document.activeElement;
+            }
         }
-        drawerRef.current.focus();
-      }
-    });
+    }, [activeOpen, activeTemporary, triggerRef]);
 
-    return () => {
-      if (rafId) cancelAnimationFrame(rafId);
-    };
-  }, [activeOpen, activeTemporary, drawerRef, initialFocusRef]);
-
-  // 4. Focus trap & ESC key dismissal
-  useEffect(() => {
-    if (!activeOpen || !activeTemporary) return;
-
-    const handleKeyDown = (e) => {
-      // ESC Key dismissal
-      if (e.key === 'Escape') {
-        e.preventDefault();
-        e.stopPropagation();
-        onClose?.();
-        return;
-      }
-
-      // Tab Key focus trap
-      if (e.key === 'Tab') {
-        if (!drawerRef?.current) return;
-
-        const focusables = getFocusableElements(drawerRef.current);
-        if (focusables.length === 0) {
-          e.preventDefault();
-          return;
+    // 2. Reference-counted body scroll lock
+    useEffect(() => {
+        if (activeOpen && activeTemporary) {
+            lockBodyScroll();
+            return () => {
+                unlockBodyScroll();
+            };
         }
+    }, [activeOpen, activeTemporary]);
 
-        const first = focusables[0];
-        const last = focusables[focusables.length - 1];
-        const active = document.activeElement;
+    // 3. Initial focus transfer into drawer
+    useEffect(() => {
+        if (!activeOpen || !activeTemporary) return;
 
-        if (e.shiftKey) {
-          // Backward tab: wrap from first to last
-          if (active === first || !drawerRef.current.contains(active)) {
-            e.preventDefault();
-            last.focus();
-          }
-        } else {
-          // Forward tab: wrap from last to first
-          if (active === last || !drawerRef.current.contains(active)) {
-            e.preventDefault();
-            first.focus();
-          }
-        }
-      }
-    };
+        let rafId = requestAnimationFrame(() => {
+            if (!drawerRef?.current) return;
 
-    window.addEventListener('keydown', handleKeyDown, true);
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown, true);
-    };
-  }, [activeOpen, activeTemporary, drawerRef, onClose]);
+            if (initialFocusRef?.current) {
+                initialFocusRef.current.focus();
+                return;
+            }
 
-  // 5. Return focus to trigger button upon drawer closure
-  useEffect(() => {
-    if (prevOpenRef.current && !activeOpen && activeTemporary) {
-      const target = triggerRef?.current || savedTriggerRef.current;
-      if (target && typeof target.focus === 'function') {
-        requestAnimationFrame(() => {
-          if (typeof document !== 'undefined' && document.body.contains(target)) {
-            target.focus();
-          }
+            const focusables = getFocusableElements(drawerRef.current);
+            if (focusables.length > 0) {
+                focusables[0].focus();
+            } else {
+                if (!drawerRef.current.hasAttribute("tabindex")) {
+                    drawerRef.current.setAttribute("tabindex", "-1");
+                }
+                drawerRef.current.focus();
+            }
         });
-      }
-    }
-    prevOpenRef.current = activeOpen;
-  }, [activeOpen, activeTemporary, triggerRef]);
+
+        return () => {
+            if (rafId) cancelAnimationFrame(rafId);
+        };
+    }, [activeOpen, activeTemporary, drawerRef, initialFocusRef]);
+
+    // 4. Focus trap & ESC key dismissal
+    useEffect(() => {
+        if (!activeOpen || !activeTemporary) return;
+
+        const handleKeyDown = (e) => {
+            // ESC Key dismissal
+            if (e.key === "Escape") {
+                e.preventDefault();
+                e.stopPropagation();
+                onClose?.();
+                return;
+            }
+
+            // Tab Key focus trap
+            if (e.key === "Tab") {
+                if (!drawerRef?.current) return;
+
+                const focusables = getFocusableElements(drawerRef.current);
+                if (focusables.length === 0) {
+                    e.preventDefault();
+                    return;
+                }
+
+                const first = focusables[0];
+                const last = focusables[focusables.length - 1];
+                const active = document.activeElement;
+
+                if (e.shiftKey) {
+                    // Backward tab: wrap from first to last
+                    if (active === first || !drawerRef.current.contains(active)) {
+                        e.preventDefault();
+                        last.focus();
+                    }
+                } else {
+                    // Forward tab: wrap from last to first
+                    if (active === last || !drawerRef.current.contains(active)) {
+                        e.preventDefault();
+                        first.focus();
+                    }
+                }
+            }
+        };
+
+        window.addEventListener("keydown", handleKeyDown, true);
+        return () => {
+            window.removeEventListener("keydown", handleKeyDown, true);
+        };
+    }, [activeOpen, activeTemporary, drawerRef, onClose]);
+
+    // 5. Return focus to trigger button upon drawer closure
+    useEffect(() => {
+        if (prevOpenRef.current && !activeOpen && activeTemporary) {
+            const target = triggerRef?.current || savedTriggerRef.current;
+            if (target && typeof target.focus === "function") {
+                requestAnimationFrame(() => {
+                    if (typeof document !== "undefined" && document.body.contains(target)) {
+                        target.focus();
+                    }
+                });
+            }
+        }
+        prevOpenRef.current = activeOpen;
+    }, [activeOpen, activeTemporary, triggerRef]);
 }
 
 // ============================================================================
@@ -541,9 +533,9 @@ export function useDrawerAccessibility({
 export const DrawerContext = createContext(null);
 
 export function useDrawerContext() {
-  const context = useContext(DrawerContext);
-  if (!context) {
-    throw new Error('useDrawerContext must be used within a <Drawer> provider');
-  }
-  return context;
+    const context = useContext(DrawerContext);
+    if (!context) {
+        throw new Error("useDrawerContext must be used within a <Drawer> provider");
+    }
+    return context;
 }

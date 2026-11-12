@@ -1,5 +1,3 @@
-'use client';
-
 export { Drawer } from './Drawer';
 export { DrawerHeader } from './DrawerHeader';
 export { DrawerContent } from './DrawerContent';

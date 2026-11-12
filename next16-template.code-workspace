@@ -4,5 +4,12 @@
 			"path": "."
 		}
 	],
-	"settings": {}
+	"settings": {
+		"editor.wordWrap": "on",
+		"editor.wordWrapColumn": 0,
+		"editor.wrappingStrategy": "advanced",
+		"editor.scrollbar.horizontal": "hidden",
+		"editor.scrollBeyondLastColumn": 0,
+		"diffEditor.wordWrap": "on"
+	}
 }

@@ -1,5 +1,3 @@
-'use client';
-
 import Image from 'next/image'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
@@ -68,17 +66,17 @@ export const CardImage = ({ src, alt, height, title, button, onClick }) => {
             )}
 
             {button && (
-                <div 
-                    className='absolute top-2 right-2 z-10 w-8 h-8 flex items-center justify-center rounded-full bg-gray-900/80 backdrop-blur-sm hover:bg-gray-900/90 cursor-pointer shadow transition-colors' 
+                <div
+                    className='absolute top-2 right-2 z-10 w-8 h-8 flex items-center justify-center rounded-full bg-gray-900/80 backdrop-blur-sm hover:bg-gray-900/90 cursor-pointer shadow transition-colors'
                     onClick={handleClick}
                 >
                     <FontAwesomeIcon icon={faEllipsisVertical} width="16" height="16" className="text-white" />
                 </div>
             )}
 
-            <Image 
-                src={src || "/images/defult-no-image.png"} 
-                alt={alt || "imagem"} 
+            <Image
+                src={src || "/images/defult-no-image.png"}
+                alt={alt || "imagem"}
                 fill
                 className="object-cover"
             />
@@ -95,5 +93,3 @@ const Card = ({ children, width, className }) => {
 }
 
 export default Card;
-
-

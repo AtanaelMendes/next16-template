@@ -1,5 +1,3 @@
-'use client';
-
 import React, { useEffect } from "react";
 import Button from "@/components/ui/buttons/Button";
 import { cn } from "@/assets/utils";

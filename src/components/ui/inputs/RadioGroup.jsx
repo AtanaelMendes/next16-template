@@ -1,5 +1,3 @@
-'use client';
-
 const RadioGroup = ({ active, name, items, onChange, type }) => {
     const commonClasses = (` inline-flex items-center w-fit px-2 py-1 text-gray-700 bg-white border cursor-pointer`
     );

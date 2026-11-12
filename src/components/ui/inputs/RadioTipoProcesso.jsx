@@ -1,5 +1,3 @@
-'use client';
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAsterisk } from "@fortawesome/free-solid-svg-icons";
 import { FieldLabel } from "@/components/ui/display/Typography";
@@ -55,7 +53,7 @@ const RadioTipoProcesso = ({init, cdPessoaAnalista, cdPessoaCliente, vertical, .
         setShowComponent(false);
         getTiposProcesso();
     }, [cdPessoaAnalista, cdPessoaCliente, init]);
-    
+
     const getTiposProcesso = () => {
         if (empty(cdPessoaCliente)) return toast.error("Selecione um cliente primeiro.");
         if (empty(cdPessoaAnalista)) return toast.error("Cód. do analista não informado.");

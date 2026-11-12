@@ -1,5 +1,3 @@
-'use client';
-
 import { cn } from "@/assets/utils";
 import { TooltipComponent } from "@/components/ui/overlays/TooltipComponent";
 

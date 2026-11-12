@@ -1,20 +1,11 @@
-'use client';
-
-import { useCallback, useEffect, useState } from "react";
+import { useCallback } from "react";
 
 const ButtonRadioGroup = ({ id, options, value, onChange, className}) => {
-    // const [selectedValue, setSelectedValue] = useState(value);
-
     const handleOptionChange = useCallback((value) => {
-        // setSelectedValue(value);
         if (onChange) {
             onChange(value);
         }
     }, [onChange]);
-
-    useEffect(() => {
-        // setSelectedValue(value);
-    }, [value]);
 
     return (
         <div className={`inline-flex rounded-lg border border-gray-200 bg-white ${className}`}>

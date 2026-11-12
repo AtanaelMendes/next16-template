@@ -1,5 +1,3 @@
-'use client';
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAsterisk } from '@fortawesome/free-solid-svg-icons';
 import { FieldLabel } from '@/components/ui/display/Typography';
@@ -56,7 +54,7 @@ const DataHora = (props) => {
 
     return (
         <div className="w-full relative">
-            <div className='flex absolute top-[-6px] left-2 w-fit z-10 text-xs px-0.5 rounded-md mb-0 pb-0 text-nowrap before:bg-white before:top-0.5 before:left-0 before:absolute before:w-full before:h-[12px] before:-z-10 before:content-[""] before:rounded-lg'>
+            <div className='flex absolute -top-1.5 left-2 w-fit z-10 text-xs px-0.5 rounded-md mb-0 pb-0 text-nowrap before:bg-white before:top-0.5 before:left-0 before:absolute before:w-full before:h-3 before:-z-10 before:content-[""] before:rounded-lg'>
                 <label htmlFor={props.id} className="inline-flex relative">
                     {props?.required && (
                         <FontAwesomeIcon
@@ -86,7 +84,7 @@ const DataHora = (props) => {
                 <div className="ml-4">
                     <TimePicker
                         id={`hora_${props.id}`}
-                        className={`w-[80px] ${hasError() ? "border-red-500" : "border-gray-300"}`}
+                        className={`w-20 ${hasError() ? "border-red-500" : "border-gray-300"}`}
                         onChange={(id, value) => setHora(value)}
                         value={hora}
                     />

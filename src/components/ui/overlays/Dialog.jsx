@@ -1,16 +1,8 @@
-'use client';
-
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import InputTextArea from "../inputs/InputTextArea";
 import Button from "@/components/ui/buttons/Button";
 import { empty } from "@/assets/utils";
 import { useAppContext } from "@/context/AppContext";
-
-/**
- * Componente para padronizar as mensagens de confirmação do usuário
- * Composto basicamente por dois botões (normalmente CANCELAR e OK)
- * Inclui um textarea opcional, que pode ser obrigatorio e com limite minimo de caracteres
- */
 
 const Dialog = (props) => {
     const { toast } = useAppContext();

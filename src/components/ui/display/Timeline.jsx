@@ -2,7 +2,6 @@ import { faClockRotateLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import NoDataFound from '@/components/feedback/NoDataFound';
 
-/* data = { title: string, time: string, description: string }[] */
 const Timeline = ({ data }) => {
     const renderTimeline = () => {
         if (data.length == 0) {
@@ -14,7 +13,7 @@ const Timeline = ({ data }) => {
         return data?.map((row, index) => {
             return (
                 <li className="mb-4 ms-6 shadow-md p-2 rounded-lg" key={`timelapse-${index}`}>
-                    <span className="absolute flex items-center justify-center w-8 h-8 bg-blue-100 rounded-full -start-3 ring-6 ring-white text-blue-600">
+                    <span className="absolute flex items-center justify-center w-8 h-8 bg-blue-100 rounded-full -inset-s-3 ring-6 ring-white text-blue-600">
                         <FontAwesomeIcon icon={faClockRotateLeft} width="18" height="18" />
                     </span>
                     <h3 className="mb-1 ml-2 text-sm font-semibold text-gray-900">{row?.title}</h3>

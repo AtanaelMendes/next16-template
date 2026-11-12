@@ -1,5 +1,3 @@
-'use client';
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faSave, faX } from "@fortawesome/free-solid-svg-icons";
 import { cn } from "@/assets/utils";
@@ -22,7 +20,7 @@ export const FabCancel = ({ id, onClick, className, small, absolute, disableZInd
             disabled={disabled}
             className={cn(
                 baseButtonStyles,
-                !disableZIndex && "z-[999]",
+                !disableZIndex && "z-999",
                 "bg-red-500 hover:bg-red-400",
                 small ? "p-2" : "p-4",
                 absolute ? "absolute" : "fixed",
@@ -50,7 +48,7 @@ export const FabSave = ({ id, onClick, className, small, absolute, disableZIndex
             disabled={disabled}
             className={cn(
                 baseButtonStyles,
-                !disableZIndex && "z-[999]",
+                !disableZIndex && "z-999",
                 "bg-green-500 hover:bg-green-400",
                 small ? "p-2" : "p-4",
                 absolute ? "absolute" : "fixed",
@@ -78,7 +76,7 @@ export const FabAdd = ({ id, onClick, className, small, absolute, disableZIndex,
             disabled={disabled}
             className={cn(
                 baseButtonStyles,
-                !disableZIndex && "z-[999]",
+                !disableZIndex && "z-999",
                 "flex flex-row items-center gap-2 bg-primary hover:bg-blue-500",
                 small ? "p-2" : "p-4",
                 absolute ? "absolute" : "fixed",
@@ -123,7 +121,7 @@ export const FabCustom = ({
             disabled={disabled}
             className={cn(
                 baseButtonStyles,
-                !disableZIndex && "z-[999]",
+                !disableZIndex && "z-999",
                 color || "bg-slate-300",
                 hover || "hover:bg-white-shadow-4",
                 small ? "p-2" : "p-4",

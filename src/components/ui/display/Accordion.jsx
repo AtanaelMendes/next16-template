@@ -1,5 +1,3 @@
-'use client';
-
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Caption, FieldLabel } from './Typography';
@@ -13,7 +11,7 @@ const AccordionItem = ({ title, subTitle, content, isOpen, onClick }) => {
                     type="button"
                     onClick={onClick}
                     className="flex items-center justify-between w-full py-1 px-3 text-sm font-medium gap-3 rounded-lg">
-                    <span><FieldLabel className="!mb-0 text-white">{title}</FieldLabel> - <Caption className={"text-white"}>{subTitle}</Caption></span>
+                    <span><FieldLabel className="mb-0! text-white">{title}</FieldLabel> - <Caption className={"text-white"}>{subTitle}</Caption></span>
                     <FontAwesomeIcon className={`ease-in-out duration-300 ${isOpen ? "rotate-180" : ""}`} icon={faChevronDown} width="18" height="18" />
                 </button>
             </div>

@@ -1,5 +1,3 @@
-'use client';
-
 import { faAsterisk, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { FieldLabel } from "@/components/ui/display/Typography";

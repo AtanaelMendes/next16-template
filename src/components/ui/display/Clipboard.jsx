@@ -1,5 +1,3 @@
-'use client';
-
 import { cn } from "@/assets/utils";
 import { useAppContext } from "@/context/AppContext";
 import { faCopy } from "@fortawesome/free-regular-svg-icons";

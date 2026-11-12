@@ -1,11 +1,8 @@
-'use client'
 import dynamic from 'next/dynamic'
 import { useRef, useState, useEffect } from 'react'
 import 'suneditor/dist/css/suneditor.min.css'
-import Button from '@/components/ui/buttons/Button'
 import ProgressBar from './ProgressBar'
 import { toast } from 'react-toastify'
-import { TooltipComponent } from '@/components/ui/overlays/TooltipComponent'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAsterisk } from '@fortawesome/free-solid-svg-icons';
 

@@ -1,5 +1,3 @@
-'use client';
-
 import { faAsterisk, faInfoCircle, faCopy } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { FieldLabel } from '@/components/ui/display/Typography'
@@ -66,35 +64,19 @@ const InputDate = ({small, variant, ...props}) => {
 			variantClasses[variant || "default"],
 			)}>
 			{props.label && (
-				<div className='flex absolute top-[-9px] left-2 w-fit z-10 text-xs px-0.5 rounded-md mb-0 pb-0 text-nowrap before:bg-white before:top-0.5 before:left-0 before:absolute before:w-full before:h-[12px] before:-z-10 before:content-[""] before:rounded-lg'>
+				<div className='flex absolute -top-2.25 left-2 w-fit z-10 text-xs px-0.5 rounded-md mb-0 pb-0 text-nowrap before:bg-white before:top-0.5 before:left-0 before:absolute before:w-full before:h-3 before:-z-10 before:content-[""] before:rounded-lg'>
 					<label htmlFor={props.id} >
 						<FieldLabel className={cn(props?.required ? 'ml-4' : 'ml-0', variantClasses[variant || "default"], 'mb-0 pb-0')}>
 							{props.label || ''}
 						</FieldLabel>
 					</label>
 					{props?.required && (
-						<FontAwesomeIcon
-							icon={faAsterisk}
-							width='10'
-							height='10'
-							color='red'
-							className='self-start absolute'
-						/>
+						<FontAwesomeIcon icon={faAsterisk} width='10' height='10' color='red' className='self-start absolute'/>
 					)}
 					{props?.hint && (
 						<>
-							<TooltipComponent
-								content={<div className='text-xs z-20 max-w-[300px]'>{props?.hint}</div>}
-								asChild
-							>
-								<FontAwesomeIcon
-									icon={faInfoCircle}
-									width='16'
-									height='16'
-									color='blue'
-									className='self-start ml-2'
-									tabIndex={-1}
-								/>
+							<TooltipComponent content={<div className='text-xs z-20 max-w-75'>{props?.hint}</div>} asChild>
+								<FontAwesomeIcon icon={faInfoCircle} width='16' height='16' color='blue' className='self-start ml-2' tabIndex={-1} />
 							</TooltipComponent>
 						</>
 					)}
@@ -130,11 +112,7 @@ const InputDate = ({small, variant, ...props}) => {
 								onClick={copyFormatedDate}
 								className={`text-blue-700 border h-full rounded-md shadow px-2 py-1 ml-2 hover:bg-blue-700 hover:text-white`}
 							>
-								<FontAwesomeIcon
-									icon={faCopy}
-									width="15"
-									height="15"
-								/>
+								<FontAwesomeIcon icon={faCopy} width="15" height="15" />
 							</Button>
 						</div>
 					</TooltipComponent>

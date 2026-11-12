@@ -1,6 +1,4 @@
-'use client';
-
-import { faArrowDown19, faArrowUp91, faArrowDownAZ, faArrowUpZA, faArrowDownShortWide, faArrowUpWideShort, faCaretDown, faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faArrowDown19, faArrowUp91, faArrowDownAZ, faArrowUpZA, faArrowDownShortWide, faArrowUpWideShort, faCaretDown } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { TooltipComponent } from "@/components/ui/overlays/TooltipComponent";
 import React, { useState, useEffect, useRef } from 'react';
