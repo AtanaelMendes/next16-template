@@ -46,10 +46,11 @@ export default function PieChart({ data, chartData, nmChart, title, height = '26
   const r = 80;
   const cx = 100;
   const cy = 100;
+  const normalizeCoordinate = (value) => Number(value.toFixed(6));
 
   const polarToCartesian = (angle, radius = r) => ({
-    x: cx + radius * Math.cos(angle),
-    y: cy + radius * Math.sin(angle),
+    x: normalizeCoordinate(cx + radius * Math.cos(angle)),
+    y: normalizeCoordinate(cy + radius * Math.sin(angle)),
   });
 
   const describeSlice = (startAngle, endAngle) => {
@@ -69,7 +70,7 @@ export default function PieChart({ data, chartData, nmChart, title, height = '26
 
   return (
     <div id={nmChart} className="flex flex-col items-center w-full" style={{ height }}>
-      {title && <p className="text-sm font-semibold text-gray-700 mb-2 text-center">{title}</p>}
+      {title && <p className="text-sm font-semibold text-gray-700 mb-2 text-center dark:text-gray-200">{title}</p>}
       <div className="flex flex-col sm:flex-row items-center gap-4 w-full">
         <svg viewBox="0 0 200 200" className="w-36 h-36 shrink-0">
           {slices.map((s, i) => (
@@ -91,8 +92,8 @@ export default function PieChart({ data, chartData, nmChart, title, height = '26
           {slices.map((s, i) => (
             <li key={i} className="flex items-center gap-2 truncate">
               <span className="w-3 h-3 rounded-sm shrink-0" style={{ background: s.color }} />
-              <span className="text-gray-700 truncate">{s.label}</span>
-              <span className="ml-auto font-semibold text-gray-800 shrink-0">
+              <span className="text-gray-700 truncate dark:text-gray-300">{s.label}</span>
+              <span className="ml-auto font-semibold text-gray-800 shrink-0 dark:text-gray-100">
                 {(s.ratio * 100).toFixed(0)}%
               </span>
             </li>

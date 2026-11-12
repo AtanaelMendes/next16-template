@@ -36,7 +36,7 @@ export default function AnswersChart({ data = [], title, height = '260px', color
 
   return (
     <div className="flex flex-col items-center w-full" style={{ height }}>
-      {title && <p className="text-sm font-semibold text-gray-700 mb-2 text-center">{title}</p>}
+      {title && <p className="text-sm font-semibold text-gray-700 mb-2 text-center dark:text-gray-200">{title}</p>}
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full max-w-xs" style={{ maxHeight: 'calc(100% - 24px)' }}>
         {/* Y ticks */}
         {yTicks.map((t, i) => (

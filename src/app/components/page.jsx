@@ -50,8 +50,8 @@ import {
 const Section = ({ id, title, description, children }) => (
   <section id={id} className="mb-16 scroll-mt-20">
     <div className="mb-6 border-b-2 border-blue-200 pb-3">
-      <h2 className="text-2xl font-bold text-gray-800">{title}</h2>
-      {description && <p className="mt-1 text-sm text-gray-500">{description}</p>}
+      <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100">{title}</h2>
+      {description && <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">{description}</p>}
     </div>
     {children}
   </section>
@@ -59,11 +59,11 @@ const Section = ({ id, title, description, children }) => (
 
 const SubSection = ({ title, children }) => (
   <div className="mb-8">
-    <h3 className="mb-3 text-lg font-semibold text-gray-700 flex items-center gap-2">
+    <h3 className="mb-3 text-lg font-semibold text-gray-700 dark:text-gray-200 flex items-center gap-2">
       <span className="w-1 h-5 bg-blue-500 rounded-full inline-block" />
       {title}
     </h3>
-    <div className="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+    <div className="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden dark:border-slate-700 dark:bg-slate-900">
       <div className="p-5">{children}</div>
     </div>
   </div>
@@ -71,7 +71,7 @@ const SubSection = ({ title, children }) => (
 
 const CodeSnippet = ({ code }) => (
   <details className="mt-4">
-    <summary className="cursor-pointer text-xs text-blue-600 hover:underline select-none flex items-center gap-1">
+    <summary className="cursor-pointer text-xs text-blue-600 hover:underline select-none flex items-center gap-1 dark:text-blue-400">
       <FontAwesomeIcon icon={faCode} width={12} /> Ver código
     </summary>
     <pre className="mt-2 overflow-x-auto rounded-lg bg-gray-900 p-4 text-xs text-green-300 leading-relaxed">
@@ -81,9 +81,9 @@ const CodeSnippet = ({ code }) => (
 );
 
 const PropTable = ({ props: propList }) => (
-  <div className="mt-4 overflow-x-auto rounded-lg border border-gray-200">
+  <div className="mt-4 overflow-x-auto rounded-lg border border-gray-200 dark:border-slate-700">
     <table className="w-full text-sm text-left">
-      <thead className="bg-gray-50 text-gray-600 text-xs uppercase">
+      <thead className="bg-gray-50 text-gray-600 text-xs uppercase dark:bg-slate-800 dark:text-gray-300">
         <tr>
           <th className="px-4 py-2">Prop</th>
           <th className="px-4 py-2">Tipo</th>
@@ -93,11 +93,11 @@ const PropTable = ({ props: propList }) => (
       </thead>
       <tbody>
         {propList.map((p) => (
-          <tr key={p.name} className="border-t border-gray-100 odd:bg-white even:bg-gray-50">
-            <td className="px-4 py-2 font-mono text-blue-700">{p.name}</td>
+          <tr key={p.name} className="border-t border-gray-100 odd:bg-white even:bg-gray-50 dark:border-slate-700 dark:odd:bg-slate-900 dark:even:bg-slate-800/70">
+            <td className="px-4 py-2 font-mono text-blue-700 dark:text-blue-400">{p.name}</td>
             <td className="px-4 py-2 font-mono text-purple-600">{p.type}</td>
-            <td className="px-4 py-2 font-mono text-gray-500">{p.default ?? '—'}</td>
-            <td className="px-4 py-2 text-gray-600">{p.desc}</td>
+            <td className="px-4 py-2 font-mono text-gray-500 dark:text-gray-400">{p.default ?? '—'}</td>
+            <td className="px-4 py-2 text-gray-600 dark:text-gray-300">{p.desc}</td>
           </tr>
         ))}
       </tbody>
@@ -227,35 +227,35 @@ export default function ComponentsPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 text-gray-900 dark:bg-slate-950 dark:text-gray-100">
       {/* ── TOP HEADER ──────────────────────────────────────────────────────── */}
-      <header className="sticky top-0 z-40 bg-white border-b border-gray-200 shadow-sm">
+      <header className="sticky top-0 z-40 bg-white border-b border-gray-200 shadow-sm dark:bg-slate-900 dark:border-slate-800">
         <div className="max-w-screen-2xl mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <Link href="/" className="text-blue-600 hover:text-blue-800 text-sm flex items-center gap-1">
+            <Link href="/" className="text-blue-600 hover:text-blue-800 text-sm flex items-center gap-1 dark:text-blue-400 dark:hover:text-blue-300">
               <FontAwesomeIcon icon={faArrowLeft} width={12} /> Dashboard
             </Link>
-            <span className="text-gray-300">/</span>
-            <span className="text-gray-700 font-semibold text-sm flex items-center gap-2">
+            <span className="text-gray-300 dark:text-gray-600">/</span>
+            <span className="text-gray-700 font-semibold text-sm flex items-center gap-2 dark:text-gray-200">
               <FontAwesomeIcon icon={faBookOpen} width={14} className="text-blue-600" />
               Catálogo de Componentes
             </span>
           </div>
-          <span className="text-xs text-gray-400 hidden sm:block">src/components/ui/</span>
+          <span className="text-xs text-gray-400 hidden sm:block dark:text-gray-500">src/components/ui/</span>
         </div>
       </header>
 
       <div className="max-w-screen-2xl mx-auto flex gap-0 md:gap-6 px-4 py-6">
         {/* ── STICKY SIDEBAR NAV ─────────────────────────────────────────────── */}
         <nav className="hidden md:block w-52 shrink-0">
-          <div className="sticky top-20 rounded-xl bg-white border border-gray-200 shadow-sm p-3">
+          <div className="sticky top-20 rounded-xl bg-white border border-gray-200 shadow-sm p-3 dark:bg-slate-900 dark:border-slate-800">
             <p className="text-xs font-semibold uppercase text-gray-400 mb-2 px-2">Seções</p>
             <ul className="space-y-0.5">
               {NAV_ITEMS.map(item => (
                 <li key={item.id}>
                   <a
                     href={`#${item.id}`}
-                    className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm text-gray-600 hover:bg-blue-50 hover:text-blue-700 transition-colors"
+                    className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm text-gray-600 hover:bg-blue-50 hover:text-blue-700 transition-colors dark:text-gray-300 dark:hover:bg-blue-950 dark:hover:text-blue-300"
                   >
                     <FontAwesomeIcon icon={item.icon} width={13} className="text-gray-400" />
                     {item.label}
@@ -360,8 +360,8 @@ export default function ComponentsPage() {
             </SubSection>
 
             <SubSection title="FloatActionButton (FAB)">
-              <div className="relative h-24 bg-gray-50 rounded-lg border border-dashed border-gray-300 flex items-center justify-center gap-4">
-                <span className="text-gray-400 text-sm">Área de demo (posição absoluta)</span>
+              <div className="relative h-24 bg-gray-50 rounded-lg border border-dashed border-gray-300 flex items-center justify-center gap-4 dark:bg-slate-800 dark:border-slate-600">
+                <span className="text-gray-400 text-sm dark:text-gray-500">Área de demo (posição absoluta)</span>
                 <FabSave
                   absolute small disableZIndex
                   className="bottom-3 right-3"
@@ -670,18 +670,18 @@ export default function ComponentsPage() {
           <Section id="navigation" title="🧭 Navigation" description="src/components/ui/navigation/ — Tabs, paginação e controle de ordenação.">
 
             <SubSection title="PageTabs">
-              <div className="bg-blue-50 rounded-lg p-3">
+              <div className="bg-blue-50 rounded-lg p-3 dark:bg-blue-950/40">
                 <ul className="flex gap-1">
                   {tabs.filter(t => t.visible).map(tab => (
                     <li key={tab.id}
                       className={`rounded-t-lg cursor-pointer px-4 py-2 text-sm font-medium transition-colors
-                        ${tab.active ? 'bg-blue-600 text-white' : 'bg-white text-gray-600 border border-gray-300 hover:bg-blue-100'}`}
+                        ${tab.active ? 'bg-blue-600 text-white' : 'bg-white text-gray-600 border border-gray-300 hover:bg-blue-100 dark:bg-slate-800 dark:text-gray-300 dark:border-slate-600 dark:hover:bg-slate-700'}`}
                       onClick={() => handleTabChange(tab.id)}>
                       {tab.name}
                     </li>
                   ))}
                 </ul>
-                <div className="bg-white border border-t-0 border-gray-300 rounded-b-lg p-4 text-sm text-gray-700">
+                <div className="bg-white border border-t-0 border-gray-300 rounded-b-lg p-4 text-sm text-gray-700 dark:bg-slate-900 dark:border-slate-600 dark:text-gray-300">
                   Conteúdo da aba: <strong>{tabs.find(t => t.active)?.name}</strong>
                 </div>
               </div>
@@ -876,7 +876,7 @@ const data = [
                 </Button>
               </div>
 
-              <div className="relative h-72 rounded-xl overflow-hidden border border-gray-300 bg-gray-100 flex">
+              <div className="relative h-72 rounded-xl overflow-hidden border border-gray-300 bg-gray-100 flex dark:border-slate-700 dark:bg-slate-950">
                 {/* Left Drawer (permanent in demo) */}
                 <div className={`bg-blue-700 text-white transition-all duration-300 overflow-hidden ${leftOpen ? 'w-52' : 'w-0'} shrink-0`}>
                   <div className="p-3">
@@ -903,7 +903,7 @@ const data = [
                   <div className="flex gap-3">
                     <button
                       onClick={() => setLeftOpen(o => !o)}
-                      className="bg-white border border-gray-300 rounded px-2 py-1 text-xs hover:bg-gray-50"
+                      className="bg-white border border-gray-300 rounded px-2 py-1 text-xs hover:bg-gray-50 dark:bg-slate-800 dark:border-slate-600 dark:hover:bg-slate-700"
                       aria-label={leftOpen ? 'Fechar navegação' : 'Abrir navegação'}
                       aria-expanded={leftOpen}
                     >
@@ -911,7 +911,7 @@ const data = [
                     </button>
                     <button
                       onClick={() => setRightOpen(o => !o)}
-                      className="bg-white border border-gray-300 rounded px-2 py-1 text-xs hover:bg-gray-50"
+                      className="bg-white border border-gray-300 rounded px-2 py-1 text-xs hover:bg-gray-50 dark:bg-slate-800 dark:border-slate-600 dark:hover:bg-slate-700"
                       aria-label={rightOpen ? 'Fechar painel' : 'Abrir painel'}
                       aria-expanded={rightOpen}
                     >
@@ -995,10 +995,10 @@ const [rightOpen, setRightOpen] = useState(false);
                         { icon: faCheck, text: 'Relatório gerado com sucesso', time: 'há 15 min', color: 'text-green-500' },
                         { icon: faWarning, text: 'Prazo expirando amanhã', time: 'há 1h', color: 'text-yellow-500' },
                       ].map((n, i) => (
-                        <div key={i} className="flex gap-3 p-2 rounded-lg hover:bg-gray-50 border border-gray-100">
+                        <div key={i} className="flex gap-3 p-2 rounded-lg hover:bg-gray-50 border border-gray-100 dark:hover:bg-slate-800 dark:border-slate-800">
                           <FontAwesomeIcon icon={n.icon} width={16} className={`mt-0.5 ${n.color}`} />
                           <div>
-                            <p className="text-sm text-gray-700">{n.text}</p>
+                            <p className="text-sm text-gray-700 dark:text-gray-300">{n.text}</p>
                             <span className="text-xs text-gray-400">{n.time}</span>
                           </div>
                         </div>
