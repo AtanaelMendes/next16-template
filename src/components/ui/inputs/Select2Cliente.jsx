@@ -6,8 +6,7 @@ import { FieldLabel } from "@/components/ui/display/Typography";
 import { useEffect, useState } from "react";
 import Select from "react-tailwindcss-select";
 import { useAppContext } from "@/context/AppContext";
-import axios from "axios";
-import axiosInstance from "@/plugins/axios";
+import http, { isAbortError } from "@/lib/http";
 import { cn, empty } from "@/assets/utils";
 
 const Select2Cliente = ({cdPessoaCliente, onReady, isDisabled, ...props}) => {
@@ -15,7 +14,7 @@ const Select2Cliente = ({cdPessoaCliente, onReady, isDisabled, ...props}) => {
     const { toast } = useAppContext();
     const [clientes, setClientes] = useState([]);
     const [selectedOption, setSelectedOption] = useState(null);
-    const [cancelTokenSource, setCancelTokenSource] = useState(null);
+    const [abortController, setAbortController] = useState(null);
     const [ready, setReady] = useState(false);
 
     const handleChange = (value) => {
@@ -67,8 +66,8 @@ const Select2Cliente = ({cdPessoaCliente, onReady, isDisabled, ...props}) => {
         getClientes();
 
         return () => {
-            if (cancelTokenSource) {
-                cancelTokenSource.cancel("Componente desmontado.");
+            if (abortController) {
+                abortController.abort();
             }
             setClientes([]);
         };
@@ -96,25 +95,25 @@ const Select2Cliente = ({cdPessoaCliente, onReady, isDisabled, ...props}) => {
     }, [clientes, cdPessoaCliente]);
 
     const getClientes = async () => {
-        if (cancelTokenSource) {
-            cancelTokenSource.cancel("Operação cancelada devido a uma nova solicitação.");
+        if (abortController) {
+            abortController.abort();
         }
 
-        const source = axios.CancelToken.source();
-        setCancelTokenSource(source);
+        const controller = new AbortController();
+        setAbortController(controller);
         setReady(false);
 
         const maxChars = props?.maxChars || 0;
 
         try {
-            const response = await axiosInstance.get(`cliente/clientes/${filter}/${maxChars}`, {
-                cancelToken: source.token,
+            const response = await http.get(`cliente/clientes/${filter}/${maxChars}`, {
+                signal: controller.signal,
             });
             setReady(true);
             setClientes(response.data);
         } catch (error) {
             setReady(true);
-            if (!axios.isCancel(error)) {
+            if (!isAbortError(error)) {
                 toast.error("Não foi possível carregar os clientes.");
                 console.error(error);
             }

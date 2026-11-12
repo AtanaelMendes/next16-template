@@ -6,7 +6,7 @@ import { FieldLabel } from "@/components/ui/display/Typography";
 import { useEffect, useState } from "react";
 import Select from "react-tailwindcss-select";
 import { useAppContext } from "@/context/AppContext";
-import axiosInstance from "@/plugins/axios";
+import http from "@/lib/http";
 import { empty } from "@/assets/utils";
 
 const Select2Vaga = ({ tipoVaga, placeholder, isClearable, value, ...props }) => {
@@ -62,7 +62,7 @@ const Select2Vaga = ({ tipoVaga, placeholder, isClearable, value, ...props }) =>
             .join("&");
 
         setTimeout(() => {
-            axiosInstance.get(`vaga/vagas-selecao-relacionar?${filtrosJoin}`)
+            http.get(`vaga/vagas-selecao-relacionar?${filtrosJoin}`)
                 .then((response) => {
                     setVagas(response.data);
                 }).catch((error) => {
@@ -73,7 +73,7 @@ const Select2Vaga = ({ tipoVaga, placeholder, isClearable, value, ...props }) =>
     }
 
     const getVagasAnalista = () => {
-        axiosInstance.get(`vaga/vagas-atendimento/${user.cd_sip}/${filter}`)
+        http.get(`vaga/vagas-atendimento/${user.cd_sip}/${filter}`)
             .then((response) => {
                 setVagas(response.data);
             }).catch((error) => {

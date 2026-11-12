@@ -6,7 +6,8 @@ import { FieldLabel } from '@/components/ui/display/Typography';
 import { useEffect, useState } from "react";
 import Select from "react-tailwindcss-select";
 import { useAppContext } from "@/context/AppContext";
-import axiosInstance from "@/plugins/axios";
+import http from "@/lib/http";
+import { cn } from "@/lib/utils";
 
 const Select2CargosSip = ({init, required, value, ...props}) => {
     const [cargosSip, setCargosSip] = useState([]);
@@ -17,7 +18,7 @@ const Select2CargosSip = ({init, required, value, ...props}) => {
 
     function getCargosSip() {
         setIsLoadingData(false);
-        axiosInstance.get(`cargo/sip-cargos`)
+        http.get(`cargo/sip-cargos`)
             .then(function (response) {
                 setIsLoadingData(true);
                 if (response.status === 200) {

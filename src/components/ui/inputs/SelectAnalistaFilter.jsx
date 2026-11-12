@@ -5,7 +5,7 @@ import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FieldLabel } from "@/components/ui/display/Typography";
 import { useEffect, useState } from "react";
 import Select from "react-tailwindcss-select";
-import axiosInstance from "@/plugins/axios";
+import http from "@/lib/http";
 import { TooltipComponent } from "@/components/ui/overlays/TooltipComponent";
 
 const SelectAnalistaFilter = (props) => {
@@ -82,7 +82,7 @@ const SelectAnalistaFilter = (props) => {
     setIsLoadingData(true);
 
     try {
-      const response = await axiosInstance.get(
+      const response = await http.get(
         `analista/filtro-analista/${props.cdEmpresa}`
       );
 

@@ -7,7 +7,7 @@ import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { useAppContext } from "@/context/AppContext";
 import React, { useState, useEffect } from "react";
 import Button from "@/components/ui/buttons/Button";
-import axiosInstance from "@/plugins/axios";
+import http from "@/lib/http";
 import { toast } from "react-toastify";
 import { cn, empty } from "@/assets/utils";
 
@@ -35,7 +35,7 @@ const JobNotification = (props) => {
     };
 
     function setJobNotifyViewed(alertID) {
-        axiosInstance
+        http
             .post(`analista/confirma-visualizar-vaga`, { id_alerta: alertID })
             .then(function (response) {
                 if (response.status === 200) {

@@ -1,0 +1,127 @@
+﻿
+============================================================
+SUITE: 1. Controlled Mode: Synchronization & Callbacks
+============================================================
+  ✓ PASS: Controlled open=false overrides defaultOpen=true
+  ✓ PASS: Controlled open=true overrides defaultOpen=false
+  ✓ PASS: Initial controlled open=false
+  ✓ PASS: Prop update to open=true updates isOpen immediately
+  ✓ PASS: Prop update to open=false updates isOpen immediately
+  ✓ PASS: setOpen(true) fires onOpenChange with true in controlled mode
+  ✓ PASS: isOpen stays false until controlled prop updates
+  ✓ PASS: Functional updater receives controlled current state as prev argument
+  ✓ PASS: Functional updater passes computed value to onOpenChange
+  ✓ PASS: toggle() with open=false fires onOpenChange(true)
+  ✓ PASS: toggle() with open=true fires onOpenChange(false)
+  ✓ PASS: Controlled mode does not write to localStorage on setOpen
+  ✓ PASS: Pre-existing localStorage is ignored in controlled mode after hydration
+  ✓ PASS: isControlledCompact is true
+  ✓ PASS: compact is false
+  ✓ PASS: setCompact(true) fires onCompactChange
+  ✓ PASS: isCompact remains false until prop updates
+  ✓ PASS: isCompact updates when compact prop updates to true
+
+============================================================
+SUITE: 2. Uncontrolled Mode: State Transitions & Convenience Methods
+============================================================
+  ✓ PASS: Default options initialize with open=false, compact=false, isControlled=false
+  ✓ PASS: defaultOpen=true sets isOpen=true
+  ✓ PASS: defaultOpen=false sets isOpen=false
+  ✓ PASS: setOpen(true) updates isOpen to true and fires onOpenChange
+  ✓ PASS: setOpen(false) updates isOpen to false and fires onOpenChange
+  ✓ PASS: Functional updater flips false -> true
+  ✓ PASS: Functional updater flips true -> false
+  ✓ PASS: openDrawer() sets isOpen to true
+  ✓ PASS: closeDrawer() sets isOpen to false
+  ✓ PASS: close() sets isOpen to false
+  ✓ PASS: toggle() flips false -> true
+  ✓ PASS: toggle() flips true -> false
+  ✓ PASS: toggleCompact() flips compact false -> true
+  ✓ PASS: setCompact(false) sets isCompact to false
+  ✓ PASS: 1,000 sequential toggles execute with 0 state anomalies
+
+============================================================
+SUITE: 3. Independent Storage Keys & 4 Permutations
+============================================================
+  ✓ PASS: Permutation 1: Left Open & Right Closed in hooks
+  ✓ PASS: Permutation 1: Left Open & Right Closed in localStorage
+  ✓ PASS: Permutation 2: Both Open in hooks
+  ✓ PASS: Permutation 2: Both Open in localStorage
+  ✓ PASS: Permutation 3: Left Closed & Right Open in hooks
+  ✓ PASS: Permutation 3: Left Closed & Right Open in localStorage
+  ✓ PASS: Permutation 4: Both Closed in hooks
+  ✓ PASS: Permutation 4: Both Closed in localStorage
+  ✓ PASS: 200 Left toggles never polluted or altered Right Drawer state/storage
+  ✓ PASS: 200 Right toggles never polluted or altered Left Drawer state/storage
+  ✓ PASS: StorageEvent on Left key updates Left Drawer to true
+  ✓ PASS: StorageEvent on Left key leaves Right Drawer unchanged (false)
+  ✓ PASS: StorageEvent on Right key updates Right Drawer to true
+  ✓ PASS: Foreign StorageEvent does not affect Left Drawer
+  ✓ PASS: Foreign StorageEvent does not affect Right Drawer
+
+============================================================
+SUITE: 4. Private Browsing Fallback & QuotaExceeded Resilience
+============================================================
+  ✓ PASS: safeStorage.setItem returns false on SecurityError without throwing
+  ✓ PASS: safeStorage.getItem returns fallback on SecurityError without throwing
+  ✓ PASS: safeStorage.removeItem returns false on SecurityError without throwing
+  ✓ PASS: safeStorage.setItem returns false on QuotaExceededError without throwing
+  ✓ PASS: safeStorage.getItem returns fallback when item contains malformed JSON
+  ✓ PASS: setOpen does not throw exception when setItem throws SecurityError
+  ✓ PASS: In-memory isOpen updates to true despite storage failure
+  ✓ PASS: onOpenChange callback fires with true despite storage failure
+  ✓ PASS: Subsequent toggle() works in memory (switches to false)
+  ✓ PASS: Subsequent toggle() works in memory (switches to true)
+  ✓ PASS: setOpen does not throw on QuotaExceededError
+  ✓ PASS: In-memory isOpen is true on QuotaExceededError
+  ✓ PASS: Malformed payload (non-boolean open) is ignored; keeps defaultOpen=false
+
+============================================================
+SUITE: 5. Two-Phase Hydration & SSR Determinism
+============================================================
+  ✓ PASS: Phase 1 (Pre-mount): isOpen equals deterministic defaultOpen (false)
+  ✓ PASS: Phase 1 (Pre-mount): isHydrated is false
+  ✓ PASS: Phase 2 (Post-mount): isHydrated transitions to true
+  ✓ PASS: Phase 2 (Post-mount): isOpen reconciles with localStorage value (true)
+  ✓ PASS: useHydratedDrawerState Phase 1 returns defaultState (false)
+  ✓ PASS: useHydratedDrawerState Phase 1 returns isHydrated=false
+  ✓ PASS: useHydratedDrawerState Phase 2 reconciles to saved state (true)
+  ✓ PASS: useHydratedDrawerState Phase 2 returns isHydrated=true
+  ✓ PASS: renderToString with defaultOpen=false outputs closed state and hydrated=false
+  ✓ PASS: renderToString with defaultOpen=true outputs open state and hydrated=false
+  ✓ PASS: First lockBodyScroll() sets document.body.style.overflow to "hidden"
+  ✓ PASS: Second lockBodyScroll() maintains "hidden"
+  ✓ PASS: First unlockBodyScroll() keeps "hidden" due to ref counting
+  ✓ PASS: Second unlockBodyScroll() releases lock and restores ""
+  ✓ PASS: Extra unlockBodyScroll() gracefully handles zero-count bounds
+
+============================================================
+SUITE: 6. Advanced Adversarial Matrix: 16 Permutations & Strict SSR Guards
+============================================================
+  ✓ PASS: All 16 permutations across 4 concurrent independent drawers maintain exact state without crosstalk
+  ✓ PASS: Prefix key isolation: prefix drawer is true, child is false, grandchild is true
+  ✓ PASS: Hydration safely rejects malformed payload: literal null string
+  ✓ PASS: Hydration safely rejects malformed payload: string representation of boolean
+  ✓ PASS: Hydration safely rejects malformed payload: integer 1
+  ✓ PASS: Hydration safely rejects malformed payload: integer 0
+  ✓ PASS: Hydration safely rejects malformed payload: boolean wrapped in array
+  ✓ PASS: Hydration safely rejects malformed payload: object missing open property
+  ✓ PASS: Hydration safely rejects malformed payload: object with string open property
+  ✓ PASS: Hydration safely rejects malformed payload: object with numeric open property
+  ✓ PASS: Hydration successfully accepts structured object: { open: true }
+  ✓ PASS: Hydration successfully accepts structured object: { open: false }
+  ✓ PASS: safeStorage.getItem returns fallback when window is undefined
+  ✓ PASS: safeStorage.setItem returns false when window is undefined
+  ✓ PASS: safeStorage.removeItem returns false when window is undefined
+  ✓ PASS: lockBodyScroll & unlockBodyScroll do not throw when document is undefined
+
+============================================================
+EMPIRICAL STRESS TEST RESULTS SUMMARY
+============================================================
+Total Assertions : 92
+Passed           : 92
+Failed           : 0
+Success Rate     : 100.0%
+FINAL VERDICT    : APPROVE
+============================================================
+

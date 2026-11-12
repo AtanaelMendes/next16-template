@@ -1,95 +1,165 @@
 'use client';
 
-import { useCallback, useLayoutEffect } from "react";
-import * as am5 from "@amcharts/amcharts5";
-import * as am5xy from "@amcharts/amcharts5/xy";
-import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
+import { useId, useState } from 'react';
 
-const XyVerticalChart = ({ chartData, nmChart, width, height }) => {
-    useLayoutEffect(() => {
-        am5.addLicense("AM5C321901905");
-        let root = am5.Root.new(nmChart);
+const SLA_COLORS = ['#FFD248', '#fc6868', '#fc0505'];
 
-        root.setThemes([am5themes_Animated.new(root)]);
+const XyVerticalChart = ({ chartData = [], nmChart, width = '100%', height = '300px' }) => {
+  const generatedId = useId();
+  const id = nmChart || `xy-vertical-${generatedId}`;
+  const [hoveredIndex, setHoveredIndex] = useState(null);
 
-        var chart = root.container.children.push(
-            am5xy.XYChart.new(root, {
-                panX: false,
-                panY: false,
-                wheelX: "panX",
-                wheelY: "zoomX",
-                layout: root.verticalLayout,
-            })
-        );
+  if (!chartData || chartData.length === 0) {
+    return (
+      <div id={id} style={{ width, height }} className="flex items-center justify-center text-sm text-gray-400">
+        Nenhum dado disponível
+      </div>
+    );
+  }
 
-        var xAxis = chart.xAxes.push(
-            am5xy.CategoryAxis.new(root, {
-                categoryField: "label",
-                renderer: am5xy.AxisRendererX.new(root, {
-                    calculateTotals: true,
-                    extraMax: 0.1,
-                    cellStartLocation: 0.1,
-                    cellEndLocation: 0.9,
-                }),
-                tooltip: am5.Tooltip.new(root, {}),
-            })
-        );
-        xAxis.data.setAll(chartData);
+  const svgWidth = 600;
+  const svgHeight = 280;
+  const padding = { top: 30, right: 30, bottom: 45, left: 45 };
+  const plotWidth = svgWidth - padding.left - padding.right;
+  const plotHeight = svgHeight - padding.top - padding.bottom;
 
-        var yAxis = chart.yAxes.push(
-            am5xy.ValueAxis.new(root, {
-                renderer: am5xy.AxisRendererY.new(root, {}),
-            })
-        );
+  const maxValue = Math.max(5, ...chartData.map(d => Number(d.value) || 0));
+  const maxY = Math.ceil(maxValue * 1.2);
 
-        let colorList = ["#FFD248", "#fc6868", "#fc0505"];
+  const count = chartData.length;
+  const slotWidth = plotWidth / count;
+  const colWidth = Math.min(85, slotWidth * 0.65);
 
-        chartData.forEach((item, index) => {
-            var series = chart.series.push(
-                am5xy.ColumnSeries.new(root, {
-                    name: item.name,
-                    xAxis: xAxis,
-                    yAxis: yAxis,
-                    valueYField: "value",
-                    categoryXField: "category",
-                    fill: am5.color(colorList[index]),
-                })
-            );
+  return (
+    <div id={id} style={{ width, height }} className="relative flex flex-col items-center justify-center select-none">
+      <svg
+        viewBox={`0 0 ${svgWidth} ${svgHeight}`}
+        className="w-full h-full overflow-visible"
+        role="img"
+        aria-label="Gráfico de Colunas SLA de Vagas"
+      >
+        <title>SLA de Vagas</title>
 
-            if (item.value > 0) {
-                series.bullets.push(function(root) {
-                    return am5.Bullet.new(root, {
-                        sprite: am5.Label.new(root, {
-                            text: "{valueY} vaga(s)",
-                            centerX: am5.percent(50),
-                            centerY: am5.percent(50),
-                            populateText: true, 
-                            fill: index === 2 ? am5.color("#fff") : am5.color("#000"),
-                        })
-                    });
-                });
-            }
+        {/* Linhas de grade horizontais e valores Y */}
+        {[0, 0.25, 0.5, 0.75, 1].map((pct, i) => {
+          const val = Math.round(maxY * pct);
+          const y = padding.top + plotHeight * (1 - pct);
+          return (
+            <g key={i}>
+              <line
+                x1={padding.left}
+                y1={y}
+                x2={padding.left + plotWidth}
+                y2={y}
+                stroke="#f1f5f9"
+                strokeWidth="1"
+              />
+              <text
+                x={padding.left - 10}
+                y={y + 4}
+                textAnchor="end"
+                className="text-[10px] fill-gray-400 font-mono"
+              >
+                {val}
+              </text>
+            </g>
+          );
+        })}
 
-            series.data.setAll([
-                {
-                    category: item.label,
-                    value: item.value,
-                },
-            ]);
+        {/* Colunas por status SLA */}
+        {chartData.map((item, index) => {
+          const val = Number(item.value) || 0;
+          const barHeight = Math.max(0, (val / maxY) * plotHeight);
+          const barX = padding.left + index * slotWidth + (slotWidth - colWidth) / 2;
+          const barY = padding.top + plotHeight - barHeight;
+          const fillColor = SLA_COLORS[index % SLA_COLORS.length];
+          const isHovered = hoveredIndex === index;
+          const labelTextColor = index === 2 ? '#ffffff' : '#1f2937';
 
-            series.columns.template.setAll({
-                tooltipText: "{valueY} vaga(s)",
-                width: am5.percent(200),
-                tooltipY: 0,
-            });
+          return (
+            <g
+              key={index}
+              onMouseEnter={() => setHoveredIndex(index)}
+              onMouseLeave={() => setHoveredIndex(null)}
+              className="cursor-pointer"
+            >
+              {/* Barra da coluna */}
+              <rect
+                x={barX}
+                y={barY}
+                width={colWidth}
+                height={barHeight}
+                fill={fillColor}
+                rx="6"
+                stroke="#ffffff"
+                strokeWidth="2"
+                className="transition-all duration-200"
+                opacity={isHovered ? 0.9 : 1}
+              />
 
-        });
+              {/* Rótulo de texto centralizado dentro da coluna "{value} vaga(s)" */}
+              {val > 0 && barHeight > 24 && (
+                <text
+                  x={barX + colWidth / 2}
+                  y={barY + barHeight / 2}
+                  textAnchor="middle"
+                  dominantBaseline="middle"
+                  className="text-[11px] font-bold select-none pointer-events-none"
+                  fill={labelTextColor}
+                >
+                  {val} vaga(s)
+                </text>
+              )}
 
-        return () => {
-            root.dispose();
-        };
-    }, []);
+              {/* Se a barra for muito baixa para o texto interno */}
+              {val > 0 && barHeight <= 24 && (
+                <text
+                  x={barX + colWidth / 2}
+                  y={barY - 8}
+                  textAnchor="middle"
+                  className="text-[11px] font-bold fill-gray-700 select-none pointer-events-none"
+                >
+                  {val} vaga(s)
+                </text>
+              )}
 
-    return <div id={nmChart} style={{ width: "100%", height: "300px" }}></div>;
+              {/* Rótulo do eixo X */}
+              <text
+                x={barX + colWidth / 2}
+                y={padding.top + plotHeight + 20}
+                textAnchor="middle"
+                className="text-[11px] font-medium fill-gray-600 select-none"
+              >
+                {item.label || item.name}
+              </text>
+
+              {/* Tooltip no hover */}
+              {isHovered && (
+                <g transform={`translate(${barX + colWidth / 2}, ${Math.max(15, barY - 14)})`}>
+                  <rect
+                    x="-45"
+                    y="-18"
+                    width="90"
+                    height="20"
+                    rx="4"
+                    fill="#1f2937"
+                  />
+                  <text
+                    textAnchor="middle"
+                    dominantBaseline="middle"
+                    y="-8"
+                    className="text-[11px] font-semibold fill-white select-none"
+                  >
+                    {val} vaga(s)
+                  </text>
+                </g>
+              )}
+            </g>
+          );
+        })}
+      </svg>
+    </div>
+  );
 };
+
 export default XyVerticalChart;

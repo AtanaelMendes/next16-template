@@ -6,7 +6,7 @@ import { FieldLabel } from "@/components/ui/display/Typography";
 import { useEffect, useState } from "react";
 import Select from "react-tailwindcss-select";
 import { useAppContext } from "@/context/AppContext";
-import axiosInstance from "@/plugins/axios";
+import http from "@/lib/http";
 import { TooltipComponent } from "@/components/ui/overlays/TooltipComponent";
 
 const SelectUnidade = ({ init, required, type, value, ...props }) => {
@@ -64,7 +64,7 @@ const SelectUnidade = ({ init, required, type, value, ...props }) => {
 
     const getUnidadesPorSelecionador = () => {
         setIsLoadingData(false);
-        axiosInstance
+        http
             .get(`unidade/unidades-selecionador/${user.cd_sip}`)
             .then(function (response) {
                 setIsLoadingData(true);
@@ -89,7 +89,7 @@ const SelectUnidade = ({ init, required, type, value, ...props }) => {
 
     const getUnidadesPorUsuario = () => {
         setIsLoadingData(false);
-        axiosInstance
+        http
             .get(`unidade/lista-unidades/${user.user_sip}`)
             .then(function (response) {
                 setIsLoadingData(true);

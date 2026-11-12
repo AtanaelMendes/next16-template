@@ -1,0 +1,48 @@
+--- src/components/ui/drawer/Drawer.jsx
++++ src/components/ui/drawer/Drawer.jsx
+@@ -142,4 +142,16 @@
+   const titleId = ariaLabelledBy || generatedTitleId;
+ 
++  // Default accessible name based on side
++  const defaultLabel =
++    side === 'left' ? 'Navegação principal' : 'Painel contextual';
++
++  // Resolved accessible naming:
++  // 1. If ariaLabelledBy is explicitly provided, bind aria-labelledby.
++  // 2. Otherwise bind aria-label (custom prop or fallback defaultLabel).
++  // This prevents dangling aria-labelledby pointing to unrendered generated IDs
++  // and activates the previously unreachable fallback accessible name.
++  const resolvedAriaLabelledBy = ariaLabelledBy || undefined;
++  const resolvedAriaLabel = resolvedAriaLabelledBy
++    ? undefined
++    : ariaLabel || defaultLabel;
++
+   // Layout mode positioning classes
+   const positionClasses = isModal
+@@ -153,4 +165,4 @@
+           : side === 'left'
+-          ? '-translate-x-full pointer-events-none'
+-          : 'translate-x-full pointer-events-none'
++          ? '-translate-x-full pointer-events-none invisible'
++          : 'translate-x-full pointer-events-none invisible'
+       )
+@@ -160,3 +172,3 @@
+         !isOpen
+-          ? 'w-0 overflow-hidden opacity-0 pointer-events-none border-none!'
++          ? 'w-0 overflow-hidden opacity-0 pointer-events-none invisible border-none!'
+           : isCompact && side === 'left'
+@@ -215,10 +227,3 @@
+         aria-modal={isModal ? 'true' : undefined}
+-        aria-label={
+-          ariaLabel ||
+-          (!titleId
+-            ? side === 'left'
+-              ? 'Navegação principal'
+-              : 'Painel contextual'
+-            : undefined)
+-        }
+-        aria-labelledby={!ariaLabel && titleId ? titleId : undefined}
++        aria-label={resolvedAriaLabel}
++        aria-labelledby={resolvedAriaLabelledBy}
++        inert={!isOpen ? true : undefined}
+         tabIndex={isModal ? -1 : undefined}

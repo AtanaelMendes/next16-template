@@ -6,7 +6,7 @@ import { FieldLabel } from "@/components/ui/display/Typography";
 import { useCallback, useEffect, useState } from "react";
 import { useAppContext } from "@/context/AppContext";
 import Radio from "./Radio";
-import axiosInstance from "@/plugins/axios";
+import http from "@/lib/http";
 import { empty } from "@/assets/utils";
 
 const RadioTipoProcesso = ({init, cdPessoaAnalista, cdPessoaCliente, vertical, ...props}) => {
@@ -60,7 +60,7 @@ const RadioTipoProcesso = ({init, cdPessoaAnalista, cdPessoaCliente, vertical, .
         if (empty(cdPessoaCliente)) return toast.error("Selecione um cliente primeiro.");
         if (empty(cdPessoaAnalista)) return toast.error("Cód. do analista não informado.");
 
-        axiosInstance
+        http
             .get(`agendamento/dados-tipo-processo/${cdPessoaCliente}/${cdPessoaAnalista}`)
             .then(function (response) {
                 let qtdTipos = response.data.tipos_processos.length;

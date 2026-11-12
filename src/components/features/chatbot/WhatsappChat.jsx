@@ -3,7 +3,7 @@
 import WhatsAppMsg from "./WhatsappMsg";
 import { useEffect, useRef, useState } from 'react';
 import InputTextArea from '@/components/ui/inputs/InputTextArea';
-import axiosInstance from "@/plugins/axios";
+import http from "@/lib/http";
 import { useAppContext } from "@/context/AppContext";
 import Button from "@/components/ui/buttons/Button";
 import { faAnglesDown } from "@fortawesome/free-solid-svg-icons";
@@ -34,7 +34,7 @@ const WhatsAppChat = ({ visible, messages, chatbotConversa, handleReload, habili
             nm_pessoa_analista: user.apelido.split("-")[0].trim(),
             id_chatbot_conversa: chatbotConversa.ID_CHATBOT_CONVERSA
         };
-        axiosInstance.post(`chatbot/send-message`,
+        http.post(`chatbot/send-message`,
             params
         ).then(function (response) {
             if (typeof handleReload === "function") {

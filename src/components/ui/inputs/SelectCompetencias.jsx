@@ -5,7 +5,7 @@ import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FieldLabel } from "@/components/ui/display/Typography";
 import { useEffect, useState } from "react";
 import Select from "react-tailwindcss-select";
-import axiosInstance from "@/plugins/axios";
+import http from "@/lib/http";
 import { TooltipComponent } from "@/components/ui/overlays/TooltipComponent";
 
 const SelectCompetencias = (props) => {
@@ -76,7 +76,7 @@ const SelectCompetencias = (props) => {
   const getCompetencias = async () => {
     setIsLoadingData(true);
     try {
-      const response = await axiosInstance.get(`conhecimento/competencias`);
+      const response = await http.get(`conhecimento/competencias`);
       if (response.data.length > 0) {
         setCompetencias(response.data);
       }

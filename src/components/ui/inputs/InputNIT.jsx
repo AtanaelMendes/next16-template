@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useAppContext } from "@/context/AppContext";
 import { empty } from "@/assets/utils";
 import InputText from "./InputText";
-import axiosInstance from "@/plugins/axios";
+import http from "@/lib/http";
 
 const InputNIT = ({ value, label, onChange, id, cdPessoa, disabled, isValidValue }) => {
     const [invalidMessage, setInvalidMessage] = useState("");
@@ -31,7 +31,7 @@ const InputNIT = ({ value, label, onChange, id, cdPessoa, disabled, isValidValue
     const validaNIT = (nrNIT) => {
         setLoading(true);
 
-        axiosInstance
+        http
             .get(`documento/valida-nit/${nrNIT}/${cdPessoa || 0}`)
             .then(function (response) {
                 setLoading(false);

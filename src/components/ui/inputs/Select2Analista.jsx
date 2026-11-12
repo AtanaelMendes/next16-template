@@ -6,8 +6,7 @@ import { FieldLabel } from '@/components/ui/display/Typography'
 import { useEffect, useState } from 'react'
 import Select from 'react-tailwindcss-select'
 import { useAppContext } from '@/context/AppContext'
-import axios from 'axios'
-import axiosInstance from '@/plugins/axios'
+import http, { isAbortError } from '@/lib/http'
 import { cn, empty } from '@/assets/utils'
 
 const Select2Analista = ({ cdPessoaAnalista, required, onChange, onReady, id, value, label, helperText, isDisabled, ...props }) => {
@@ -15,7 +14,7 @@ const Select2Analista = ({ cdPessoaAnalista, required, onChange, onReady, id, va
 	const [analistas, setAnalistas] = useState([]);
 	const { toast, user } = useAppContext();
 	const [selectedOption, setSelectedOption] = useState(null);
-	const [cancelTokenSource, setCancelTokenSource] = useState(null);
+	const [abortController, setAbortController] = useState(null);
 	const [ready, setReady] = useState(false);
 
 	const handleChange = value => {
@@ -62,10 +61,10 @@ const Select2Analista = ({ cdPessoaAnalista, required, onChange, onReady, id, va
 		getAnalistas()
 
 		return () => {
-			if (cancelTokenSource) {
-				cancelTokenSource.cancel('Componente desmontado.')
+			if (abortController) {
+				abortController.abort();
 			}
-			setAnalistas([])
+			setAnalistas([]);
 		}
 	}, [filter])
 
@@ -91,22 +90,22 @@ const Select2Analista = ({ cdPessoaAnalista, required, onChange, onReady, id, va
 	}, [analistas, cdPessoaAnalista])
 
 	const getAnalistas = async () => {
-		if (cancelTokenSource) {
-			cancelTokenSource.cancel('Operação cancelada devido a uma nova solicitação.');
+		if (abortController) {
+			abortController.abort();
 		}
 
-		const source = axios.CancelToken.source();
-		setCancelTokenSource(source);
+		const controller = new AbortController();
+		setAbortController(controller);
 		setReady(false);
 		try {
-			const response = await axiosInstance.get(`analista/analistas/${user.cd_sip}/${filter}`, {
-				cancelToken: source.token,
+			const response = await http.get(`analista/analistas/${user.cd_sip}/${filter}`, {
+				signal: controller.signal,
 			});
 			setAnalistas(response.data);
 			setReady(true);
 		} catch (error) {
 			setReady(true);
-			if (!axios.isCancel(error)) {
+			if (!isAbortError(error)) {
 				toast.error('Não foi possível carregar os analistas.');
 				console.error(error);
 			}

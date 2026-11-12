@@ -6,7 +6,7 @@ import { FieldLabel } from "@/components/ui/display/Typography";
 import { useEffect, useState } from "react";
 import Select from "react-tailwindcss-select";
 import { useAppContext } from "@/context/AppContext";
-import axiosInstance from "@/plugins/axios";
+import http from "@/lib/http";
 import "flag-icons/css/flag-icons.min.css";
 import { cn } from "@/assets/utils";
 import { TooltipComponent } from "@/components/ui/overlays/TooltipComponent";
@@ -81,7 +81,7 @@ const SelectPais = (props) => {
         }
 
         try {
-            const response = await axiosInstance.get("paises/paises");
+            const response = await http.get("paises/paises");
             setPaises(response.data);
             localStorage.setItem("paises", JSON.stringify(response.data));
         } catch (error) {

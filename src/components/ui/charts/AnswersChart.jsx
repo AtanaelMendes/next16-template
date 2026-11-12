@@ -1,159 +1,181 @@
 'use client';
 
-import { useLayoutEffect } from "react";
-import * as am5 from "@amcharts/amcharts5";
-import * as am5xy from "@amcharts/amcharts5/xy";
-import am5locales_ptBR from "@amcharts/amcharts5/locales/pt_BR";
-import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
+import { useId, useState } from 'react';
 
-const AnswersChart = ({ chartId, chartData = [], height = "150px" }) => {
-  useLayoutEffect(() => {
-    am5.addLicense("AM5C321901905");
-    const root = am5.Root.new(chartId);
-    root.locale = am5locales_ptBR;
+function normalizeColor(fill) {
+  if (typeof fill === 'number') {
+    return `#${fill.toString(16).padStart(6, '0')}`;
+  }
+  if (typeof fill === 'string') {
+    if (fill.startsWith('0x')) {
+      return `#${fill.slice(2).padStart(6, '0')}`;
+    }
+    return fill;
+  }
+  return '#3b82f6';
+}
 
-    root.setThemes([am5themes_Animated.new(root)]);
+const AnswersChart = ({ chartId, chartData = [], height = '150px' }) => {
+  const generatedId = useId();
+  const id = chartId || `answers-${generatedId}`;
+  const [hoveredIndex, setHoveredIndex] = useState(null);
 
-    const chart = root.container.children.push(
-      am5xy.XYChart.new(root, {
-        panX: false,
-        panY: false,
-        wheelX: "none",
-        wheelY: "none",
-        layout: root.verticalLayout,
-        paddingTop: 30,
-        paddingRight: 30,
-      })
+  if (!chartData || chartData.length === 0) {
+    return (
+      <div id={id} style={{ width: '100%', height }} className="flex items-center justify-center text-sm text-gray-400">
+        Nenhum dado disponível
+      </div>
     );
+  }
 
-    const xAxis = chart.xAxes.push(
-      am5xy.CategoryAxis.new(root, {
-        categoryField: "category",
-        renderer: am5xy.AxisRendererX.new(root, {
-          minGridDistance: 30,
-        }),
-        tooltip: am5.Tooltip.new(root, {}),
-      })
-    );
+  const svgWidth = 500;
+  const svgHeight = 240;
+  const padding = { top: 60, right: 30, bottom: 40, left: 30 };
+  const plotWidth = svgWidth - padding.left - padding.right;
+  const plotHeight = svgHeight - padding.top - padding.bottom;
 
-    xAxis.get("renderer").grid.template.set("forceHidden", true);
-    xAxis.get("renderer").labels.template.setAll({
-      forceHidden: false,
-      paddingTop: 30,
-    });
+  const maxY = Math.max(400, ...chartData.map(d => Number(d.value) || 0));
+  const count = chartData.length;
+  const colWidth = Math.min(80, plotWidth / (count * 1.6));
+  const slotWidth = plotWidth / count;
 
-    xAxis.data.setAll(chartData);
+  return (
+    <div id={id} style={{ width: '100%', height }} className="relative flex items-center justify-center">
+      <svg
+        viewBox={`0 0 ${svgWidth} ${svgHeight}`}
+        className="w-full h-full overflow-visible"
+        role="img"
+        aria-label="Gráfico de Perguntas Respondidas e Metas"
+      >
+        <title>Perguntas Respondidas e Metas</title>
 
-    const yAxis = chart.yAxes.push(
-      am5xy.ValueAxis.new(root, {
-        min: 0,
-        max: 400,
-        strictMinMax: true,
-        renderer: am5xy.AxisRendererY.new(root, {}),
-      })
-    );
+        {/* Linha base */}
+        <line
+          x1={padding.left}
+          y1={padding.top + plotHeight}
+          x2={padding.left + plotWidth}
+          y2={padding.top + plotHeight}
+          stroke="#e2e8f0"
+          strokeWidth="1.5"
+        />
 
-    yAxis.get("renderer").grid.template.set("forceHidden", true);
-    yAxis.get("renderer").labels.template.set("forceHidden", true);
+        {chartData.map((item, index) => {
+          const val = Number(item.value) || 0;
+          const barHeight = Math.max(0, (val / maxY) * plotHeight);
+          const barX = padding.left + index * slotWidth + (slotWidth - colWidth) / 2;
+          const barY = padding.top + plotHeight - barHeight;
+          const fillColor = normalizeColor(item.columnSettings?.fill || item.fill);
+          const isHovered = hoveredIndex === index;
 
-    const series = chart.series.push(
-      am5xy.ColumnSeries.new(root, {
-        xAxis,
-        yAxis,
-        valueYField: "value",
-        categoryXField: "category",
-        maskBullets: false,
-      })
-    );
+          return (
+            <g
+              key={index}
+              onMouseEnter={() => setHoveredIndex(index)}
+              onMouseLeave={() => setHoveredIndex(null)}
+              className="cursor-pointer transition-transform duration-200"
+            >
+              {/* Barra da coluna */}
+              <rect
+                x={barX}
+                y={barY}
+                width={colWidth}
+                height={barHeight}
+                fill={fillColor}
+                rx="4"
+                stroke="#ffffff"
+                strokeWidth="2"
+                className="transition-opacity duration-200"
+                opacity={isHovered ? 0.9 : 1}
+              />
 
-    series.columns.template.setAll({
-      width: am5.p100,
-      tooltipY: 0,
-      strokeOpacity: 1,
-      strokeWidth: 2,
-      stroke: am5.color(0xffffff),
-      templateField: "columnSettings",
-    });
+              {/* Rótulo da categoria no eixo X */}
+              <text
+                x={barX + colWidth / 2}
+                y={padding.top + plotHeight + 24}
+                textAnchor="middle"
+                className="text-[12px] font-medium fill-gray-600 select-none"
+              >
+                {item.category}
+              </text>
 
-    series.bullets.push((root, target, dataItem) => {
-      const context = dataItem.dataContext;
+              {/* Target Bullet: Meta circular a 50% da altura da coluna */}
+              {item.targetBullet && (
+                <g transform={`translate(${barX + colWidth / 2}, ${barY + barHeight * 0.5})`}>
+                  <circle r="22" fill="#11326d" stroke="#ffffff" strokeWidth="2.5" />
+                  <text
+                    textAnchor="middle"
+                    dominantBaseline="middle"
+                    className="text-[11px] font-bold fill-white select-none"
+                  >
+                    Meta
+                  </text>
+                </g>
+              )}
 
-      if (context.currentBullet) {
-        const container = am5.Container.new(root, {});
-        container.children.push(
-          am5.Graphics.new(root, {
-            fill: context.columnSettings.fill,
-            dy: -5,
-            centerY: am5.p100,
-            centerX: am5.p50,
-            svgPath:
-              "M66.9 41.8c0-11.3-9.1-20.4-20.4-20.4-11.3 0-20.4 9.1-20.4 20.4 0 11.3 20.4 32.4 20.4 32.4s20.4-21.1 20.4-32.4zM37 41.4c0-5.2 4.3-9.5 9.5-9.5s9.5 4.2 9.5 9.5c0 5.2-4.2 9.5-9.5 9.5-5.2 0-9.5-4.3-9.5-9.5z",
-          })
-        );
+              {/* Current Bullet: Pin marcador com balão de valor no topo da coluna */}
+              {item.currentBullet && (
+                <g transform={`translate(${barX + colWidth / 2}, ${barY})`}>
+                  {/* Pin SVG */}
+                  <g transform="translate(-18, -46) scale(0.4)">
+                    <path
+                      d="M66.9 41.8c0-11.3-9.1-20.4-20.4-20.4-11.3 0-20.4 9.1-20.4 20.4 0 11.3 20.4 32.4 20.4 32.4s20.4-21.1 20.4-32.4z"
+                      fill={fillColor}
+                    />
+                    <circle cx="46.5" cy="41.4" r="9.5" fill="#ffffff" />
+                  </g>
 
-        container.children.push(
-          am5.Label.new(root, {
-            dy: -78,
-            centerY: am5.p50,
-            centerX: am5.p50,
-            populateText: true,
-            paddingTop: 5,
-            paddingRight: 5,
-            paddingBottom: 5,
-            paddingLeft: 5,
-            background: am5.RoundedRectangle.new(root, {
-              fill: am5.color(0xffffff),
-              cornerRadiusTL: 10,
-              cornerRadiusTR: 20,
-              cornerRadiusBR: 20,
-              cornerRadiusBL: 20,
-            }),
-          })
-        );
+                  {/* Balão com o valor numérico acima do pin */}
+                  <g transform="translate(0, -42)">
+                    <rect
+                      x="-24"
+                      y="-18"
+                      width="48"
+                      height="22"
+                      rx="8"
+                      fill="#ffffff"
+                      stroke="#e2e8f0"
+                      strokeWidth="1.5"
+                      className="shadow-sm filter drop-shadow(0 1px 2px rgba(0,0,0,0.1))"
+                    />
+                    <text
+                      textAnchor="middle"
+                      dominantBaseline="middle"
+                      y="-7"
+                      className="text-[11px] font-bold fill-gray-800 select-none"
+                    >
+                      {val}
+                    </text>
+                  </g>
+                </g>
+              )}
 
-        return am5.Bullet.new(root, {
-          locationY: 1,
-          sprite: container,
-        });
-      }
-
-      if (context.targetBullet) {
-        const container = am5.Container.new(root, { dx: 0 });
-        container.children.push(
-          am5.Circle.new(root, {
-            radius: 28,
-            fill: am5.color(0x11326d),
-          })
-        );
-
-        container.children.push(
-          am5.Label.new(root, {
-            text: "[bold]Meta[/]",
-            textAlign: "center",
-            fill: am5.color(0xffffff),
-            centerY: am5.p50,
-            centerX: am5.p50,
-            populateText: true,
-          })
-        );
-
-        return am5.Bullet.new(root, {
-          locationY: 0.5,
-          sprite: container,
-        });
-      }
-
-      return false;
-    });
-
-    series.data.setAll(chartData);
-    series.appear();
-    chart.appear(1000, 100);
-
-    return () => root.dispose();
-  }, [chartId, chartData]);
-
-  return <div id={chartId} style={{ width: "100%", height }} />;
+              {/* Tooltip flutuante no hover (se não for currentBullet) */}
+              {isHovered && !item.currentBullet && (
+                <g transform={`translate(${barX + colWidth / 2}, ${Math.max(15, barY - 15)})`}>
+                  <rect
+                    x="-30"
+                    y="-18"
+                    width="60"
+                    height="20"
+                    rx="4"
+                    fill="#1f2937"
+                  />
+                  <text
+                    textAnchor="middle"
+                    dominantBaseline="middle"
+                    y="-8"
+                    className="text-[11px] font-semibold fill-white select-none"
+                  >
+                    {val}
+                  </text>
+                </g>
+              )}
+            </g>
+          );
+        })}
+      </svg>
+    </div>
+  );
 };
 
 export default AnswersChart;

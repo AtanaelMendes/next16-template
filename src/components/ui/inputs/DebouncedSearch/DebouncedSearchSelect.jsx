@@ -1,12 +1,11 @@
 'use client';
 
-import { useCallback, useContext, useEffect, useState } from 'react'
+import { useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { DebouncedSearchContext } from '.'
-import axios from 'axios'
 import Select from 'react-tailwindcss-select'
 import { useDebounce } from '@/hooks/useDebounce'
 import PillsBadge from '@/components/ui/buttons/PillsBadge'
-import axiosInstance from '@/plugins/axios'
+import http, { isAbortError } from '@/lib/http'
 
 const DebouncedSearchSelectDelayed = ({
 	onChange,
@@ -24,6 +23,7 @@ const DebouncedSearchSelectDelayed = ({
 	const [options, setOptions] = useState([])
 	const [loading, setLoading] = useState(false)
 	const [selectedOption, setSelectedOption] = useState(isMultiple ? [] : null)
+	const abortControllerRef = useRef(null)
 
 	// Aplica debounce no filtro
 	const debouncedFilter = useDebounce(filter, 500)
@@ -59,10 +59,18 @@ const DebouncedSearchSelectDelayed = ({
 		async searchValue => {
 			if (!searchValue) return
 
+			if (abortControllerRef.current) {
+				abortControllerRef.current.abort()
+			}
+			const controller = new AbortController()
+			abortControllerRef.current = controller
+
 			setLoading(true)
 
-			await axiosInstance
-				.get(`${urlGet}/${searchValue}${otherParamsAsString()}`)
+			await http
+				.get(`${urlGet}/${searchValue}${otherParamsAsString()}`, {
+					signal: controller.signal,
+				})
 				.then(response => {
 					const dataArray = Array.isArray(response.data) ? response.data : [response.data]
 
@@ -86,7 +94,7 @@ const DebouncedSearchSelectDelayed = ({
 					// return fetchedOptions
 				})
 				.catch(error => {
-					if (!axios.isCancel(error)) {
+					if (!isAbortError(error)) {
 						console.error('Erro ao buscar opções:', error)
 					}
 					return []
@@ -164,7 +172,7 @@ const DebouncedSearchSelectNormal = ({ onChange, value, urlGet, optId, optLabel,
 
 	const getOptions = async () => {
 		setLoading(true)
-		await axiosInstance
+		await http
 			.get(urlGet)
 			.then(response => {
 				const fetchedOptions = response.data

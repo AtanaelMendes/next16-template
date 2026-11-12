@@ -6,9 +6,8 @@ import { FieldLabel } from "@/components/ui/display/Typography";
 import { useAppContext } from "@/context/AppContext";
 import Select from "react-tailwindcss-select";
 import { useEffect, useState } from "react";
-import axiosInstance from "@/plugins/axios";
 import { empty } from "@/assets/utils";
-import axios from 'axios'
+import http, { isAbortError } from "@/lib/http";
 
 /**
  * Este componente busca as vagas abertas a partir do numero da vaga, código do analista ou nome do analista
@@ -21,7 +20,7 @@ const Select2VagaAnalista = ({ tipoVaga, placeholder, isClearable, value, ...pro
     const [filter, setfilter] = useState("");
     const [options, setOptions] = useState([]);
     const [selectedOption, setSelectedOption] = useState(null);
-    const [cancelTokenSource, setCancelTokenSource] = useState(null)
+    const [abortController, setAbortController] = useState(null);
 
     const handleChange = (evt) => {
         setSelectedOption({ value: evt?.value || "", label: evt?.label || "" });
@@ -47,27 +46,27 @@ const Select2VagaAnalista = ({ tipoVaga, placeholder, isClearable, value, ...pro
         getVagasAnalista();
 
         return () => {
-            if (cancelTokenSource) {
-                cancelTokenSource.cancel('Componente desmontado.');
+            if (abortController) {
+                abortController.abort();
             }
-        }
+        };
     }, [filter]);
 
     const getVagasAnalista = async () => {
-        if (cancelTokenSource) {
-            cancelTokenSource.cancel('Operação cancelada devido a uma nova solicitação.')
+        if (abortController) {
+            abortController.abort();
         }
 
-        const source = axios.CancelToken.source();
-        setCancelTokenSource(source);
+        const controller = new AbortController();
+        setAbortController(controller);
 
         try {
-			const response = await axiosInstance.get(`recrutamento/vagas-relacionar/${user.user_sip}/${filter}`, {
-				cancelToken: source.token,
-			})
+			const response = await http.get(`recrutamento/vagas-relacionar/${user.user_sip}/${filter}`, {
+				signal: controller.signal,
+			});
 			setVagas(response.data);
 		} catch (error) {
-			if (!axios.isCancel(error)) {
+			if (!isAbortError(error)) {
 				toast.error("Não foi possível carregar as vagas.");
 				console.error(error);
                 setVagas([]);

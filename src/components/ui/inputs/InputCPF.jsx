@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useAppContext } from "@/context/AppContext";
 import { empty } from "@/assets/utils";
 import InputText from "./InputText";
-import axiosInstance from "@/plugins/axios";
+import http from "@/lib/http";
 
 const InputCPF = ({ value, label, onChange, id, cdPessoa, required, isValidValue }) => {
     const [invalidMessage, setInvalidMessage] = useState("");
@@ -39,7 +39,7 @@ const InputCPF = ({ value, label, onChange, id, cdPessoa, required, isValidValue
         setLoading(true);
         setInvalidMessage("");
 
-        axiosInstance
+        http
             .get(`documento/valida-cpf/${nrCPF}/${cdPessoa || 0}`)
             .then(function (response) {
                 setLoading(false);

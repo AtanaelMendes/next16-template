@@ -5,7 +5,7 @@ import { faAsterisk } from "@fortawesome/free-solid-svg-icons";
 import { FieldLabel } from "@/components/ui/display/Typography";
 import { useEffect, useState } from "react";
 import Select from "react-tailwindcss-select";
-import axiosInstance from "@/plugins/axios";
+import http from "@/lib/http";
 import { cn } from "@/assets/utils";
 
 const SelectOrgaoEmissor = (props) => {
@@ -69,7 +69,7 @@ const SelectOrgaoEmissor = (props) => {
 
     const getOrgaoEmissor = async () => {
         try {
-            const response = await axiosInstance.get(`documento/orgao-emissor`);
+            const response = await http.get(`documento/orgao-emissor`);
             if (response.data.length > 0) {
                 setOrgaos(response.data);
             }

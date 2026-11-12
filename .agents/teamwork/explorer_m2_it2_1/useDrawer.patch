@@ -1,0 +1,59 @@
+--- src/components/ui/drawer/useDrawer.js
++++ src/components/ui/drawer/useDrawer.js
+@@ -16,32 +16,39 @@
+ export const FOCUSABLE_SELECTOR = [
+-  'a[href]',
+-  'area[href]',
+-  'input:not([disabled]):not([type="hidden"])',
+-  'select:not([disabled])',
+-  'textarea:not([disabled])',
+-  'button:not([disabled])',
+-  'iframe',
+-  'object',
+-  'embed',
++  'a[href]:not([tabindex="-1"])',
++  'area[href]:not([tabindex="-1"])',
++  'input:not([disabled]):not([type="hidden"]):not([tabindex="-1"])',
++  'select:not([disabled]):not([tabindex="-1"])',
++  'textarea:not([disabled]):not([tabindex="-1"])',
++  'button:not([disabled]):not([tabindex="-1"])',
++  'iframe:not([tabindex="-1"])',
++  'object:not([tabindex="-1"])',
++  'embed:not([tabindex="-1"])',
+   '[tabindex]:not([tabindex="-1"])',
+-  '[contenteditable="true"]',
++  '[contenteditable="true"]:not([tabindex="-1"])',
+ ].join(', ');
+ 
+ /**
+  * Returns all visible focusable elements within a container element.
++ * Excludes disabled elements, elements with tabindex="-1", and invisible elements
++ * (display: none, visibility: hidden, or elements inside hidden parents).
+  *
+  * @param {HTMLElement|null} container
+  * @returns {HTMLElement[]}
+  */
+ export function getFocusableElements(container) {
+   if (!container || typeof window === 'undefined') return [];
+   const elements = Array.from(container.querySelectorAll(FOCUSABLE_SELECTOR));
+   return elements.filter((el) => {
+-    return (
+-      el.offsetWidth > 0 ||
+-      el.offsetHeight > 0 ||
+-      el.getClientRects().length > 0 ||
+-      window.getComputedStyle(el).visibility !== 'hidden'
+-    );
++    if (el.getAttribute('tabindex') === '-1' || el.hasAttribute('disabled') || el.disabled) {
++      return false;
++    }
++    const style = window.getComputedStyle(el);
++    if (style.visibility === 'hidden' || style.display === 'none') {
++      return false;
++    }
++    return (
++      el.offsetWidth > 0 ||
++      el.offsetHeight > 0 ||
++      el.getClientRects().length > 0
++    );
+   });
+ }

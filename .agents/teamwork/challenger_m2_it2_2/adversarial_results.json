@@ -1,0 +1,59 @@
+{
+  "timestamp": "2026-11-12T16:48:57.200Z",
+  "tests": [
+    {
+      "name": "Deeply nested hidden ancestors (3 levels display:none & visibility:hidden) are strictly excluded",
+      "passed": true,
+      "details": {
+        "matchedIds": [
+          "legitimate-button"
+        ],
+        "excludesDeeplyHiddenButton": true,
+        "excludesDeeplyHiddenLink": true,
+        "excludesVisHiddenInput": true,
+        "includesLegitimateButton": true
+      }
+    },
+    {
+      "name": "Drawer with zero focusables safely prevents tab progression without throwing exceptions",
+      "passed": true,
+      "details": {
+        "focusablesCount": 0,
+        "forwardPrevented": true,
+        "reversePrevented": true,
+        "passed": true
+      }
+    },
+    {
+      "name": "Closed Drawer (<Drawer open={false}>) renders inert attribute, invisible class, and pointer-events-none",
+      "passed": true,
+      "details": {
+        "html": "<aside id=\"left-drawer\" data-testid=\"left-drawer\" data-state=\"closed\" data-side=\"left\" data-variant=\"persistent\" role=\"navigation\" aria-label=\"Navegação principal\" inert=\"\" class=\"flex flex-col bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 border-gray-200 dark:border-gray-800 relative s"
+      }
+    },
+    {
+      "name": "Open Drawer (<Drawer open={true}>) removes inert and invisible attributes for full keyboard interactivity",
+      "passed": true,
+      "details": {
+        "html": "<aside id=\"left-drawer\" data-testid=\"left-drawer\" data-state=\"open\" data-side=\"left\" data-variant=\"persistent\" role=\"navigation\" aria-label=\"Navegação principal\" class=\"flex flex-col bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 border-gray-200 dark:border-gray-800 relative shrink-0 h-f"
+      }
+    },
+    {
+      "name": "Accessible naming resolves cleanly: default aria-label applied with zero dangling aria-labelledby IDs",
+      "passed": true,
+      "details": {
+        "leftHasDefaultLabel": true,
+        "leftHasNoDanglingLabelledBy": true,
+        "rightHasDefaultLabel": true,
+        "rightHasNoDanglingLabelledBy": true,
+        "labelledByHasAttr": true,
+        "labelledByHasNoAriaLabel": true
+      }
+    }
+  ],
+  "summary": {
+    "total": 5,
+    "passed": 5,
+    "failed": 0
+  }
+}

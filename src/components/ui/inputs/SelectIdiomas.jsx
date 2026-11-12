@@ -5,7 +5,7 @@ import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FieldLabel } from "@/components/ui/display/Typography";
 import { useEffect, useState } from "react";
 import Select from "react-tailwindcss-select";
-import axiosInstance from "@/plugins/axios";
+import http from "@/lib/http";
 import { TooltipComponent } from "@/components/ui/overlays/TooltipComponent";
 
 const SelectIdiomas = (props) => {
@@ -85,7 +85,7 @@ const SelectIdiomas = (props) => {
           JSON.stringify(JSON.parse(storedIdiomas))
         );
       } else {
-        const response = await axiosInstance.get("conhecimento/idiomas");
+        const response = await http.get("conhecimento/idiomas");
         if (response.data.length > 0) {
           setIdiomas(response.data);
           localStorage.setItem("idiomas", JSON.stringify(response.data));

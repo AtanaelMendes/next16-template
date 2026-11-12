@@ -6,7 +6,7 @@ import { FieldLabel } from "@/components/ui/display/Typography";
 import { useEffect, useState } from "react";
 import Select from "react-tailwindcss-select";
 import { useAppContext } from "@/context/AppContext";
-import axiosInstance from "@/plugins/axios";
+import http from "@/lib/http";
 import { cn } from "@/assets/utils";
 import { TooltipComponent } from "@/components/ui/overlays/TooltipComponent";
 
@@ -44,7 +44,7 @@ const SelectCidadeFilter = ({onChange, id, required, value, label, hint, classNa
         setIsLoadingData(true);
 
         try {
-            const response = await axiosInstance.get(`cidades/filtro-cidade/${user.user_sip}`);
+            const response = await http.get(`cidades/filtro-cidade/${user.user_sip}`);
 
             if (response.data.length > 0) {
                 setCidades(response.data);

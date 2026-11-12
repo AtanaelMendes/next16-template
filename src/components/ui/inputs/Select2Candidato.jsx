@@ -6,8 +6,7 @@ import { FieldLabel } from "@/components/ui/display/Typography";
 import { useEffect, useState } from "react";
 import Select from "react-tailwindcss-select";
 import { useAppContext } from "@/context/AppContext";
-import axios from "axios";
-import axiosInstance from "@/plugins/axios";
+import http, { isAbortError } from "@/lib/http";
 import { cn, empty } from "@/assets/utils";
 
 const Select2Candidato = ({cdPessoaCandidato, onChange, onReady, isDisabled, ...props}) => {
@@ -15,7 +14,7 @@ const Select2Candidato = ({cdPessoaCandidato, onChange, onReady, isDisabled, ...
     const { toast } = useAppContext();
     const [candidatos, setCandidatos] = useState([]);
     const [selectedOption, setSelectedOption] = useState(null);
-    const [cancelTokenSource, setCancelTokenSource] = useState(null);
+    const [abortController, setAbortController] = useState(null);
     const [ready, setReady] = useState(false);
 
     const handleChange = (evt) => {
@@ -85,10 +84,10 @@ const Select2Candidato = ({cdPessoaCandidato, onChange, onReady, isDisabled, ...
 
         getCandidatos();
 
-        // Limpar o cancel token ao desmontar o componente
+        // Limpar o abort controller ao desmontar o componente
         return () => {
-            if (cancelTokenSource) {
-                cancelTokenSource.cancel("Componente desmontado.");
+            if (abortController) {
+                abortController.abort();
             }
             setCandidatos([]);
         };
@@ -121,24 +120,23 @@ const Select2Candidato = ({cdPessoaCandidato, onChange, onReady, isDisabled, ...
     }, [props.value, candidatos]);
 
     const getCandidatos = async () => {
-        if (cancelTokenSource) {
-            cancelTokenSource.cancel("Nova solicitação de candidatos.");
+        if (abortController) {
+            abortController.abort();
         }
 
-        // Criar um novo CancelToken
-        const source = axios.CancelToken.source();
-        setCancelTokenSource(source);
+        const controller = new AbortController();
+        setAbortController(controller);
 
         try {
             setReady(false);
-            const response = await axiosInstance.get(`/candidato/candidatos/${filter}`, {
-                cancelToken: source.token,
+            const response = await http.get(`/candidato/candidatos/${filter}`, {
+                signal: controller.signal,
             });
             setCandidatos(response.data);
             setReady(true);
         } catch (error) {
             setReady(true);
-            if (!axios.isCancel(error)) {
+            if (!isAbortError(error)) {
                 toast.error("Não foi possível carregar os candidatos.");
                 console.error(error);
             }
