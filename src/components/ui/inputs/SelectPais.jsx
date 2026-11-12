@@ -9,7 +9,7 @@ import { useAppContext } from "@/context/AppContext";
 import axiosInstance from "@/plugins/axios";
 import "flag-icons/css/flag-icons.min.css";
 import { cn } from "@/assets/utils";
-import { Tooltip } from "flowbite-react";
+import { TooltipComponent } from "@/components/ui/overlays/TooltipComponent";
 
 const SelectPais = (props) => {
     const [paises, setPaises] = useState([]);
@@ -109,7 +109,10 @@ const SelectPais = (props) => {
                         />
                     )}
                     {props?.hint && (
-                        <>
+                        <TooltipComponent
+                            side="right"
+                            content={<div className="max-w-[300px] text-xs">{props.hint}</div>}
+                        >
                             <FontAwesomeIcon
                                 icon={faInfoCircle}
                                 width="16"
@@ -117,17 +120,8 @@ const SelectPais = (props) => {
                                 color="blue"
                                 className="self-start ml-2"
                                 tabIndex={-1}
-                                data-tooltip-id={`${props.id}_hint`}
                             />
-                            <Tooltip
-                                id={`${props.id}_hint`}
-                                place="right"
-                                className={"z-50"}
-                                content={
-                                    <div className="text-xs z-20 max-w-[300px]">{props.hint}</div>
-                                }
-                            />
-                        </>
+                        </TooltipComponent>
                     )}
                 </div>
             )}

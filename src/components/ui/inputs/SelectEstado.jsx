@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import Select from "react-tailwindcss-select";
 import axiosInstance from "@/plugins/axios";
 import { cn } from "@/assets/utils";
-import { Tooltip } from "flowbite-react";
+import { TooltipComponent } from "@/components/ui/overlays/TooltipComponent";
 
 const SelectEstado = (props) => {
     const [estados, setEstados] = useState([]);
@@ -126,7 +126,10 @@ const SelectEstado = (props) => {
                         />
                     )}
                     {props?.hint && (
-                        <>
+                        <TooltipComponent
+                            side="right"
+                            content={<div className="max-w-[300px] text-xs">{props.hint}</div>}
+                        >
                             <FontAwesomeIcon
                                 icon={faInfoCircle}
                                 width="16"
@@ -134,17 +137,8 @@ const SelectEstado = (props) => {
                                 color="blue"
                                 className="self-start ml-2"
                                 tabIndex={-1}
-                                data-tooltip-id={`${props.id}_hint`}
                             />
-                            <Tooltip
-                                id={`${props.id}_hint`}
-                                place="right"
-                                className={"z-50"}
-                                content={
-                                    <div className="text-xs z-20 max-w-[300px]">{props.hint}</div>
-                                }
-                            />
-                        </>
+                        </TooltipComponent>
                     )}
                 </div>
             )}
