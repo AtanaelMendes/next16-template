@@ -56,16 +56,16 @@ const Select = ({
         if (!hasError()) return;
         let errorMsg = required[id]?.errorMsg || "Este campo é obrigatório";
 
-        return <div className="text-xs text-red-600">{errorMsg}</div>;
+        return <div className="text-xs text-danger">{errorMsg}</div>;
     }
 
     return (
         <>
             <div className="w-full relative">
                 {label && (
-                    <div className='flex absolute -top-2.25 left-2 w-fit z-10 text-xs px-0.5 rounded-md mb-0 pb-0 text-nowrap before:bg-white before:top-0.5 before:left-0 before:absolute before:w-full before:h-3 before:-z-10 before:content-[""] before:rounded-lg'>
+                    <div className='flex absolute -top-2.25 left-2 w-fit z-10 text-xs px-0.5 rounded-md mb-0 pb-0 text-nowrap before:bg-surface before:top-0.5 before:left-0 before:absolute before:w-full before:h-3 before:-z-10 before:content-[""] before:rounded-lg'>
                         <label htmlFor={id}>
-                            <FieldLabel className={cn(required ? 'ml-4' : 'ml-0 mb-0 pb-0', 'text-gray-500')}>
+                            <FieldLabel className={cn(required ? 'ml-4' : 'ml-0 mb-0 pb-0', 'text-content-muted')}>
                                 {label || ""}
                             </FieldLabel>
                         </label>
@@ -88,9 +88,10 @@ const Select = ({
                     name={name || id}
                     onChange={handleChange}
                     className={`
-                        text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 border
-                        ${hasError() ? "border-red-500" : "border-gray-300"} block w-full p-2
-                        ${disabled ? "bg-gray-100 cursor-not-allowed" : null}
+                        bg-input text-content text-sm rounded-lg border
+                        focus:outline-none focus-visible:ring-2 focus-visible:border-focus
+                        ${hasError() ? "border-danger focus-visible:ring-danger" : "border-input-border focus-visible:ring-focus"} block w-full p-2 pr-16
+                        ${disabled ? "bg-disabled text-disabled-content cursor-not-allowed" : null}
                     `}
                 >
                     {placeholder && (
@@ -101,7 +102,8 @@ const Select = ({
                 {!hideClearButton && (
                     <Button
                         disabled={disabled || !value}
-                        className="absolute inset-y-0 right-6 hover:bg-blue-200 top-[0.3rem] h-7 text-primary"
+                        aria-label="Limpar seleção"
+                        className="absolute inset-y-0 right-6 top-[0.3rem] h-7"
                         size="small"
                         onClick={() => {clearSelect(id);}}
                         pill
@@ -111,7 +113,7 @@ const Select = ({
                 )}
                 {renderError()}
             </div>
-            {helperText && <div className="text-xs text-blue-600 pl-1"> {helperText} </div>}
+            {helperText && <div className="text-xs text-info pl-1"> {helperText} </div>}
         </>
     );
 };

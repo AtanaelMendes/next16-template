@@ -15,7 +15,7 @@ export default function Checkbox({
     };
 
     return (
-        <label className={`flex items-center cursor-pointer ${className || ""}`}>
+        <label className={`flex items-center ${disabled ? "cursor-not-allowed" : "cursor-pointer"} ${className || ""}`}>
             <input
                 id={id}
                 name={id}
@@ -25,12 +25,12 @@ export default function Checkbox({
                 disabled={disabled}
                 value={value}
                 required={required}
-                className={`w-4 h-4 text-blue-600 ${
-                    disabled ? "bg-gray-100" : "bg-white"
-                } border-gray-300 rounded cursor-pointer focus:ring-blue-500 focus:ring-2`}
+                className={`w-4 h-4 accent-primary bg-input border-input-border rounded ${
+                    disabled ? "bg-disabled cursor-not-allowed" : "cursor-pointer"
+                } focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-1 focus-visible:ring-offset-background`}
             />
             {label && (
-                <span className="ms-2 text-sm font-medium text-gray-900">
+                <span className={`ms-2 text-sm font-medium ${disabled ? "text-disabled-content" : "text-content"}`}>
                     {label}
                 </span>
             )}

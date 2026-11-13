@@ -41,18 +41,21 @@ const Dialog = (props) => {
 
     return (
         <div
-            className={`z-50 left-0 top-0 w-full h-screen bg-black bg-opacity-40 items-center fixed ${
+            role="dialog"
+            aria-modal="true"
+            aria-label={props?.title || "Dialogo"}
+            className={`z-50 inset-0 w-full h-screen bg-black/50 items-center justify-center p-4 fixed ${
                 props?.showDialog ? "flex" : "hidden"
             }`}
         >
             <div
-                className={`${props?.hideTextArea ? "min-h-[150px]" : "min-h-[260px]"} ${
-                    props?.small ? "md:w-1/3 lg:w-2/5" : "md:w-2/3 lg:w-3/5"
-                } bg-white m-auto relative rounded-lg`}
+                className={`${props?.hideTextArea ? "min-h-[150px]" : "min-h-[260px]"} w-full ${
+                    props?.small ? "max-w-md" : "max-w-3xl"
+                } bg-surface text-content border border-border m-auto relative rounded-lg shadow-xl`}
             >
                 {/* {TITLE} */}
                 <div
-                    className={`z-50 w-full px-4 p-2 font-semibold border-b border-slate-300 text-white bg-blue-700 rounded-t-lg`}
+                    className={`z-50 w-full px-4 p-2 font-semibold border-b border-border text-primary-content bg-primary rounded-t-lg`}
                 >
                     {props?.hideTextArea ? "Confirmar ação" : props?.title}
                 </div>
@@ -78,14 +81,14 @@ const Dialog = (props) => {
                 )}
 
                 {props?.hideTextArea && (
-                    <div className={`z-50 w-full px-4 p-2 font-semibold `}>
+                    <div className={`z-50 w-full px-4 p-2 font-semibold text-content`}>
                         {props?.title || ""}
                     </div>
                 )}
 
                 {/* {BUTTONS} */}
                 <div
-                    className={`bottom-0 z-50 absolute w-full p-2 h-[46px] rounded-b-lg border-t bg-white border-slate-300 text-right`}
+                    className={`bottom-0 z-50 absolute w-full p-2 h-[46px] rounded-b-lg border-t bg-surface-secondary border-border text-right`}
                 >
                     {props?.btnCancel && (
                         <Button

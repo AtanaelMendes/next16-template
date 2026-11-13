@@ -30,8 +30,8 @@ const RangeSlider = ({
 				<span
 					key={index}
 					className={cn(
-						'text-sm font-medium text-gray-900 -bottom-6 inset-s-0',
-						disabled ? 'cursor-not-allowed' : 'cursor-pointer'
+						'text-sm font-medium text-content -bottom-6 inset-s-0',
+						disabled ? 'cursor-not-allowed text-disabled-content' : 'cursor-pointer'
 					)}
 					onClick={() => {
 						onClick && !disabled && handleClick(10 + index * step)
@@ -46,13 +46,13 @@ const RangeSlider = ({
 	return (
 		<div className={cn('w-full relative', className)}>
 			{label && (
-				<div className='flex absolute -top-2.25 left-2 w-fit z-10 text-xs px-0.5 rounded-md mb-0 pb-0 text-nowrap before:bg-white before:top-0.5 before:left-0 before:absolute before:w-full before:h-3 before:-z-10 before:content-[""] before:rounded-lg'>
-					<FieldLabel className={cn(required ? 'ml-4' : 'ml-0 mb-0 pb-0', 'text-gray-500')}>
+				<div className='flex absolute -top-2.25 left-2 w-fit z-10 text-xs px-0.5 rounded-md mb-0 pb-0 text-nowrap before:bg-surface before:top-0.5 before:left-0 before:absolute before:w-full before:h-3 before:-z-10 before:content-[""] before:rounded-lg'>
+					<FieldLabel className={cn(required ? 'ml-4' : 'ml-0 mb-0 pb-0', 'text-content-muted')}>
 						{label}
 					</FieldLabel>
 				</div>
 			)}
-			<div className='relative w-full border rounded-lg p-2'>
+			<div className='relative w-full border border-input-border bg-input rounded-lg p-2'>
 				<input
 					id={id}
 					min={min}
@@ -63,8 +63,8 @@ const RangeSlider = ({
 					disabled={disabled}
 					onChange={onChange && handleChange}
 					className={cn(
-						'w-full h-2 bg-gray-200 rounded-lg',
-						disabled ? 'cursor-not-allowed' : 'cursor-pointer'
+						'w-full h-2 bg-surface-muted accent-primary rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus',
+						disabled ? 'cursor-not-allowed opacity-60' : 'cursor-pointer'
 					)}
 				/>
 				<div className='flex flex-row justify-between'>

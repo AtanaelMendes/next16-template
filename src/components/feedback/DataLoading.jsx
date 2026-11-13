@@ -12,7 +12,7 @@ const DataLoading = ({className, ...props}) => {
     }, []);
     return (
         <div className='grid gid-cols-1 p-2'>
-            <div className={`col-span-1 font-semibold italic text-slate-400 ${className} animate-pulse`}>
+            <div className={`col-span-1 font-semibold italic text-content-muted ${className} animate-pulse`}>
                 Carregando{".".repeat(dots)}
             </div>
         </div>

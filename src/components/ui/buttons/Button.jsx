@@ -1,31 +1,50 @@
 import { cn } from '@/assets/utils';
 import React from 'react';
 
+const outlineFocus = 'focus-visible:ring-focus';
+
 const btnType = (outline, bordered, buttonType) => {
 	const variants = {
 		primary: cn(
-			outline ? 'text-primary hover:bg-blue-200' : 'bg-primary text-white hover:bg-blue-700',
-			bordered && 'border border-primary', 'focus:ring-blue-300'
+			outline
+				? 'text-primary border-primary hover:bg-primary/10'
+				: 'bg-primary text-primary-content hover:bg-primary-hover',
+			bordered && 'border border-primary',
+			outlineFocus
 		),
 		secondary: cn(
-			outline ? 'text-gray-900 hover:bg-gray-600 hover:text-white' : 'bg-white text-gray-900 bg-gray-300',
-			bordered && 'border border-gray-500', 'focus:ring-gray-300'
+			outline
+				? 'text-content-secondary border-border hover:bg-hover hover:text-content'
+				: 'bg-surface-secondary text-content border border-border hover:bg-hover',
+			bordered && 'border border-border',
+			outlineFocus
 		),
 		success: cn(
-			outline ? 'text-green-500 hover:bg-green-200' : 'bg-green-500 hover:bg-green-400 text-white transition-colors',
-			bordered && 'border border-green-600', 'focus:ring-green-300'
+			outline
+				? 'text-success border-success hover:bg-success/10'
+				: 'bg-success text-success-content hover:bg-success-hover',
+			bordered && 'border border-success',
+			'focus-visible:ring-success'
 		),
 		danger: cn(
-			outline ? 'text-red-600 hover:bg-red-500 hover:text-white transition-colors' : 'bg-red-600 text-white',
-			bordered && 'border border-red-600', 'focus:ring-red-300'
+			outline
+				? 'text-danger border-danger hover:bg-danger hover:text-danger-content'
+				: 'bg-danger text-danger-content hover:bg-danger-hover',
+			bordered && 'border border-danger',
+			'focus-visible:ring-danger'
 		),
 		warning: cn(
-			outline ? 'text-yellow-500 hover:bg-yellow-200' : 'bg-yellow-500 text-white',
-			bordered && 'border border-yellow-500', 'focus:ring-yellow-300'
+			outline
+				? 'text-warning border-warning hover:bg-warning/15'
+				: 'bg-warning text-warning-content hover:bg-warning-hover',
+			bordered && 'border border-warning',
+			'focus-visible:ring-warning'
 		),
 		ghost: cn(
-			outline ? 'text-gray-900 hover:bg-gray-200' : 'bg-white text-gray-900',
-			bordered && 'border border-gray-300', 'focus:ring-gray-300'
+			'text-content hover:bg-hover',
+			outline && 'text-content-secondary',
+			bordered && 'border border-border',
+			outlineFocus
 		),
 	};
 
@@ -42,12 +61,14 @@ export const generateButtonClass = (
 	bordered,
 	disabled
 ) => {
-	const baseClasses = 'focus:outline-none font-medium text-sm focus:ring-4 hover:transition-colors';
+	const baseClasses = 'inline-flex items-center justify-center gap-2 font-medium text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background';
 	const shapeClasses = square ? '' : pill ? 'rounded-full' : 'rounded';
 	const sizeClasses = size === 'small' ? 'py-1 px-2' : 'py-2 px-4';
 	const blockClasses = block ? 'w-full' : 'w-fit';
 	const styleType = buttonType ? btnType(outline, bordered, buttonType) : '';
-	const disabledClasses = disabled ? 'opacity-50 cursor-not-allowed' : '';
+	const disabledClasses = disabled
+		? 'opacity-70 cursor-not-allowed bg-disabled text-disabled-content border-border hover:bg-disabled hover:text-disabled-content'
+		: '';
 	return cn(baseClasses, shapeClasses, sizeClasses, blockClasses, styleType, disabledClasses);
 }
 
@@ -69,7 +90,7 @@ export const generateButtonClass = (
  * @param {boolean} [props.disabled=false] - Se verdadeiro, o botão será desativado.
  * @param {string} [props.title=""] - O atributo title para o botão.
  *
- * @version 1.2.0
+ * @version 1.3.0
  * @returns {JSX.Element} O elemento de botão renderizado.
  */
 const Button = ({

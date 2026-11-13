@@ -16,14 +16,14 @@ const WhatsAppMsg = ({ messages }) => {
 
         return (
             <div key={id} className='flex flex-col'>
-                <div className={`p-2 rounded-lg shadow-lg max-w-[70%] w-fit ${sentOrReceived === 'ENVIADO' ? 'bg-sent self-end' : 'bg-white'}`}>
+                <div className={`p-2 rounded-lg shadow-lg max-w-[70%] w-fit ${sentOrReceived === 'ENVIADO' ? 'bg-success-subtle self-end' : 'bg-surface'}`}>
                     {headerComponent && (
-                        <p className='text-gray-900  font-semibold'>
+                        <p className='text-content  font-semibold'>
                             {headerComponent.parameters.map(param => param.text).join(' ')}
                         </p>
                     )}
                     {bodyComponent && (
-                        <p className='text-gray-900 '>
+                        <p className='text-content '>
                             {bodyComponent.parameters?.map(param => param.text).join(' ')}
                         </p>
                     )}
@@ -40,7 +40,7 @@ const WhatsAppMsg = ({ messages }) => {
                             })}
                         </div>
                     )}
-                    <div className='text-gray-400 text-xs text-right mt-1 italic'>
+                    <div className='text-content-muted text-xs text-right mt-1 italic'>
                         {dtMsg}
                     </div>
                 </div>
@@ -78,19 +78,19 @@ const WhatsAppMsg = ({ messages }) => {
 
         return (
             <div key={id} className='flex flex-col'>
-                <div className={`p-2 rounded-lg shadow-lg shadow-gray-500 max-w-[70%] overflow-x-hidden w-fit ${sentOrReceived === 'ENVIADO' ? 'bg-sent self-end' : 'bg-white'}`}>
+                <div className={`p-2 rounded-lg shadow-lg shadow-gray-500 max-w-[70%] overflow-x-hidden w-fit ${sentOrReceived === 'ENVIADO' ? 'bg-success-subtle self-end' : 'bg-surface'}`}>
 
-                    <div className='flex flex-col text-gray-900  text-wrap whitespace-pre-line gap-y-2'>
+                    <div className='flex flex-col text-content  text-wrap whitespace-pre-line gap-y-2'>
                         <div className="w-full">
-                            <p className='text-gray-900 text-base' dangerouslySetInnerHTML={{ __html: nl2br(body) }} />
-                            <p className='text-gray-900 text-sm'>{footer}</p>
+                            <p className='text-content text-base' dangerouslySetInnerHTML={{ __html: nl2br(body) }} />
+                            <p className='text-content text-sm'>{footer}</p>
                         </div>
                         <div className="flex flex-col gap-x-2 w-full mt-2">
                             {actions}
                         </div>
                     </div>
 
-                    <div className='text-gray-400 text-xs text-right mt-1 italic'>
+                    <div className='text-content-muted text-xs text-right mt-1 italic'>
                         {dtMsg}
                     </div>
                 </div>
@@ -102,9 +102,9 @@ const WhatsAppMsg = ({ messages }) => {
         const body = formatBoldName(content?.text?.body);
         return (
             <div className='flex flex-col'>
-                <div className={`p-2 rounded-lg shadow-lg shadow-gray-500 max-w-[70%] w-fit ${sentOrReceived === 'ENVIADO' ? 'bg-sent self-end' : 'bg-white'}`}>
-                    <p className='text-gray-900 text-base' dangerouslySetInnerHTML={{ __html: nl2br(body) }} />
-                    <div className='text-gray-400 text-xs text-right mt-1 italic'>
+                <div className={`p-2 rounded-lg shadow-lg shadow-gray-500 max-w-[70%] w-fit ${sentOrReceived === 'ENVIADO' ? 'bg-success-subtle self-end' : 'bg-surface'}`}>
+                    <p className='text-content text-base' dangerouslySetInnerHTML={{ __html: nl2br(body) }} />
+                    <div className='text-content-muted text-xs text-right mt-1 italic'>
                         {dtMsg}
                     </div>
                 </div>
@@ -116,7 +116,7 @@ const WhatsAppMsg = ({ messages }) => {
         const contacts = content?.contacts?.map((con) => {
             return (
                 <>
-                    <p key={con.to} className='text-gray-900 text-base'>
+                    <p key={con.to} className='text-content text-base'>
                         {con.name.formatted_name}
                     </p>
                     {con.phones.map((phone) => {
@@ -132,11 +132,11 @@ const WhatsAppMsg = ({ messages }) => {
 
         return (
             <div className='flex flex-col'>
-                <div className={`p-2 rounded-lg shadow-lg shadow-gray-500 max-w-[70%] w-fit ${sentOrReceived === 'ENVIADO' ? 'bg-sent self-end' : 'bg-white'}`}>
-                    <p className='text-gray-900 '>
+                <div className={`p-2 rounded-lg shadow-lg shadow-gray-500 max-w-[70%] w-fit ${sentOrReceived === 'ENVIADO' ? 'bg-success-subtle self-end' : 'bg-surface'}`}>
+                    <p className='text-content '>
                         {contacts}
                     </p>
-                    <div className='text-gray-400 text-xs text-right mt-1 italic'>
+                    <div className='text-content-muted text-xs text-right mt-1 italic'>
                         {dtMsg}
                     </div>
                 </div>
@@ -147,11 +147,11 @@ const WhatsAppMsg = ({ messages }) => {
     const respostaButton = (id, content, nmNode, sentOrReceived, dtMsg) => {
         return (
             <div className='flex flex-col'>
-                <div className={`p-2 rounded-lg shadow-lg shadow-gray-500 max-w-[70%] w-fit ${sentOrReceived === 'ENVIADO' ? 'bg-sent self-end' : 'bg-white'}`}>
-                    <p className='text-gray-900 '>
+                <div className={`p-2 rounded-lg shadow-lg shadow-gray-500 max-w-[70%] w-fit ${sentOrReceived === 'ENVIADO' ? 'bg-success-subtle self-end' : 'bg-surface'}`}>
+                    <p className='text-content '>
                         {content?.button?.text}
                     </p>
-                    <div className='text-gray-400 text-xs text-right mt-1 italic'>
+                    <div className='text-content-muted text-xs text-right mt-1 italic'>
                         {dtMsg}
                     </div>
                 </div>

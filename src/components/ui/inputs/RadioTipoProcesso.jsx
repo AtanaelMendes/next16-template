@@ -42,7 +42,7 @@ const RadioTipoProcesso = ({init, cdPessoaAnalista, cdPessoaCliente, vertical, .
         if (!hasError()) return;
         let errorMsg = props?.required[props.id].errorMsg || "Este campo é obrigatório";
 
-        return <div className="text-xs text-red-600">{errorMsg}</div>;
+        return <div className="text-xs text-danger">{errorMsg}</div>;
     }
 
     useEffect(() => {
@@ -119,8 +119,8 @@ const RadioTipoProcesso = ({init, cdPessoaAnalista, cdPessoaCliente, vertical, .
         <div className={`${showComponent ? "block" : "hidden"}`}>
             <div className="flex">
                 <fieldset
-                    className={`flex items-center border text-gray-900 text-sm rounded-lg w-full px-2 ${
-                        hasError() ? "border-red-500" : "border-gray-300"
+                    className={`flex items-center border bg-surface text-content text-sm rounded-lg w-full px-2 ${
+                        hasError() ? "border-danger" : "border-border"
                     }`}
                 >
                     <legend className="px-2">
@@ -143,7 +143,7 @@ const RadioTipoProcesso = ({init, cdPessoaAnalista, cdPessoaCliente, vertical, .
                 </fieldset>
             </div>
             {renderError()}
-            {props?.helperText && <div className="text-xs text-blue-600"> {props.helperText} </div>}
+            {props?.helperText && <div className="text-xs text-info"> {props.helperText} </div>}
         </div>
     );
 };

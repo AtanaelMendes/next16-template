@@ -1,14 +1,14 @@
 import { cn } from "@/assets/utils";
 
 function Skeleton({ className, ...props }) {
-    return <div className={cn("animate-pulse rounded-md bg-gray-300", className)} {...props} />;
+    return <div className={cn("animate-pulse rounded-md bg-surface-muted", className)} {...props} />;
 }
 
 function FormSkeleton({ className, ...props }) {
     return (
-        <div className={cn("h-screen w-full flex flex-col bg-gray-50", className)} {...props}>
+        <div className={cn("h-screen w-full flex flex-col bg-background", className)} {...props}>
             {/* Header */}
-            <div className="h-16 bg-white border-b border-gray-200 flex items-center px-6">
+            <div className="h-16 bg-surface border-b border-border flex items-center px-6">
                 <Skeleton className="h-8 w-48" />
                 <div className="ml-auto">
                     <Skeleton className="h-9 w-24" />
@@ -110,7 +110,7 @@ function FormSkeleton({ className, ...props }) {
                     </div>
 
                     {/* Action Buttons */}
-                    <div className="flex flex-col sm:flex-row gap-4 pt-6 border-t border-gray-200">
+                    <div className="flex flex-col sm:flex-row gap-4 pt-6 border-t border-border">
                         <Skeleton className="h-10 w-full sm:w-32" />
                         <Skeleton className="h-10 w-full sm:w-28" />
                         <div className="sm:ml-auto">
@@ -128,7 +128,7 @@ function SkeletonList({ className, count, variant = "default" }) {
         return (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {Array.from({ length: count }).map((_, index) => (
-                    <div key={index} className="bg-white rounded-lg border border-gray-200 p-6 space-y-4">
+                    <div key={index} className="bg-surface rounded-lg border border-border p-6 space-y-4">
                         {/* Card Header */}
                         <div className="flex items-center space-x-3">
                             <Skeleton className="h-12 w-12 rounded-full" />
@@ -149,7 +149,7 @@ function SkeletonList({ className, count, variant = "default" }) {
                         </div>
 
                         {/* Card Actions */}
-                        <div className="flex justify-between items-center pt-4 border-t border-gray-100">
+                        <div className="flex justify-between items-center pt-4 border-t border-border">
                             <div className="flex space-x-2">
                                 <Skeleton className="h-8 w-16" />
                                 <Skeleton className="h-8 w-16" />
@@ -164,9 +164,9 @@ function SkeletonList({ className, count, variant = "default" }) {
 
     if (variant === "table") {
         return (
-            <div className={`bg-white rounded-lg border border-gray-200 overflow-hidden ${className}`}>
+            <div className={`bg-surface rounded-lg border border-border overflow-hidden ${className}`}>
                 {/* Table Header */}
-                <div className="bg-gray-50 px-6 py-4 border-b border-gray-200">
+                <div className="bg-surface-secondary px-6 py-4 border-b border-border">
                     <div className="grid grid-cols-4 gap-4">
                         <Skeleton className="h-4 w-24" />
                         <Skeleton className="h-4 w-20" />
@@ -176,7 +176,7 @@ function SkeletonList({ className, count, variant = "default" }) {
                 </div>
 
                 {/* Table Rows */}
-                <div className="divide-y divide-gray-200">
+                <div className="divide-y divide-border">
                     {Array.from({ length: count }).map((_, index) => (
                         <div key={index} className="px-6 py-4">
                             <div className="grid grid-cols-4 gap-4 items-center">
@@ -208,7 +208,7 @@ function SkeletonList({ className, count, variant = "default" }) {
     return (
         <div className="space-y-4">
             {Array.from({ length: count }).map((_, index) => (
-                <div key={index} className="bg-white rounded-lg border border-gray-200 p-4">
+                <div key={index} className="bg-surface rounded-lg border border-border p-4">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-4 flex-1">
                             {/* Avatar/Icon */}

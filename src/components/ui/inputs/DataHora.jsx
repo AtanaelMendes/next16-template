@@ -20,7 +20,7 @@ const DataHora = (props) => {
         let errorMsg = props?.required[props.id].errorMsg || "Este campo é obrigatório";
 
         return (
-            <div className="text-xs text-red-600">
+            <div className="text-xs text-danger">
                 {errorMsg}
             </div>
         );
@@ -54,7 +54,7 @@ const DataHora = (props) => {
 
     return (
         <div className="w-full relative">
-            <div className='flex absolute -top-1.5 left-2 w-fit z-10 text-xs px-0.5 rounded-md mb-0 pb-0 text-nowrap before:bg-white before:top-0.5 before:left-0 before:absolute before:w-full before:h-3 before:-z-10 before:content-[""] before:rounded-lg'>
+            <div className='flex absolute -top-1.5 left-2 w-fit z-10 text-xs px-0.5 rounded-md mb-0 pb-0 text-nowrap before:bg-surface before:top-0.5 before:left-0 before:absolute before:w-full before:h-3 before:-z-10 before:content-[""] before:rounded-lg'>
                 <label htmlFor={props.id} className="inline-flex relative">
                     {props?.required && (
                         <FontAwesomeIcon
@@ -65,7 +65,7 @@ const DataHora = (props) => {
                             className="self-start absolute"
                         />
                     )}
-                    {props.label && <FieldLabel className={cn(props.required ? 'ml-4' : 'ml-0 mb-0 pb-0', 'text-gray-500')}>
+                    {props.label && <FieldLabel className={cn(props.required ? 'ml-4' : 'ml-0 mb-0 pb-0', 'text-content-muted')}>
                         {props.label || ''}
                     </FieldLabel>}
                 </label>
@@ -74,7 +74,7 @@ const DataHora = (props) => {
                 <div className="w-full">
                     <InputDate
                         id={`data_${props.id}`}
-                        className={`${hasError() ? "border-red-500" : "border-gray-300"}`}
+                        className={`${hasError() ? "border-danger" : "border-input-border"}`}
                         onChange={(id, value) => setData(value)}
                         value={data}
                         minDate={props.minDate}
@@ -84,7 +84,7 @@ const DataHora = (props) => {
                 <div className="ml-4">
                     <TimePicker
                         id={`hora_${props.id}`}
-                        className={`w-20 ${hasError() ? "border-red-500" : "border-gray-300"}`}
+                        className={`w-20 ${hasError() ? "border-danger" : "border-input-border"}`}
                         onChange={(id, value) => setHora(value)}
                         value={hora}
                     />
@@ -94,7 +94,7 @@ const DataHora = (props) => {
                 </div>
             </div>
             {renderError()}
-            {props?.helperText && <div className="text-xs text-blue-600"> {props.helperText} </div>}
+            {props?.helperText && <div className="text-xs text-info"> {props.helperText} </div>}
         </div>
     );
 };

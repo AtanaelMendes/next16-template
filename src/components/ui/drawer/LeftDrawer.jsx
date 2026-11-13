@@ -77,8 +77,8 @@ export function LeftDrawer({
                                     className={cn(
                                         'flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors duration-150',
                                         isActive
-                                            ? 'bg-blue-50 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300 font-medium'
-                                            : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800'
+                                            ? 'bg-selected text-selected-content font-medium'
+                                            : 'text-content-secondary hover:bg-hover hover:text-content'
                                     )}
                                 >
                                     {item.icon && (
@@ -88,7 +88,7 @@ export function LeftDrawer({
                                     )}
                                     <span className="truncate">{item.label}</span>
                                     {item.badge !== undefined && (
-                                        <span className="ml-auto px-2 py-0.5 text-xs rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 shrink-0">
+                                        <span className="ml-auto px-2 py-0.5 text-xs rounded-full bg-surface-muted text-content-secondary shrink-0">
                                             {item.badge}
                                         </span>
                                     )}

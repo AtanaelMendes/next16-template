@@ -66,21 +66,21 @@ const CustomDropdown = ({ id, label, options, onSelect, placeholder, showIconLin
             </div>
             <div id={id} className="w-full relative" ref={dropdownRef}>
                 <div
-                    className="flex justify-between items-center border rounded-lg p-1 cursor-pointer bg-white shadow-md"
+                    className="flex justify-between items-center border border-input-border bg-input text-content rounded-lg p-1 cursor-pointer shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
                     onClick={() => setIsOpen(!isOpen)}
                 >
-                    <span className="text-gray-700 text-sm p-1">{placeholder ? placeholder : "Selecione um item"}</span>
-                    {<FontAwesomeIcon className="text-slate-500 me-2 text-center" icon={showIconLink ? faExternalLink : faCaretDown} width={"16"} height={"16"} />}
+                    <span className="text-content-secondary text-sm p-1">{placeholder ? placeholder : "Selecione um item"}</span>
+                    {<FontAwesomeIcon className="text-content-muted me-2 text-center" icon={showIconLink ? faExternalLink : faCaretDown} width={"16"} height={"16"} />}
                 </div>
 
-                <div className={cn("absolute w-full bg-white border rounded-lg shadow-lg z-10", isOpen ? '' : 'hidden')}>
+                <div className={cn("absolute w-full bg-surface-secondary border border-border rounded-lg shadow-lg z-10", isOpen ? '' : 'hidden')}>
                     {options.map((option) => (
                         <div
                             key={`${id}-${option.value}`}
-                            className="flex justify-between items-center px-3 py-1 border hover:bg-gray-100 cursor-pointer"
+                            className="flex justify-between items-center px-3 py-1 border-b border-border last:border-b-0 hover:bg-hover text-content cursor-pointer"
                             onClick={() => handleSelect(option.value)}
                         >
-                            <span className="text-gray-600 font-semibold text-sm">{option.label}</span>
+                            <span className="text-content-secondary font-semibold text-sm">{option.label}</span>
                             <span className="bg-primary text-white text-xs font-semibold min-w-7 h-7 flex items-center justify-center rounded-full">
                                 {option.count}
                             </span>

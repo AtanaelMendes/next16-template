@@ -33,7 +33,7 @@ const SelectCidade = (props) => {
         if (!hasError()) return;
         let errorMsg = props?.required[props.id].errorMsg || "Este campo é obrigatório";
 
-        return <div className="text-xs text-red-600">{errorMsg}</div>;
+        return <div className="text-xs text-danger">{errorMsg}</div>;
     }
 
     useEffect(() => {
@@ -92,9 +92,9 @@ const SelectCidade = (props) => {
     return (
         <div className={`relative w-full`}>
             {props?.label && (
-                <div className='flex absolute top-[-9px] left-2 w-fit z-10 text-xs px-0.5 rounded-md mb-0 pb-0 text-nowrap before:bg-white before:top-0.5 before:left-0 before:absolute before:w-full before:h-[12px] before:-z-10 before:content-[""] before:rounded-lg'>
+                <div className='flex absolute top-[-9px] left-2 w-fit z-10 text-xs px-0.5 rounded-md mb-0 pb-0 text-nowrap before:bg-surface before:top-0.5 before:left-0 before:absolute before:w-full before:h-[12px] before:-z-10 before:content-[""] before:rounded-lg'>
                     <label htmlFor={props.id}>
-                        <FieldLabel className={cn(props?.required ? 'ml-4' : 'ml-0 mb-0 pb-0', 'text-gray-500')}>
+                        <FieldLabel className={cn(props?.required ? 'ml-4' : 'ml-0 mb-0 pb-0', 'text-content-muted')}>
                             {props.label || ""}
                         </FieldLabel>
                     </label>
@@ -130,19 +130,19 @@ const SelectCidade = (props) => {
                 searchInputPlaceholder={"Digite para filtrar"}
                 classNames={{
                     menuButton: ({ isDisabled }) =>
-                        `flex text-sm text-gray-900 border ${
-                            hasError() ? "border-red-500" : "border-gray-300"
+                        `flex text-sm text-content border ${
+                            hasError() ? "border-danger" : "border-input-border"
                         } rounded-lg shadow-sm transition-all duration-300 focus:outline-none h-[36px] ${
                             isDisabled
-                                ? "bg-gray-200"
-                                : "bg-white hover:border-gray-400 focus:border-blue-500 focus:ring focus:ring-blue-500/20"
+                                ? "bg-disabled text-disabled-content cursor-not-allowed"
+                                : "bg-input hover:border-content-muted focus:border-focus focus:ring focus:ring-focus/30"
                         }`,
-                    menu: "absolute z-20 w-full bg-white shadow-lg border rounded py-1 mt-1.5 text-sm text-gray-700",
+                    menu: "absolute z-20 w-full bg-surface-secondary border border-border rounded py-1 mt-1.5 text-sm text-content shadow-lg",
                     list: "max-h-48 overflow-y-auto", // (opcional) limitar altura:
                 }}
                 isClearable={props.isClearable}
             />
-            {props?.helperText && <div className="text-xs text-blue-600"> {props.helperText} </div>}
+            {props?.helperText && <div className="text-xs text-info"> {props.helperText} </div>}
             {renderError()}
         </div>
     );

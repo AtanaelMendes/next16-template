@@ -80,9 +80,8 @@ export function DrawerToggle({
             data-testid={targetTestId}
             className={cn(
                 'inline-flex items-center justify-center p-2 rounded-lg',
-                'text-gray-600 hover:text-gray-900 hover:bg-gray-100',
-                'dark:text-gray-400 dark:hover:text-gray-100 dark:hover:bg-gray-800',
-                'transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer shrink-0',
+                'text-content-secondary hover:text-content hover:bg-hover',
+                'transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus cursor-pointer shrink-0',
                 className
             )}
             {...props}

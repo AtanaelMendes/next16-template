@@ -1,10 +1,10 @@
 const Blockquote = ({ children, type, className, size }) => {
     const blockType = {
-        danger: " border-red-600 text-red-600 bg-red-200 shadow-md ",
-        success: " border-green-600 text-green-600 bg-green-200 shadow-md ",
-        warning: " border-yellow-500 text-yellow-600 bg-yellow-200 shadow-md ",
-        primary: " border-blue-600 text-blue-600 bg-blue-200 shadow-md ",
-        default: " border-gray-600 text-gray-600 bg-gray-200 shadow-md "
+        danger: " border-danger bg-danger-subtle text-danger-subtle-content",
+        success: " border-success bg-success-subtle text-success-subtle-content",
+        warning: " border-warning bg-warning-subtle text-warning-subtle-content",
+        primary: " border-primary bg-info-subtle text-info-subtle-content",
+        default: " border-border bg-surface-muted text-content-secondary"
     }
 
     const blockSize = {
@@ -14,7 +14,7 @@ const Blockquote = ({ children, type, className, size }) => {
         lg: 'py-5 px-2 text-lg'
     }
     return (
-        <div className={`rounded text-wrap word-wrap-legado border-l-4 ${blockSize[size || "sm"]} ${blockType[type || "default"]} ${className}`}>
+        <div className={`rounded text-wrap break-words border-l-4 ${blockSize[size || "sm"]} ${blockType[type || "default"]} ${className}`}>
             {children}
         </div>
     );

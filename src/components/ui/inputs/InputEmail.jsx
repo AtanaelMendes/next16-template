@@ -25,9 +25,9 @@ const InputEmail = ({
     return (
         <div className={cn('relative w-full', containerClassName)}>
             {label && (
-                <div className='flex absolute -top-2.25 left-2 w-fit z-10 text-xs px-0.5 rounded-md text-nowrap before:bg-white before:top-0.5 before:left-0 before:absolute before:w-full before:h-3 before:-z-10 before:content-[""] before:rounded-lg'>
+                <div className='flex absolute -top-2.25 left-2 w-fit z-10 text-xs px-0.5 rounded-md text-nowrap before:bg-surface before:top-0.5 before:left-0 before:absolute before:w-full before:h-3 before:-z-10 before:content-[""] before:rounded-lg'>
                     <label htmlFor={id}>
-                        <FieldLabel className={cn(required ? 'ml-4' : 'ml-0', 'mb-0 pb-0 text-gray-500')}>{label}</FieldLabel>
+                        <FieldLabel className={cn(required ? 'ml-4' : 'ml-0', 'mb-0 pb-0 text-content-muted')}>{label}</FieldLabel>
                     </label>
                     {required && <FontAwesomeIcon icon={faAsterisk} width='10' height='10' color='red' className='self-start absolute' />}
                     {hint && (
@@ -47,15 +47,15 @@ const InputEmail = ({
                 aria-invalid={inputProps['aria-invalid'] ?? Boolean(error)}
                 aria-describedby={describedBy}
                 className={cn(
-                    'block w-full rounded-lg border text-gray-900 focus:ring-blue-500 focus:border-blue-500',
+                    'block w-full rounded-lg border bg-input text-content placeholder:text-content-muted focus:outline-none focus-visible:ring-2 focus-visible:border-focus disabled:bg-disabled disabled:text-disabled-content disabled:cursor-not-allowed',
                     small ? 'p-1.5 text-xs' : large ? 'p-3 text-base' : 'p-2 text-sm',
-                    error ? 'border-red-500' : 'border-gray-300',
+                    error ? 'border-danger focus-visible:ring-danger' : 'border-input-border focus-visible:ring-focus',
                     className
                 )}
             />
 
-            {error && <div id={errorId} className='text-xs text-red-600'>{error === true ? 'E-mail inválido' : error}</div>}
-            {helperText && <div id={helperTextId} className='text-xs text-blue-600'>{helperText}</div>}
+            {error && <div id={errorId} className='text-xs text-danger'>{error === true ? 'E-mail inválido' : error}</div>}
+            {helperText && <div id={helperTextId} className='text-xs text-info'>{helperText}</div>}
         </div>
     )
 }

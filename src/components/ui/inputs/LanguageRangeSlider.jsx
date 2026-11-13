@@ -18,7 +18,7 @@ const LanguageRangeSlider = ({ value, id, label, onChange }) => {
             renderMinMax={
                 <>
                     <span
-                        className={`text-xs xl:text-sm font-medium ${Number(value) === 2 ? "text-gray-900" : "text-gray-400"} -bottom-6 hover:cursor-pointer inset-s-0`}
+                        className={`text-xs xl:text-sm font-medium ${Number(value) === 2 ? "text-content" : "text-content-muted"} -bottom-6 hover:cursor-pointer inset-s-0`}
                         onClick={() => {
                             setSliderValue(2);
                         }}
@@ -26,7 +26,7 @@ const LanguageRangeSlider = ({ value, id, label, onChange }) => {
                         Intermediário
                     </span>
                     <span
-                        className={`text-xs xl:text-sm font-medium ${Number(value) === 3 ? "text-gray-900" : "text-gray-400"} -bottom-6 hover:cursor-pointer inset-s-0`}
+                        className={`text-xs xl:text-sm font-medium ${Number(value) === 3 ? "text-content" : "text-content-muted"} -bottom-6 hover:cursor-pointer inset-s-0`}
                         onClick={() => {
                             setSliderValue(3);
                         }}
@@ -34,7 +34,7 @@ const LanguageRangeSlider = ({ value, id, label, onChange }) => {
                         Avançado
                     </span>
                     <span
-                        className={`text-xs xl:text-sm font-medium ${Number(value) === 4 ? "text-gray-900" : "text-gray-400"} -bottom-6 hover:cursor-pointer inset-s-0`}
+                        className={`text-xs xl:text-sm font-medium ${Number(value) === 4 ? "text-content" : "text-content-muted"} -bottom-6 hover:cursor-pointer inset-s-0`}
                         onClick={() => {
                             setSliderValue(4);
                         }}

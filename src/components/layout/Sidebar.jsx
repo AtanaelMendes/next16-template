@@ -204,7 +204,7 @@ const Sidebar = ({ tabControl, subTabControl, sideBarControl, sidebarHoverContro
                 </TooltipComponent>
                 <div
                     onMouseLeave={() => { setShowUserOpt(false); }}
-                    className={`absolute gap-y-0.5 flex flex-col bg-white border border-slate-400 h-fit rounded-md p-1 text-sm -top-[-100%] w-full ${showUserOpt ? "" : "hidden"}`}>
+                    className={`absolute gap-y-0.5 flex flex-col bg-surface border border-border h-fit rounded-md p-1 text-sm -top-[-100%] w-full ${showUserOpt ? "" : "hidden"}`}>
                     {/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
                     <div className="cursor-pointer hover:bg-blue-200 rounded flex flex-row w-full p-1" onClick={handleLogout}>
                         <FontAwesomeIcon icon={faArrowRightFromBracket} width="16" height="16" />

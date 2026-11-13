@@ -20,7 +20,7 @@ const InputMonth = (props) => {
         let errorMsg =
             props?.required[props.id].errorMsg || "Este campo é obrigatório";
 
-        return <div className="text-xs text-red-600">{errorMsg}</div>;
+        return <div className="text-xs text-danger">{errorMsg}</div>;
     }
 
     function getValue() {
@@ -40,9 +40,9 @@ const InputMonth = (props) => {
     return (
         <div className="relative w-full">
             {props.label && (
-                <div className='flex absolute -top-2.25 left-2 w-fit z-10 text-xs px-0.5 rounded-md mb-0 pb-0 text-nowrap before:bg-white before:top-0.5 before:left-0 before:absolute before:w-full before:h-3 before:-z-10 before:content-[""] before:rounded-lg'>
+                <div className='flex absolute -top-2.25 left-2 w-fit z-10 text-xs px-0.5 rounded-md mb-0 pb-0 text-nowrap before:bg-surface before:top-0.5 before:left-0 before:absolute before:w-full before:h-3 before:-z-10 before:content-[""] before:rounded-lg'>
                     <label htmlFor={props.id}>
-                        <FieldLabel className={cn(props?.required ? 'ml-4' : 'ml-0 mb-0 pb-0', 'text-gray-500')}>
+                        <FieldLabel className={cn(props?.required ? 'ml-4' : 'ml-0 mb-0 pb-0', 'text-content-muted')}>
                             {props.label || ""}
                         </FieldLabel>
                     </label>
@@ -76,15 +76,15 @@ const InputMonth = (props) => {
                 type="month"
                 className={`
                     rounded-lg block w-full p-2
-                    text-gray-900 text-sm
-                    focus:ring-blue-500 focus:border-blue-500
-                    border ${hasError() ? `border-red-500` : `border-gray-300`}
-                    ${props.disabled ? "bg-gray-100 cursor-not-allowed" : ""}
+                    bg-input text-content text-sm placeholder:text-content-muted
+                    focus:outline-none focus-visible:ring-2 focus-visible:border-focus
+                    border ${hasError() ? `border-danger focus-visible:ring-danger` : `border-input-border focus-visible:ring-focus`}
+                    ${props.disabled ? "bg-disabled text-disabled-content cursor-not-allowed" : ""}
                     ${props.className}`}
             />
             {renderError()}
             {props.helperText && (
-                <div className="text-xs text-blue-600"> {props.helperText} </div>
+                <div className="text-xs text-info"> {props.helperText} </div>
             )}
         </div>
     );

@@ -8,6 +8,8 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useState, useEffect } from 'react'
 
+const buttonBase = 'inline-flex items-center justify-center border border-border bg-surface text-content-secondary transition-colors hover:bg-hover hover:text-content focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:z-10 disabled:cursor-not-allowed disabled:opacity-60 disabled:bg-disabled disabled:text-disabled-content'
+
 export const Pagination = ({
 	data,
 	itemsPerPage = 50,
@@ -65,18 +67,18 @@ export const Pagination = ({
 	return (
 		<>
 			{(showPaginator || showItemCountSelector) && (
-				<div className='flex justify-between items-center mb-4'>
+				<div className='flex flex-wrap gap-2 justify-between items-center mb-4'>
 					{showPaginator && (
-						<span className='text-sm text-gray-700 dark:text-gray-400'>
+						<span className='text-sm text-content-secondary'>
 							Mostrando {itemsPerPageState * (currentPage - 1) + 1} a{' '}
 							{Math.min(itemsPerPageState * currentPage, data.length)} de {data.length} itens
 						</span>
 					)}
 					{showItemCountSelector && (
-						<>
+						<div className='flex items-center'>
 							<label
 								htmlFor='itemsPerPage'
-								className='text-sm text-gray-700 dark:text-gray-400 mr-2'
+								className='text-sm text-content-secondary mr-2'
 							>
 								Itens por página:
 							</label>
@@ -84,7 +86,7 @@ export const Pagination = ({
 								id='itemsPerPage'
 								value={itemsPerPageState}
 								onChange={event => setItemsPerPageState(Number(event.target.value))}
-								className='border border-gray-300 rounded-md p-1 text-sm'
+								className='border border-input-border bg-input text-content rounded-md p-1 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-focus'
 							>
 								{[10, 20, 50, 100].map(size => (
 									<option key={size} value={size}>
@@ -92,87 +94,93 @@ export const Pagination = ({
 									</option>
 								))}
 							</select>
-						</>
+						</div>
 					)}
 				</div>
 			)}
 			{totalPages > 1 && (
-				<nav aria-label='Page navigation example'>
+				<nav aria-label='Paginação'>
 					<ul className='inline-flex -space-x-px'>
 						{currentPage > 1 && (
 							<>
 								<li>
-									<a
-										href='#'
+									<button
+										type='button'
 										onClick={() => handleClick(1)}
-										className={`flex items-center justify-center border border-gray-300 rounded-s-lg bg-white hover:bg-gray-100 ${getSizeClasses()}`}
+										aria-label='Primeira página'
+										className={cn(buttonBase, 'rounded-s-lg', getSizeClasses())}
 									>
 										<FontAwesomeIcon
 											icon={faAngleDoubleLeft}
 											width={getIconSize()}
 											height={getIconSize()}
 										/>
-									</a>
+									</button>
 								</li>
 								<li>
-									<a
-										href='#'
+									<button
+										type='button'
 										onClick={() => handleClick(currentPage - 1)}
-										className={`flex items-center justify-center border border-gray-300 bg-white hover:bg-gray-100 ${getSizeClasses()}`}
+										aria-label='Página anterior'
+										className={cn(buttonBase, getSizeClasses())}
 									>
 										<FontAwesomeIcon
 											icon={faChevronLeft}
 											width={getIconSize()}
 											height={getIconSize()}
 										/>
-									</a>
+									</button>
 								</li>
 							</>
 						)}
 						{getPageNumbers().map(page => (
 							<li key={page}>
-								<a
-									href='#'
+								<button
+									type='button'
 									onClick={() => handleClick(page)}
+									aria-label={`Página ${page}`}
+									aria-current={currentPage === page ? 'page' : undefined}
 									className={cn(
-										`flex items-center justify-center`,
+										buttonBase,
 										getSizeClasses(),
 										currentPage === page
-											? 'text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white'
-											: 'text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
+											? 'bg-selected text-selected-content font-semibold border-primary'
+											: ''
 									)}
 								>
 									{page}
-								</a>
+								</button>
 							</li>
 						))}
 						{currentPage < totalPages && (
 							<>
 								<li>
-									<a
-										href='#'
+									<button
+										type='button'
 										onClick={() => handleClick(currentPage + 1)}
-										className={`flex items-center justify-center border border-gray-300 bg-white hover:bg-gray-100 ${getSizeClasses()}`}
+										aria-label='Próxima página'
+										className={cn(buttonBase, getSizeClasses())}
 									>
 										<FontAwesomeIcon
 											icon={faChevronRight}
 											width={getIconSize()}
 											height={getIconSize()}
 										/>
-									</a>
+									</button>
 								</li>
 								<li>
-									<a
-										href='#'
+									<button
+										type='button'
 										onClick={() => handleClick(totalPages)}
-										className={`flex items-center justify-center border border-gray-300 rounded-e-lg bg-white hover:bg-gray-100 ${getSizeClasses()}`}
+										aria-label='Última página'
+										className={cn(buttonBase, 'rounded-e-lg', getSizeClasses())}
 									>
 										<FontAwesomeIcon
 											icon={faAngleDoubleRight}
 											width={getIconSize()}
 											height={getIconSize()}
 										/>
-									</a>
+									</button>
 								</li>
 							</>
 						)}

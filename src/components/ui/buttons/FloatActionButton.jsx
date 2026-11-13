@@ -122,8 +122,8 @@ export const FabCustom = ({
             className={cn(
                 baseButtonStyles,
                 !disableZIndex && "z-999",
-                color || "bg-slate-300",
-                hover || "hover:bg-white-shadow-4",
+                color || "bg-surface-muted text-content",
+                hover || "hover:bg-hover",
                 small ? "p-2" : "p-4",
                 absolute ? "absolute" : "fixed",
                 disabled && "opacity-50 cursor-not-allowed",

@@ -28,7 +28,7 @@ export default function AnswersChart({ data = [], title, height = '260px', color
 
   if (!data.length) {
     return (
-      <div className="flex items-center justify-center text-gray-400 text-sm" style={{ height }}>
+      <div className="flex items-center justify-center text-content-muted text-sm" style={{ height }}>
         Sem dados para exibir
       </div>
     );
@@ -36,13 +36,13 @@ export default function AnswersChart({ data = [], title, height = '260px', color
 
   return (
     <div className="flex flex-col items-center w-full" style={{ height }}>
-      {title && <p className="text-sm font-semibold text-gray-700 mb-2 text-center dark:text-gray-200">{title}</p>}
+      {title && <p className="text-sm font-semibold text-content mb-2 text-center">{title}</p>}
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full max-w-xs" style={{ maxHeight: 'calc(100% - 24px)' }}>
         {/* Y ticks */}
         {yTicks.map((t, i) => (
           <g key={i}>
-            <line x1={PAD.left} y1={t.y} x2={PAD.left + chartW} y2={t.y} stroke="#e2e8f0" strokeWidth="1" />
-            <text x={PAD.left - 4} y={t.y + 4} textAnchor="end" fontSize="8" fill="#94a3b8">{t.label}</text>
+            <line x1={PAD.left} y1={t.y} x2={PAD.left + chartW} y2={t.y} stroke="var(--border)" strokeWidth="1" />
+            <text x={PAD.left - 4} y={t.y + 4} textAnchor="end" fontSize="8" fill="var(--content-muted)">{t.label}</text>
           </g>
         ))}
         {/* Bars */}
@@ -57,7 +57,7 @@ export default function AnswersChart({ data = [], title, height = '260px', color
               <rect x={x} y={y} width={barW} height={barH} fill={barColor} rx="2">
                 <title>{`${d.label}: ${val}`}</title>
               </rect>
-              <text x={x + barW / 2} y={PAD.top + chartH + 14} textAnchor="middle" fontSize="8" fill="#64748b">
+              <text x={x + barW / 2} y={PAD.top + chartH + 14} textAnchor="middle" fontSize="8" fill="var(--content-muted)">
                 {d.label}
               </text>
               {barH > 14 && (
@@ -69,8 +69,8 @@ export default function AnswersChart({ data = [], title, height = '260px', color
           );
         })}
         {/* Axes */}
-        <line x1={PAD.left} y1={PAD.top} x2={PAD.left} y2={PAD.top + chartH} stroke="#94a3b8" strokeWidth="1" />
-        <line x1={PAD.left} y1={PAD.top + chartH} x2={PAD.left + chartW} y2={PAD.top + chartH} stroke="#94a3b8" strokeWidth="1" />
+        <line x1={PAD.left} y1={PAD.top} x2={PAD.left} y2={PAD.top + chartH} stroke="var(--content-muted)" strokeWidth="1" />
+        <line x1={PAD.left} y1={PAD.top + chartH} x2={PAD.left + chartW} y2={PAD.top + chartH} stroke="var(--content-muted)" strokeWidth="1" />
       </svg>
     </div>
   );

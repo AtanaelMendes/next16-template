@@ -22,7 +22,7 @@ export default function UserHoursBarChart({ data = [], title, height = '260px' }
 
   if (!data.length) {
     return (
-      <div className="flex items-center justify-center text-gray-400 text-sm" style={{ height }}>
+      <div className="flex items-center justify-center text-content-muted text-sm" style={{ height }}>
         Sem dados para exibir
       </div>
     );
@@ -30,7 +30,7 @@ export default function UserHoursBarChart({ data = [], title, height = '260px' }
 
   return (
     <div className="flex flex-col items-center w-full" style={{ height }}>
-      {title && <p className="text-sm font-semibold text-gray-700 mb-2 text-center dark:text-gray-200">{title}</p>}
+      {title && <p className="text-sm font-semibold text-content mb-2 text-center">{title}</p>}
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full max-w-xs" style={{ maxHeight: 'calc(100% - 24px)' }}>
         {data.map((d, i) => {
           const val = Number(d.hours) || 0;
@@ -39,13 +39,13 @@ export default function UserHoursBarChart({ data = [], title, height = '260px' }
           const c = d.color ?? DEFAULT_COLORS[i % DEFAULT_COLORS.length];
           return (
             <g key={i}>
-              <text x={0} y={y + 12} fontSize="10" fill="#374151" dominantBaseline="middle">
+              <text x={0} y={y + 12} fontSize="10" fill="var(--content-secondary)" dominantBaseline="middle">
                 {d.user}
               </text>
               <rect x={labelW} y={y} width={bw} height={16} fill={c} rx="3">
                 <title>{`${d.user}: ${val}h`}</title>
               </rect>
-              <text x={labelW + bw + 4} y={y + 12} fontSize="9" fill="#6b7280" dominantBaseline="middle">
+              <text x={labelW + bw + 4} y={y + 12} fontSize="9" fill="var(--content-muted)" dominantBaseline="middle">
                 {val}h
               </text>
             </g>

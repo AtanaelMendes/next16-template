@@ -14,8 +14,8 @@ export default function NewBadge({ referenceDate, rotate = 0, days = 30, size = 
 
     return (
         <span
-            style={{ transform: `rotate(${rotate}deg)` }}
-            className={`${className || ""} bg-red-600 text-white text-[${size}] font-bold px-1 py-0.5 rounded-md uppercase shadow-md z-10`}
+            style={{ transform: `rotate(${rotate}deg)`, fontSize: size }}
+            className={`${className || ""} bg-danger text-danger-content font-bold px-1 py-0.5 rounded-md uppercase shadow-md z-10`}
         >
             Novo
         </span>

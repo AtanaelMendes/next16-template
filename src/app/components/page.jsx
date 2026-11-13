@@ -50,8 +50,8 @@ import {
 const Section = ({ id, title, description, children }) => (
   <section id={id} className="mb-16 scroll-mt-20">
     <div className="mb-6 border-b-2 border-blue-200 pb-3">
-      <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100">{title}</h2>
-      {description && <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">{description}</p>}
+      <h2 className="text-2xl font-bold text-content dark:text-gray-100">{title}</h2>
+      {description && <p className="mt-1 text-sm text-content-muted dark:text-content-muted">{description}</p>}
     </div>
     {children}
   </section>
@@ -59,11 +59,11 @@ const Section = ({ id, title, description, children }) => (
 
 const SubSection = ({ title, children }) => (
   <div className="mb-8">
-    <h3 className="mb-3 text-lg font-semibold text-gray-700 dark:text-gray-200 flex items-center gap-2">
+    <h3 className="mb-3 text-lg font-semibold text-content-secondary dark:text-gray-200 flex items-center gap-2">
       <span className="w-1 h-5 bg-blue-500 rounded-full inline-block" />
       {title}
     </h3>
-    <div className="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden dark:border-slate-700 dark:bg-slate-900">
+    <div className="rounded-xl border border-border bg-surface shadow-sm overflow-hidden dark:border-slate-700 dark:bg-slate-900">
       <div className="p-5">{children}</div>
     </div>
   </div>
@@ -81,9 +81,9 @@ const CodeSnippet = ({ code }) => (
 );
 
 const PropTable = ({ props: propList }) => (
-  <div className="mt-4 overflow-x-auto rounded-lg border border-gray-200 dark:border-slate-700">
+  <div className="mt-4 overflow-x-auto rounded-lg border border-border dark:border-slate-700">
     <table className="w-full text-sm text-left">
-      <thead className="bg-gray-50 text-gray-600 text-xs uppercase dark:bg-slate-800 dark:text-gray-300">
+      <thead className="bg-surface-secondary text-content-secondary text-xs uppercase dark:bg-slate-800 dark:text-gray-300">
         <tr>
           <th className="px-4 py-2">Prop</th>
           <th className="px-4 py-2">Tipo</th>
@@ -93,11 +93,11 @@ const PropTable = ({ props: propList }) => (
       </thead>
       <tbody>
         {propList.map((p) => (
-          <tr key={p.name} className="border-t border-gray-100 odd:bg-white even:bg-gray-50 dark:border-slate-700 dark:odd:bg-slate-900 dark:even:bg-slate-800/70">
+          <tr key={p.name} className="border-t border-border odd:bg-surface even:bg-surface-secondary dark:border-slate-700 dark:odd:bg-slate-900 dark:even:bg-slate-800/70">
             <td className="px-4 py-2 font-mono text-blue-700 dark:text-blue-400">{p.name}</td>
             <td className="px-4 py-2 font-mono text-purple-600">{p.type}</td>
-            <td className="px-4 py-2 font-mono text-gray-500 dark:text-gray-400">{p.default ?? '—'}</td>
-            <td className="px-4 py-2 text-gray-600 dark:text-gray-300">{p.desc}</td>
+            <td className="px-4 py-2 font-mono text-content-muted dark:text-content-muted">{p.default ?? '—'}</td>
+            <td className="px-4 py-2 text-content-secondary dark:text-gray-300">{p.desc}</td>
           </tr>
         ))}
       </tbody>
@@ -227,37 +227,37 @@ export default function ComponentsPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-900 dark:bg-slate-950 dark:text-gray-100">
+    <div className="min-h-screen bg-surface-secondary text-content dark:bg-slate-950 dark:text-gray-100">
       {/* ── TOP HEADER ──────────────────────────────────────────────────────── */}
-      <header className="sticky top-0 z-40 bg-white border-b border-gray-200 shadow-sm dark:bg-slate-900 dark:border-slate-800">
+      <header className="sticky top-0 z-40 bg-surface border-b border-border shadow-sm dark:bg-slate-900 dark:border-slate-800">
         <div className="max-w-screen-2xl mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Link href="/" className="text-blue-600 hover:text-blue-800 text-sm flex items-center gap-1 dark:text-blue-400 dark:hover:text-blue-300">
               <FontAwesomeIcon icon={faArrowLeft} width={12} /> Dashboard
             </Link>
-            <span className="text-gray-300 dark:text-gray-600">/</span>
-            <span className="text-gray-700 font-semibold text-sm flex items-center gap-2 dark:text-gray-200">
+            <span className="text-content-muted">/</span>
+            <span className="text-content-secondary font-semibold text-sm flex items-center gap-2 dark:text-gray-200">
               <FontAwesomeIcon icon={faBookOpen} width={14} className="text-blue-600" />
               Catálogo de Componentes
             </span>
           </div>
-          <span className="text-xs text-gray-400 hidden sm:block dark:text-gray-500">src/components/ui/</span>
+          <span className="text-xs text-content-muted hidden sm:block dark:text-content-muted">src/components/ui/</span>
         </div>
       </header>
 
       <div className="max-w-screen-2xl mx-auto flex gap-0 md:gap-6 px-4 py-6">
         {/* ── STICKY SIDEBAR NAV ─────────────────────────────────────────────── */}
         <nav className="hidden md:block w-52 shrink-0">
-          <div className="sticky top-20 rounded-xl bg-white border border-gray-200 shadow-sm p-3 dark:bg-slate-900 dark:border-slate-800">
-            <p className="text-xs font-semibold uppercase text-gray-400 mb-2 px-2">Seções</p>
+          <div className="sticky top-20 rounded-xl bg-surface border border-border shadow-sm p-3 dark:bg-slate-900 dark:border-slate-800">
+            <p className="text-xs font-semibold uppercase text-content-muted mb-2 px-2">Seções</p>
             <ul className="space-y-0.5">
               {NAV_ITEMS.map(item => (
                 <li key={item.id}>
                   <a
                     href={`#${item.id}`}
-                    className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm text-gray-600 hover:bg-blue-50 hover:text-blue-700 transition-colors dark:text-gray-300 dark:hover:bg-blue-950 dark:hover:text-blue-300"
+                    className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm text-content-secondary hover:bg-blue-50 hover:text-blue-700 transition-colors dark:text-gray-300 dark:hover:bg-blue-950 dark:hover:text-blue-300"
                   >
-                    <FontAwesomeIcon icon={item.icon} width={13} className="text-gray-400" />
+                    <FontAwesomeIcon icon={item.icon} width={13} className="text-content-muted" />
                     {item.label}
                   </a>
                 </li>
@@ -341,7 +341,7 @@ export default function ComponentsPage() {
                   onChange={() => {}}
                 />
               </div>
-              <div className="mt-2 text-xs text-gray-500">
+              <div className="mt-2 text-xs text-content-muted">
                 Estado A: <strong>{toggleA ? 'ON' : 'OFF'}</strong> | Estado B: <strong>{toggleB ? 'ON' : 'OFF'}</strong>
               </div>
               <CodeSnippet code={`<ButtonToggle
@@ -360,8 +360,8 @@ export default function ComponentsPage() {
             </SubSection>
 
             <SubSection title="FloatActionButton (FAB)">
-              <div className="relative h-24 bg-gray-50 rounded-lg border border-dashed border-gray-300 flex items-center justify-center gap-4 dark:bg-slate-800 dark:border-slate-600">
-                <span className="text-gray-400 text-sm dark:text-gray-500">Área de demo (posição absoluta)</span>
+              <div className="relative h-24 bg-surface-secondary rounded-lg border border-dashed border-border flex items-center justify-center gap-4 dark:bg-slate-800 dark:border-slate-600">
+                <span className="text-content-muted text-sm dark:text-content-muted">Área de demo (posição absoluta)</span>
                 <FabSave
                   absolute small disableZIndex
                   className="bottom-3 right-3"
@@ -566,8 +566,11 @@ export default function ComponentsPage() {
                 <InputText id="demo-disabled" label="Campo desabilitado" value="Valor fixo" disabled onChange={() => {}} />
                 <InputText id="demo-clearable" label="Pesquisa" placeholder="Digite para filtrar..." value={inputVal} onChange={handleInputChange} clearable />
                 <InputText id="demo-required" label="E-mail" placeholder="email@exemplo.com" required onChange={() => {}} hint="Informe um e-mail válido." />
+                <InputText id="demo-error" label="Campo com erro" value="valor inválido" onChange={() => {}} required={{ 'demo-error': { error: true, errorMsg: 'Este campo é obrigatório' } }} />
+                <InputText id="demo-loading" label="Carregando" value="Consultando..." loading onChange={() => {}} />
+                <InputText id="demo-readonly" label="Somente leitura" value="Valor somente leitura" readOnly onChange={() => {}} />
               </div>
-              <div className="mt-2 text-xs text-gray-500">Valor atual: <strong>"{inputVal}"</strong></div>
+              <div className="mt-2 text-xs text-content-muted">Valor atual: <strong>"{inputVal}"</strong></div>
               <CodeSnippet code={`<InputText
   id="nome" label="Nome" placeholder="Digite..." 
   value={value} onChange={(id, val) => setValue(val)}
@@ -603,7 +606,25 @@ export default function ComponentsPage() {
                     { value: 'BA', label: 'Bahia' },
                   ]}
                 />
-                <div className="text-xs text-gray-500">Selecionado: <strong>"{selectVal}"</strong></div>
+                <Select
+                  id="select-disabled"
+                  label="Select desabilitado"
+                  value=""
+                  disabled
+                  placeholder="Indisponível"
+                  onChange={() => {}}
+                  options={[{ value: 'SP', label: 'São Paulo' }]}
+                />
+                <Select
+                  id="select-error"
+                  label="Select com erro"
+                  value=""
+                  placeholder="Selecione..."
+                  onChange={() => {}}
+                  required={{ 'select-error': { error: true, errorMsg: 'Selecione uma opção' } }}
+                  options={[{ value: 'SP', label: 'São Paulo' }]}
+                />
+                <div className="text-xs text-content-muted">Selecionado: <strong>"{selectVal}"</strong></div>
               </div>
               <CodeSnippet code={`<Select
   id="estado" label="Estado" value={selectVal}
@@ -620,7 +641,7 @@ export default function ComponentsPage() {
                   onChange={(id, checked) => setCheckB(checked)} />
                 <Checkbox id="chk-c" label="Campo desabilitado" checked={false} disabled onChange={() => {}} />
               </div>
-              <div className="mt-2 text-xs text-gray-500">
+              <div className="mt-2 text-xs text-content-muted">
                 Termos: <strong>{checkA ? 'Aceito' : 'Recusado'}</strong> | Notificações: <strong>{checkB ? 'Sim' : 'Não'}</strong>
               </div>
               <CodeSnippet code={`<Checkbox
@@ -641,7 +662,7 @@ export default function ComponentsPage() {
                     onChange={(id, val) => setRadioVal(val)} className="" />
                 ))}
               </div>
-              <div className="mt-2 text-xs text-gray-500">Selecionado: <strong>"{radioVal}"</strong></div>
+              <div className="mt-2 text-xs text-content-muted">Selecionado: <strong>"{radioVal}"</strong></div>
               <CodeSnippet code={`<Radio
   id="opt1" value="opt1" name="modalidade" label="Presencial"
   checked={radioVal === 'opt1'} onChange={(id, val) => setRadioVal(val)}
@@ -675,13 +696,13 @@ export default function ComponentsPage() {
                   {tabs.filter(t => t.visible).map(tab => (
                     <li key={tab.id}
                       className={`rounded-t-lg cursor-pointer px-4 py-2 text-sm font-medium transition-colors
-                        ${tab.active ? 'bg-blue-600 text-white' : 'bg-white text-gray-600 border border-gray-300 hover:bg-blue-100 dark:bg-slate-800 dark:text-gray-300 dark:border-slate-600 dark:hover:bg-slate-700'}`}
+                        ${tab.active ? 'bg-blue-600 text-white' : 'bg-surface text-content-secondary border border-border hover:bg-blue-100 dark:bg-slate-800 dark:text-gray-300 dark:border-slate-600 dark:hover:bg-slate-700'}`}
                       onClick={() => handleTabChange(tab.id)}>
                       {tab.name}
                     </li>
                   ))}
                 </ul>
-                <div className="bg-white border border-t-0 border-gray-300 rounded-b-lg p-4 text-sm text-gray-700 dark:bg-slate-900 dark:border-slate-600 dark:text-gray-300">
+                <div className="bg-surface border border-t-0 border-border rounded-b-lg p-4 text-sm text-content-secondary dark:bg-slate-900 dark:border-slate-600 dark:text-gray-300">
                   Conteúdo da aba: <strong>{tabs.find(t => t.active)?.name}</strong>
                 </div>
               </div>
@@ -699,7 +720,7 @@ import PageTabs from '@/components/ui/navigation/PageTabs';
                 showItemCountSelector
                 callBackChangePage={(items) => { /* items da página atual */ }}
               />
-              <div className="mt-2 text-xs text-gray-500">47 itens totais, 10 por página → 5 páginas</div>
+              <div className="mt-2 text-xs text-content-muted">47 itens totais, 10 por página → 5 páginas</div>
               <CodeSnippet code={`<Pagination
   data={meuArray}
   itemsPerPage={10}
@@ -724,7 +745,7 @@ import PageTabs from '@/components/ui/navigation/PageTabs';
                 setSortedDataFn={setSortedData}
                 useCompact
               />
-              <div className="mt-2 text-xs text-gray-500">
+              <div className="mt-2 text-xs text-content-muted">
                 Dados ordenados: {sortedData.map(d => d.nome).join(', ')}
               </div>
               <CodeSnippet code={`<SortControl
@@ -852,6 +873,14 @@ const data = [
                 { name: 'dense', type: 'boolean', default: 'false', desc: 'Reduz o espaçamento das células' },
               ]} />
             </SubSection>
+
+            <SubSection title="DataTable — estado vazio">
+              <DataTable
+                header={MOCK_TABLE_HEADER}
+                data={[]}
+                mainText="Sem registros"
+              />
+            </SubSection>
           </Section>
 
           {/* ══════════════════════════════════════════════════════════════════
@@ -876,7 +905,7 @@ const data = [
                 </Button>
               </div>
 
-              <div className="relative h-72 rounded-xl overflow-hidden border border-gray-300 bg-gray-100 flex dark:border-slate-700 dark:bg-slate-950">
+              <div className="relative h-72 rounded-xl overflow-hidden border border-border bg-surface-muted flex dark:border-slate-700 dark:bg-slate-950">
                 {/* Left Drawer (permanent in demo) */}
                 <div className={`bg-blue-700 text-white transition-all duration-300 overflow-hidden ${leftOpen ? 'w-52' : 'w-0'} shrink-0`}>
                   <div className="p-3">
@@ -903,7 +932,7 @@ const data = [
                   <div className="flex gap-3">
                     <button
                       onClick={() => setLeftOpen(o => !o)}
-                      className="bg-white border border-gray-300 rounded px-2 py-1 text-xs hover:bg-gray-50 dark:bg-slate-800 dark:border-slate-600 dark:hover:bg-slate-700"
+                      className="bg-surface border border-border rounded px-2 py-1 text-xs hover:bg-surface-secondary dark:bg-slate-800 dark:border-slate-600 dark:hover:bg-slate-700"
                       aria-label={leftOpen ? 'Fechar navegação' : 'Abrir navegação'}
                       aria-expanded={leftOpen}
                     >
@@ -911,14 +940,14 @@ const data = [
                     </button>
                     <button
                       onClick={() => setRightOpen(o => !o)}
-                      className="bg-white border border-gray-300 rounded px-2 py-1 text-xs hover:bg-gray-50 dark:bg-slate-800 dark:border-slate-600 dark:hover:bg-slate-700"
+                      className="bg-surface border border-border rounded px-2 py-1 text-xs hover:bg-surface-secondary dark:bg-slate-800 dark:border-slate-600 dark:hover:bg-slate-700"
                       aria-label={rightOpen ? 'Fechar painel' : 'Abrir painel'}
                       aria-expanded={rightOpen}
                     >
                       Right {rightOpen ? '(fechar)' : '(abrir)'} ▶
                     </button>
                   </div>
-                  <p className="text-xs text-gray-400">Área de conteúdo principal</p>
+                  <p className="text-xs text-content-muted">Área de conteúdo principal</p>
                   <div className="flex gap-2 text-xs">
                     <PillsBadge type={leftOpen ? 'success' : 'default'}>Left: {leftOpen ? 'open' : 'closed'}</PillsBadge>
                     <PillsBadge type={rightOpen ? 'primary' : 'default'}>Right: {rightOpen ? 'open' : 'closed'}</PillsBadge>
@@ -995,11 +1024,11 @@ const [rightOpen, setRightOpen] = useState(false);
                         { icon: faCheck, text: 'Relatório gerado com sucesso', time: 'há 15 min', color: 'text-green-500' },
                         { icon: faWarning, text: 'Prazo expirando amanhã', time: 'há 1h', color: 'text-yellow-500' },
                       ].map((n, i) => (
-                        <div key={i} className="flex gap-3 p-2 rounded-lg hover:bg-gray-50 border border-gray-100 dark:hover:bg-slate-800 dark:border-slate-800">
+                        <div key={i} className="flex gap-3 p-2 rounded-lg hover:bg-surface-secondary border border-border dark:hover:bg-slate-800 dark:border-slate-800">
                           <FontAwesomeIcon icon={n.icon} width={16} className={`mt-0.5 ${n.color}`} />
                           <div>
-                            <p className="text-sm text-gray-700 dark:text-gray-300">{n.text}</p>
-                            <span className="text-xs text-gray-400">{n.time}</span>
+                            <p className="text-sm text-content-secondary dark:text-gray-300">{n.text}</p>
+                            <span className="text-xs text-content-muted">{n.time}</span>
                           </div>
                         </div>
                       ))}
@@ -1046,7 +1075,7 @@ const [rightOpen, setRightOpen] = useState(false);
                   side="left"
                   aria-label="Alternar navegação lateral"
                 />
-                <span className="text-sm text-gray-600">
+                <span className="text-sm text-content-secondary">
                   DrawerToggle (side=left) — estado: <strong>{leftOpen ? 'aberto' : 'fechado'}</strong>
                 </span>
               </div>

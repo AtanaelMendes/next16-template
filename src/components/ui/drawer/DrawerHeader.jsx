@@ -26,14 +26,14 @@ export function DrawerHeader({
         <header
             data-testid={dataTestId || props['data-testid'] || 'drawer-header'}
             className={cn(
-                'flex items-center justify-between px-4 py-3.5 border-b border-gray-200 dark:border-gray-800 shrink-0 min-h-[56px]',
+                'flex items-center justify-between px-4 py-3.5 border-b border-border shrink-0 min-h-[56px]',
                 className
             )}
             {...props}
         >
             <div className="flex items-center gap-2.5 min-w-0">
                 {icon && (
-                    <span className="text-gray-500 dark:text-gray-400 shrink-0">
+                    <span className="text-content-muted shrink-0">
                         {icon}
                     </span>
                 )}
@@ -41,13 +41,13 @@ export function DrawerHeader({
                     {title && (
                         <h2
                             id={targetTitleId}
-                            className="text-base font-semibold text-gray-900 dark:text-gray-100 truncate leading-snug"
+                            className="text-base font-semibold text-content truncate leading-snug"
                         >
                             {title}
                         </h2>
                     )}
                     {subtitle && (
-                        <p className="text-xs text-gray-500 dark:text-gray-400 truncate leading-tight mt-0.5">
+                        <p className="text-xs text-content-muted truncate leading-tight mt-0.5">
                             {subtitle}
                         </p>
                     )}
@@ -63,7 +63,7 @@ export function DrawerHeader({
                         aria-label={closeAriaLabel}
                         title={closeAriaLabel}
                         data-testid="drawer-close-button"
-                        className="p-1.5 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer"
+                        className="p-1.5 rounded-lg text-content-muted hover:text-content hover:bg-hover transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus cursor-pointer"
                     >
                         <FontAwesomeIcon icon={faXmark} className="w-4 h-4" />
                     </button>

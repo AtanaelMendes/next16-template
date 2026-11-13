@@ -1,13 +1,13 @@
 import { cn } from "@/assets/utils";
 
 const PILL_STYLES = {
-    default: " bg-stone-100 text-gray-800 border border-stone-200 shadow-md ",
-    primary: " bg-blue-200 text-primary border border-blue-300 shadow-md ",
-    "primary-dark": " bg-blue-600 text-white ",
-    danger: " bg-red-200 text-red-800 border border-red-300 shadow-md ",
-    success: " bg-green-200 text-green-800 border border-green-300 shadow-md ",
-    warning: " bg-yellow-200 text-yellow-800 border border-yellow-300 shadow-md ",
-    "warning-dark": " bg-yellow-500 text-white ",
+    default: "bg-surface-muted text-content-secondary border border-border",
+    primary: "bg-info-subtle text-info-subtle-content border border-info-border",
+    "primary-dark": "bg-primary text-primary-content border border-primary",
+    danger: "bg-danger-subtle text-danger-subtle-content border border-danger-border",
+    success: "bg-success-subtle text-success-subtle-content border border-success-border",
+    warning: "bg-warning-subtle text-warning-subtle-content border border-warning-border",
+    "warning-dark": "bg-warning text-warning-content border border-warning",
 };
 
 /**
@@ -20,7 +20,11 @@ const PILL_STYLES = {
  * @returns {React.ReactNode}
  */
 const PillsBadge = ({ type, children, small, className }) => {
-    const baseClasses = `font-medium ${small ? "px-1" : "px-2"} rounded-full`;
+    const baseClasses = cn(
+        "inline-flex items-center font-medium whitespace-nowrap",
+        small ? "px-1.5 py-0.5" : "px-2 py-0.5",
+        "rounded-full"
+    );
     const sizeClasses = small ? "text-xs" : "text-sm";
 
     return (

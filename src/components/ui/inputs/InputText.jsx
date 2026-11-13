@@ -178,16 +178,16 @@ const InputText = ({
         if (!hasError()) return;
         let errorMsg = required[id]?.errorMsg || "Este campo é obrigatório";
 
-        return <div className="text-xs text-red-600">{errorMsg}</div>;
+        return <div className="text-xs text-danger">{errorMsg}</div>;
     }
 
     return (
         <>
             <div className={`relative w-full`}>
                 {label && (
-                    <div className='flex absolute -top-2.25 left-2 w-fit z-10 text-xs px-0.5 rounded-md mb-0 pb-0 text-nowrap before:bg-white before:top-0.5 before:left-0 before:absolute before:w-full before:h-3 before:-z-10 before:content-[""] before:rounded-lg'>
+                    <div className='flex absolute -top-2.25 left-2 w-fit z-10 text-xs px-0.5 rounded-md mb-0 pb-0 text-nowrap before:bg-surface before:top-0.5 before:left-0 before:absolute before:w-full before:h-3 before:-z-10 before:content-[""] before:rounded-lg'>
                         <label htmlFor={id}>
-                            <FieldLabel className={cn(required ? 'ml-4' : 'ml-0 mb-0 pb-0', 'text-gray-500')}>
+                            <FieldLabel className={cn(required ? 'ml-4' : 'ml-0 mb-0 pb-0', 'text-content-muted')}>
                                 {label || ""}
                             </FieldLabel>
                         </label>
@@ -217,25 +217,36 @@ const InputText = ({
                     value={getMaskedValue(inputVal)}
                     placeholder={placeholder || ""}
                     className={cn(
-                        `block w-full p-2 rounded-lg border text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500`,
-                        hasError() ? "border-red-500" : "border-gray-300",
+                        `block w-full p-2 rounded-lg border bg-input text-content text-sm placeholder:text-content-muted focus:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:border-focus`,
+                        hasError() ? "border-danger" : "border-input-border",
                         mask === "currency" ? "pl-6" : "",
                         small ? " py-1.5 pr-1.5 text-xs " : "",
                         large ? " py-3 pr-3 text-base " : "",
-                        disabled ? "bg-gray-100 cursor-not-allowed" : "",
+                        disabled ? "bg-disabled text-disabled-content cursor-not-allowed placeholder:text-disabled-content" : "",
+                        readOnly ? "bg-surface-muted cursor-default" : "",
                         className
                     )}
                 />
                 {clearable && inputVal && (
                     <div
+                        role="button"
+                        tabIndex={0}
+                        aria-label="Limpar campo"
                         onClick={clearValue}
+                        onKeyDown={(evt) => {
+                            if (evt.key === "Enter" || evt.key === " ") {
+                                evt.preventDefault();
+                                clearValue();
+                            }
+                        }}
                         className={cn(
                             "absolute top-1/2 -translate-y-1/2 right-2",
                             "w-5 h-5 flex items-center justify-center",
                             "cursor-pointer rounded-full",
-                            "text-gray-400 hover:text-blue-500",
-                            "hover:bg-gray-100 active:bg-gray-200",
-                            "transition-all duration-150 ease-in-out",
+                            "text-content-muted hover:text-primary",
+                            "hover:bg-hover active:bg-surface-muted",
+                            "transition-colors duration-150 ease-in-out",
+                            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus",
                             disabled || readOnly ? "hidden" : ""
                         )}
                     >
@@ -248,9 +259,9 @@ const InputText = ({
                     </div>
                 )}
                 {mask === "currency" && (
-                    <div className={`absolute ${small ? 'bottom-1' : 'bottom-2.25'} left-2 text-gray-900 text-sm`}>R$</div>
+                    <div className={`absolute ${small ? 'bottom-1' : 'bottom-2.25'} left-2 text-content-secondary text-sm`}>R$</div>
                 )}
-                {helperText && <div className="text-xs text-blue-600 absolute -bottom-3 right-0"> {helperText} </div>}
+                {helperText && <div className="text-xs text-info absolute -bottom-3 right-0"> {helperText} </div>}
             </div>
             {renderError()}
         </>

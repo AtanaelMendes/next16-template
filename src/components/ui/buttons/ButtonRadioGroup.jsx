@@ -8,7 +8,7 @@ const ButtonRadioGroup = ({ id, options, value, onChange, className}) => {
     }, [onChange]);
 
     return (
-        <div className={`inline-flex rounded-lg border border-gray-200 bg-white ${className}`}>
+        <div className={`inline-flex rounded-lg border border-border bg-surface ${className}`}>
             {options?.map((option, index) => (
                 <button
                     key={`${id}_${index}`}
@@ -19,12 +19,12 @@ const ButtonRadioGroup = ({ id, options, value, onChange, className}) => {
                         px-4 py-2 text-sm font-medium transition-colors duration-200
                         ${index === 0 ? 'rounded-l-lg' : ''}
                         ${index === options.length - 1 ? 'rounded-r-lg' : ''}
-                        ${index > 0 ? 'border-l border-gray-200' : ''}
+                        ${index > 0 ? 'border-l border-border' : ''}
                         ${value == option.value
-                            ? 'bg-primary text-white border-primary shadow-sm'
-                            : 'bg-white text-gray-700 hover:bg-gray-50 hover:text-gray-900'
+                            ? 'bg-primary text-primary-content border-primary shadow-sm'
+                            : 'bg-surface text-content-secondary hover:bg-hover hover:text-content'
                         }
-                        focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2
+                        focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-background
                     `}
                 >
                     {option.label}

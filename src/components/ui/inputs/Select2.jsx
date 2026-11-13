@@ -36,7 +36,7 @@ const Select2 = (props) => {
         let errorMsg =
             props?.required[props.id].errorMsg || "Este campo é obrigatório";
 
-        return <div className="text-xs text-red-600">{errorMsg}</div>;
+        return <div className="text-xs text-danger">{errorMsg}</div>;
     }
 
     useEffect(() => {
@@ -74,9 +74,9 @@ const Select2 = (props) => {
 
     return (
         <div className="w-full relative">
-            {props?.label && <div className='flex absolute -top-2.25 left-2 w-fit z-10 text-xs px-0.5 rounded-md mb-0 pb-0 text-nowrap before:bg-white before:top-0.5 before:left-0 before:absolute before:w-full before:h-3 before:-z-10 before:content-[""] before:rounded-lg'>
+            {props?.label && <div className='flex absolute -top-2.25 left-2 w-fit z-10 text-xs px-0.5 rounded-md mb-0 pb-0 text-nowrap before:bg-surface before:top-0.5 before:left-0 before:absolute before:w-full before:h-3 before:-z-10 before:content-[""] before:rounded-lg'>
                 <label htmlFor={props.id} className="inline-flex">
-                    <FieldLabel className={cn(props?.required ? 'ml-4' : 'ml-0 mb-0 pb-0', 'text-gray-500')}>
+                    <FieldLabel className={cn(props?.required ? 'ml-4' : 'ml-0 mb-0 pb-0', 'text-content-muted')}>
                         {props?.label || ""}
                     </FieldLabel>
                     {props?.hint && (
@@ -101,7 +101,7 @@ const Select2 = (props) => {
                 </label>
             </div>}
 
-            <div className={`rounded border ${hasError() ? "border-red-500" : "border-white"} ${props.className || ""}`}>
+            <div className={`rounded border ${hasError() ? "border-danger" : "border-border"} ${props.className || ""}`}>
                 <Select
                     id={props.id}
                     options={options}
@@ -115,18 +115,18 @@ const Select2 = (props) => {
                     // <- HELP - 553263: Estavam passando className (singular), mas o componente espera classNames (plural) para sobrescrever as partes internas.
                     classNames={{
                         menuButton: ({ isDisabled }) =>
-                            `flex text-sm text-gray-900 border border-gray-300 rounded-lg shadow-sm transition-all duration-300 focus:outline-none h-[36px] ${isDisabled
-                                ? "bg-gray-200"
-                                : "bg-white hover:border-gray-400 focus:border-blue-500 focus:ring focus:ring-blue-500/20"
+                            `flex text-sm text-content border border-input-border rounded-lg shadow-sm transition-all duration-300 focus:outline-none h-[36px] ${isDisabled
+                                ? "bg-disabled text-disabled-content cursor-not-allowed"
+                                : "bg-input hover:border-content-muted focus:border-focus focus:ring focus:ring-focus/30"
                             }`,
                         menu:
-                            "absolute z-20 w-full bg-white shadow-lg border rounded py-1 mt-1.5 text-sm text-gray-700",
+                            "absolute z-20 w-full bg-surface-secondary border border-border rounded py-1 mt-1.5 text-sm text-content shadow-lg",
                         list: "max-h-64 overflow-y-auto",
                     }}
                 />
             </div>
             {renderError()}
-            {props?.helperText && <div className="text-xs text-blue-600 absolute -bottom-3 right-0"> {props.helperText} </div>}
+            {props?.helperText && <div className="text-xs text-info absolute -bottom-3 right-0"> {props.helperText} </div>}
         </div>
     );
 };

@@ -7,7 +7,7 @@ const Loading = ({ active, className }) => {
     return (
         <div
             className={cn(
-                "flex absolute w-full h-full bg-white z-999 top-0 left-0 items-center justify-center",
+                "flex absolute w-full h-full bg-surface/95 backdrop-blur-sm text-content z-999 top-0 left-0 items-center justify-center",
                 className
             )}
         >

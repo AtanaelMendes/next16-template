@@ -12,15 +12,15 @@ const TimePicker = ({ value, onChange, label, required, id, className }) => {
     return (
         <>
             {
-                label && <label for="time" className="inline-flex mb-2 text-sm font-medium text-gray-900">
-                    {required && <FontAwesomeIcon icon={faAsterisk} width="10" height="10" color="red" className="self-start"/>}{label}
+                label && <label htmlFor={id || "time"} className="inline-flex mb-2 text-sm font-medium text-content">
+                    {required && <FontAwesomeIcon icon={faAsterisk} width="10" height="10" color="red" className="self-start mr-1"/>{label}
                 </label>
             }
             <div className="relative">
                 <input
                     type="time"
                     id={id || "time"}
-                    className={`bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 ${className}`}
+                    className={`bg-input border leading-none border-input-border text-content text-sm rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:border-focus block w-full p-2 disabled:bg-disabled disabled:text-disabled-content disabled:cursor-not-allowed ${className || ""}`}
                     value={value || ""}
                     required={required}
                     onChange={handleChange}

@@ -165,22 +165,25 @@ export function SortControl({ configOptions, dataObject = {}, setSortedDataFn = 
             <div className="inline-block" ref={dropdownRef}>
                 <TooltipComponent content={<div className="text-xs z-[100]">Ordenação</div>} usePortal={false}>
                     <button
-                        className="flex items-center gap-2 px-3 py-1 mb-1 border border-gray-300 rounded-md bg-white shadow-sm hover:bg-gray-100 xl:py-2.5 xl:px-4"
+                        type="button"
+                        aria-label="Ordenação"
+                        aria-expanded={isOpen}
+                        className="flex items-center gap-2 px-3 py-1 mb-1 border border-border rounded-md bg-surface text-content-secondary shadow-sm hover:bg-hover hover:text-content focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus xl:py-2.5 xl:px-4"
                         onClick={() => setIsOpen(!isOpen)}
                     >
-                        <FontAwesomeIcon icon={faArrowDownShortWide} width={"16"} height={"16"} className="text-gray-600" />
+                        <FontAwesomeIcon icon={faArrowDownShortWide} width={"16"} height={"16"} />
                     </button>
                 </TooltipComponent>
 
                 {isOpen && (
-                    <div className="absolute mt-2 min-w-[120px] bg-white border border-gray-200 rounded-md shadow-lg z-50 p-1">
+                    <div className="absolute mt-2 min-w-[120px] bg-surface-secondary border border-border rounded-md shadow-lg z-50 p-1">
                         {configOptions.map((opt) => (
                             <div
                                 key={opt.label}
                                 className={cn(
                                     'flex items-center px-3 py-2 text-sm rounded-md m-1',
-                                    selectedField === opt.label && 'font-semibold bg-blue-500 text-white',
-                                    selectedField !== opt.label && 'text-gray-700 cursor-pointer hover:bg-gray-200'
+                                    selectedField === opt.label && 'font-semibold bg-primary text-primary-content',
+                                    selectedField !== opt.label && 'text-content cursor-pointer hover:bg-hover'
                                 )}
                                 onClick={() => handleOptionClick(opt.label, opt.field, opt.direction, opt.type)}
                             >
@@ -196,21 +199,21 @@ export function SortControl({ configOptions, dataObject = {}, setSortedDataFn = 
             <div className="flex items-center gap-2">
                 <div className="relative w-[fit]" ref={dropdownRef}>
                     <div
-                        className="flex justify-between items-center border border-gray-300 rounded-md p-2 cursor-pointer bg-white shadow-md xl:py-2 xl:mb-1"
+                        className="flex justify-between items-center border border-border rounded-md p-2 cursor-pointer bg-surface shadow-md xl:py-2 xl:mb-1"
                         onClick={() => setIsOpen(!isOpen)}
                     >
-                        <span className="text-sm text-gray-700">Ordenar por:&nbsp;</span>
-                        <FontAwesomeIcon icon={faCaretDown} width={"16"} height={"16"} className="text-gray-500 ms-2" />
+                        <span className="text-sm text-content">Ordenar por:&nbsp;</span>
+                        <FontAwesomeIcon icon={faCaretDown} width={"16"} height={"16"} className="text-content-muted ms-2" />
                     </div>
 
-                    <div className={cn('absolute top-full w-full bg-white border rounded-md shadow-lg z-10 max-h-60 overflow-y-auto p-2',!isOpen && 'hidden')}>
+                    <div className={cn('absolute top-full w-full bg-surface-secondary border border-border rounded-md shadow-lg z-10 max-h-60 overflow-y-auto p-2',!isOpen && 'hidden')}>
                         {configOptions.map((opt) => (
                             <div
                                 key={opt.label}
                                 className={cn(
                                     'px-3 py-2 text-sm flex items-center rounded-md m-1',
-                                    selectedField === opt.label && 'font-semibold bg-blue-500 p-2 text-white',
-                                    selectedField !== opt.label && 'text-gray-700 cursor-pointer hover:bg-gray-200'
+                                    selectedField === opt.label && 'font-semibold bg-primary p-2 text-primary-content',
+                                    selectedField !== opt.label && 'text-content cursor-pointer hover:bg-hover'
                                 )}
                                 onClick={() => handleFieldChange(opt.label, opt.field, opt.type)}
                             >
@@ -221,11 +224,11 @@ export function SortControl({ configOptions, dataObject = {}, setSortedDataFn = 
                 </div>
 
                 {/* Botões de direção - O icone é personalizado de acordo com o tipo de dado selecionado */}
-                <div className="inline-flex rounded-md shadow-md border border-gray-300 p-0.5">
+                <div className="inline-flex rounded-md shadow-md border border-border p-0.5">
                     <TooltipComponent content={<div className="text-xs z-[100]">Ordenação crescente</div>} usePortal={false}>
                         <Button
                             square
-                            className={cn('rounded-l-md px-2 py-1.5 xl:py-2.5', orderDirection === 'asc' ? 'bg-primary text-white' : 'text-gray-500 hover:bg-slate-200')}
+                            className={cn('rounded-l-md px-2 py-1.5 xl:py-2.5', orderDirection === 'asc' ? 'bg-primary text-primary-content' : 'text-content-secondary hover:bg-hover')}
                             onClick={() => handleDirectionChange('asc')}
                         >
                             <FontAwesomeIcon icon={sortIconASC} width={"16"} height={"16"} />
@@ -239,7 +242,7 @@ export function SortControl({ configOptions, dataObject = {}, setSortedDataFn = 
                     >
                         <Button
                             square
-                            className={cn('rounded-r-md px-2 py-1.5 xl:py-2.5', orderDirection === 'desc' ? 'bg-primary text-white' : 'text-gray-500 hover:bg-slate-200')}
+                            className={cn('rounded-r-md px-2 py-1.5 xl:py-2.5', orderDirection === 'desc' ? 'bg-primary text-primary-content' : 'text-content-secondary hover:bg-hover')}
                             onClick={() => handleDirectionChange('desc')}
                         >
                             <FontAwesomeIcon icon={sortIconDESC} width={"16"} height={"16"} />

@@ -160,7 +160,7 @@ export default function RichText({ id, label, value, onChange, required, maxLeng
     return (
         <>
             {label && (
-                <label htmlFor={id} className={`${small ? 'mb-0.5 text-xs' : 'mb-2'} text-sm font-medium text-gray-900 inline-flex`}>
+                <label htmlFor={id} className={`${small ? 'mb-0.5 text-xs' : 'mb-2'} text-sm font-medium text-content inline-flex`}>
                     {required && (
                         <FontAwesomeIcon
                             icon={faAsterisk}
@@ -173,7 +173,7 @@ export default function RichText({ id, label, value, onChange, required, maxLeng
                     {label}
                 </label>
             )}
-            <div className="border rounded shadow relative">
+            <div className="border border-border bg-surface rounded shadow relative">
                 <SunEditor
                     getSunEditorInstance={handleEditorInstance}
                     setContents={editorContent}

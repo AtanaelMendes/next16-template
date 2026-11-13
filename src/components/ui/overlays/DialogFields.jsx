@@ -2,10 +2,10 @@ import Button from '@/components/ui/buttons/Button';
 
 const DialogFields = ({title, children, visible, type, onCancel, onSave, disabled, labelConfirm}) => {
     const classType = {
-        primary: "bg-primary text-white",
-        success: "bg-green-500 text-white",
-        warning: "bg-orange-500",
-        danger: "bg-red-500 text-white"
+        primary: "bg-primary text-primary-content",
+        success: "bg-success text-success-content",
+        warning: "bg-warning text-warning-content",
+        danger: "bg-danger text-danger-content"
     };
 
     const handleSave = () => {
@@ -21,9 +21,14 @@ const DialogFields = ({title, children, visible, type, onCancel, onSave, disable
     }
 
     return (
-        <div className={`z-50 left-0 top-0 w-full h-screen bg-black bg-opacity-40 items-center fixed ${visible ? "flex" : "hidden"}`}>
-            <div className="bg-white rounded-md mx-auto my-auto flex flex-col">
-                <div className={`${classType[type] || "bg-gray-300"} p-2 rounded-t-md font-semibold`}>
+        <div
+            role="dialog"
+            aria-modal="true"
+            aria-label={title || "Dialogo"}
+            className={`z-50 inset-0 w-full h-screen bg-black/50 items-center justify-center p-4 fixed ${visible ? "flex" : "hidden"}`}
+        >
+            <div className="w-full max-w-lg bg-surface text-content border border-border rounded-md mx-auto my-auto flex flex-col shadow-xl">
+                <div className={`${classType[type] || "bg-surface-muted text-content"} p-2 rounded-t-md font-semibold`}>
                     {title || "RHbrasil"}
                 </div>
                 <div className="p-2 flex flex-col gap-y-1">

@@ -19,7 +19,7 @@ export function DrawerFooter({
         <footer
             data-testid={dataTestId || props['data-testid'] || 'drawer-footer'}
             className={cn(
-                'p-4 border-t border-gray-200 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-900/50 shrink-0',
+                'p-4 border-t border-border bg-surface-secondary/50 shrink-0',
                 className
             )}
             {...props}

@@ -4,7 +4,7 @@ import { cn, empty } from "@/assets/utils";
 
 export const Title = ({children, className}) => {
     return (
-        <span className={cn(`font-semibold`, className)}>
+        <span className={cn(`font-semibold text-content`, className)}>
             { !empty(children) ? children : "" }
         </span>
     );
@@ -12,7 +12,7 @@ export const Title = ({children, className}) => {
 
 export const Subtitle = ({children, className}) => {
     return (
-        <span className={cn(`text-base`, className)}>
+        <span className={cn(`text-base text-content`, className)}>
             { !empty(children) ? children : "" }
         </span>
     );
@@ -20,7 +20,7 @@ export const Subtitle = ({children, className}) => {
 
 export const Label = ({children, className}) => {
     return (
-        <span className={cn(`text-sm`, className)}>
+        <span className={cn(`text-sm text-content`, className)}>
             { !empty(children) ? children : "" }
         </span>
     );
@@ -28,7 +28,7 @@ export const Label = ({children, className}) => {
 
 export const Caption = ({children, className}) => {
     return (
-        <span className={cn(`text-xs text-slate-400`, className)}>
+        <span className={cn(`text-xs text-content-muted`, className)}>
             { !empty(children) ? children : "" }
         </span>
     );
@@ -38,7 +38,7 @@ export const FieldLabel = ({ children, className, required }) => {
     return (
         <div className="inline-flex">
             {required && <FontAwesomeIcon icon={faAsterisk} width="10" height="10" color="red" className="self-start mr-1" />}
-            <span className={cn('block mb-0.5 xl:mb-1 text-sm font-medium text-gray-900', className)}>
+            <span className={cn('block mb-0.5 xl:mb-1 text-sm font-medium text-content', className)}>
                 { !empty(children) ? children : "" }
             </span>
         </div>

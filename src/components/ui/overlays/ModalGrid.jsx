@@ -36,9 +36,9 @@ const ModalGrid = ({
     };
 
     const getModalType = () => {
-        if (danger) return "bg-red-500 text-white";
-        if (warning) return "bg-orange-400";
-        return " bg-primary text-white ";
+        if (danger) return "bg-danger text-danger-content";
+        if (warning) return "bg-warning text-warning-content";
+        return " bg-primary text-primary-content ";
     };
 
     const closeModal = () => {
@@ -68,7 +68,7 @@ const ModalGrid = ({
             aria-label="Fechar modal"
         >
             <svg
-                className={cn("w-5 h-5", warning ? "" : "fill-white")}
+                className={cn("w-5 h-5 fill-current")}
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 320 512"
             >
@@ -86,15 +86,18 @@ const ModalGrid = ({
 
     return (
         <div
-            className={`fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 ${customMargin}`}
+            role="dialog"
+            aria-modal="true"
+            aria-label={title || "Modal"}
+            className={`fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-2 sm:p-4 ${customMargin}`}
             id={id}
             onClick={dismissible && !title ? closeModal : undefined}
         >
             <div
                 className={cn(
-                    "relative rounded-lg flex flex-col max-h-screen",
+                    "relative rounded-lg flex flex-col max-h-screen bg-surface text-content border border-border shadow-2xl",
                     modalSizes[size],
-                    background || "bg-white"
+                    background
                 )}
                 onClick={(e) => e.stopPropagation()}
             >
@@ -127,7 +130,7 @@ const ModalGrid = ({
                 {/* Footer */}
                 {(footer || btnCancel || btnSubmit) && (
                     <div
-                        className={cn("z-10 p-1 xl:p-2 border-t border-slate-300 bg-white flex items-center", size !== "full" ? "rounded-b-lg" : "", footerClass || "")}>
+                        className={cn("z-10 p-1 xl:p-2 border-t border-border bg-surface-secondary flex items-center", size !== "full" ? "rounded-b-lg" : "", footerClass || "")}>
                         {btnCancel && (
                             <div>
                                 <Button buttonType="danger" outline={btnSubmit} onClick={closeModal} size="small">

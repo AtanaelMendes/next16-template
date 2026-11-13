@@ -50,7 +50,7 @@ const InputPassword = ({
         if (!hasError()) return;
         let errorMsg = required?.password?.errorMsg || "Este campo é obrigatório";
 
-        return <div className="text-xs text-red-600">{errorMsg}</div>;
+        return <div className="text-xs text-danger">{errorMsg}</div>;
     }
 
     return (
@@ -91,18 +91,20 @@ const InputPassword = ({
                     onBlur={handleBlur}
                     maxLength={maxLength || ""}
                     type={togglePassword ? "password" : "text"}
-                    className={`border ${hasError() ? "border-red-500" : "border-gray-300"
-                        } text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2`}
+                    className={`border bg-input text-content placeholder:text-content-muted ${hasError() ? "border-danger focus-visible:ring-danger" : "border-input-border focus-visible:ring-focus"
+                        } text-sm rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:border-focus block w-full p-2`}
                 />
                 {showTogglePassword && (
-                    <div
-                        className="right-2 top-1 absolute inset-y-0 flex items-center cursor-pointer h-[75%]"
+                    <button
+                        type="button"
+                        aria-label={togglePassword ? "Mostrar senha" : "Ocultar senha"}
+                        className="right-2 top-1 absolute inset-y-0 flex items-center cursor-pointer h-[75%] rounded text-content-muted hover:text-content focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
                         onClick={() => {
                             setTogglePassword(!togglePassword);
                         }}
                     >
-                        <FontAwesomeIcon icon={togglePassword ? faEye : faEyeSlash} width="20" height="20" className="text-slate-500"/>
-                    </div>
+                        <FontAwesomeIcon icon={togglePassword ? faEye : faEyeSlash} width="20" height="20" />
+                    </button>
                 )}
             </div>
             {renderError()}

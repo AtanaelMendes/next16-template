@@ -7,11 +7,11 @@ import Button from '@/components/ui/buttons/Button'
 
 const InputDate = ({small, variant, ...props}) => {
 	const variantClasses = {
-		danger: 'border-red-500 text-red-500',
-		warning: 'border-yellow-500 text-yellow-500',
-		info: 'border-blue-500 text-blue-500',
-		success: 'border-green-500 text-green-500',
-		default: 'border-gray-300 text-gray-500',
+		danger: 'border-danger text-danger',
+		warning: 'border-warning text-warning',
+		info: 'border-info text-info',
+		success: 'border-success text-success',
+		default: 'border-border text-content-muted',
 	}
 	const handleChange = evt => {
 		if (typeof props.onChange === 'function') {
@@ -32,7 +32,7 @@ const InputDate = ({small, variant, ...props}) => {
 		if (!hasError()) return
 		let errorMsg = props?.required[props.id].errorMsg || 'Este campo é obrigatório'
 
-		return <div className='text-xs text-red-600'>{errorMsg}</div>
+		return <div className='text-xs text-danger'>{errorMsg}</div>
 	}
 
 	function getValue() {
@@ -59,12 +59,12 @@ const InputDate = ({small, variant, ...props}) => {
 
 	return (
 		<div className={cn(
-			'relative w-full focus:ring-blue-500 focus:border-blue-500 border rounded-md focus:text-blue-500 mt-1',
-			hasError() ? `border-red-500 text-red-500` : 'border-gray-300 text-gray-500',
+			'relative w-full border rounded-md bg-input focus-within:ring-2 focus-within:ring-focus mt-1',
+			hasError() ? `border-danger text-danger` : 'border-input-border text-content-muted',
 			variantClasses[variant || "default"],
 			)}>
 			{props.label && (
-				<div className='flex absolute -top-2.25 left-2 w-fit z-10 text-xs px-0.5 rounded-md mb-0 pb-0 text-nowrap before:bg-white before:top-0.5 before:left-0 before:absolute before:w-full before:h-3 before:-z-10 before:content-[""] before:rounded-lg'>
+				<div className='flex absolute -top-2.25 left-2 w-fit z-10 text-xs px-0.5 rounded-md mb-0 pb-0 text-nowrap before:bg-surface before:top-0.5 before:left-0 before:absolute before:w-full before:h-3 before:-z-10 before:content-[""] before:rounded-lg'>
 					<label htmlFor={props.id} >
 						<FieldLabel className={cn(props?.required ? 'ml-4' : 'ml-0', variantClasses[variant || "default"], 'mb-0 pb-0')}>
 							{props.label || ''}
@@ -97,20 +97,20 @@ const InputDate = ({small, variant, ...props}) => {
 					type='date'
 					className={cn(
 						small ? " py-1 pr-1.5 text-xs " : "p-2 text-base",
-						'rounded-lg block w-full text-gray-900 border-none',
-						props.disabled && 'bg-gray-200 cursor-not-allowed',
+						'rounded-lg block w-full bg-transparent text-content border-none focus:outline-none',
+						props.disabled && 'bg-disabled text-disabled-content cursor-not-allowed',
 						props.className
 					)}
 				/>
 				{renderError()}
-				{props.helperText && <div className='text-xs text-blue-600'> {props.helperText} </div>}
+				{props.helperText && <div className='text-xs text-info'> {props.helperText} </div>}
 
 				{props?.copy && (
 					<TooltipComponent content={"Copiar data"} asChild>
 						<div>
 							<Button
 								onClick={copyFormatedDate}
-								className={`text-blue-700 border h-full rounded-md shadow px-2 py-1 ml-2 hover:bg-blue-700 hover:text-white`}
+								className={`text-primary border border-border h-full rounded-md shadow px-2 py-1 ml-2 hover:bg-primary hover:text-primary-content`}
 							>
 								<FontAwesomeIcon icon={faCopy} width="15" height="15" />
 							</Button>

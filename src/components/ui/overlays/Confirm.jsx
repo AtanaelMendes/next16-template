@@ -20,18 +20,23 @@ const Confirm = ({ visible, setVisible, iconSize, primaryText, secondaryText, bt
     };
 
     return (
-        <div className={`z-50 left-0 top-0 w-full h-screen bg-black bg-opacity-40 items-center fixed ${visible ? "flex" : "hidden"}`} >
-            <div className={`h-fit w-2/6 py-2 bg-white m-auto rounded-lg`} >
-                <div className="flex text-slate-500 mr-4 justify-center py-2">
+        <div
+            role="dialog"
+            aria-modal="true"
+            aria-label={primaryText || "Confirmação"}
+            className={`z-50 inset-0 w-full h-screen bg-black/50 items-center justify-center p-4 fixed ${visible ? "flex" : "hidden"}`}
+        >
+            <div className="w-full max-w-md py-2 bg-surface text-content border border-border rounded-lg shadow-xl">
+                <div className="flex text-warning mr-4 justify-center py-2">
                     <FontAwesomeIcon icon={faTriangleExclamation} width={iconSize || "45"} height={iconSize || "45"} />
                 </div>
-                <div className={`z-50 w-full px-4 p-2 text-center text-base`}>
+                <div className="z-50 w-full px-4 p-2 text-center text-base text-content">
                     {primaryText || ""}
                 </div>
-                <div className={`z-50 w-full px-4 p-2 text-slate-500 text-center text-sm`}>
+                <div className="z-50 w-full px-4 p-2 text-content-muted text-center text-sm">
                     {secondaryText || ""}
                 </div>
-                <div className={`z-50 w-full p-2 text-center`} >
+                <div className="z-50 w-full p-2 text-center">
                     {btnDecline && (
                         <Button
                             buttonType="primary"

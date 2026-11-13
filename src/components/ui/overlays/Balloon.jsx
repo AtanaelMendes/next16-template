@@ -12,7 +12,7 @@ const Balloon = ({ visible, reload, placement = 'bottom', color = 'default', chi
         },
         warning: {
             bg: 'bg-yellow-500',
-            text: 'text-black',
+            text: 'text-warning-content',
             border: 'yellow-500',
             shadow: 'shadow-yellow-500',
             dropShadow: 'drop-shadow-[0_2px_2px_rgb(234_179_8)]'
@@ -39,9 +39,9 @@ const Balloon = ({ visible, reload, placement = 'bottom', color = 'default', chi
             dropShadow: 'drop-shadow-[0_2px_2px_rgb(31_41_55)]'
         },
         default: {
-            bg: 'bg-white',
-            text: 'text-black',
-            border: 'gray-300',
+            bg: 'bg-surface-elevated',
+            text: 'text-content',
+            border: 'border',
             shadow: 'shadow-blue-500',
             dropShadow: 'drop-shadow-[0_2px_2px_rgb(59_130_246)]'
         }
@@ -72,7 +72,7 @@ const Balloon = ({ visible, reload, placement = 'bottom', color = 'default', chi
     const currentPlacement = placementClasses[placement] || placementClasses.bottom;
 
     return (
-        <div className={`absolute ${currentPlacement.balloon} items-center justify-center flex flex-col rounded-lg ${currentColor.bg} ${currentColor.text} animate-bounce shadow-md ${currentColor.shadow} p-2`}>
+        <div role="status" className={`absolute ${currentPlacement.balloon} items-center justify-center flex flex-col rounded-lg border border-border ${currentColor.bg} ${currentColor.text} animate-bounce shadow-md ${currentColor.shadow} p-2`}>
             <div className="relative">
                 <span className={`absolute w-0 h-0 border-solid ${currentPlacement.caret.replace('${color}', currentColor.border)} ${currentColor.dropShadow}`} />
             </div>

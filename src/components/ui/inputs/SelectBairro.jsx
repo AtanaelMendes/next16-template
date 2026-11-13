@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAsterisk } from "@fortawesome/free-solid-svg-icons";
+import { faAsterisk, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FieldLabel } from "@/components/ui/display/Typography";
 import { useEffect, useState } from "react";
 import Select from "react-tailwindcss-select";
@@ -34,7 +34,7 @@ const SelectBairro = (props) => {
         let errorMsg =
             props?.required[props.id].errorMsg || "Este campo é obrigatório";
 
-        return <div className="text-xs text-red-600">{errorMsg}</div>;
+        return <div className="text-xs text-danger">{errorMsg}</div>;
     }
 
     useEffect(() => {
@@ -75,9 +75,9 @@ const SelectBairro = (props) => {
     return (
         <div className="relative w-full">
             {props.label && (
-                <div className='flex absolute top-[-9px] left-2 w-fit z-10 text-xs px-0.5 rounded-md mb-0 pb-0 text-nowrap before:bg-white before:top-0.5 before:left-0 before:absolute before:w-full before:h-[12px] before:-z-10 before:content-[""] before:rounded-lg'>
+                <div className='flex absolute top-[-9px] left-2 w-fit z-10 text-xs px-0.5 rounded-md mb-0 pb-0 text-nowrap before:bg-surface before:top-0.5 before:left-0 before:absolute before:w-full before:h-[12px] before:-z-10 before:content-[""] before:rounded-lg'>
                     <label htmlFor={props.id}>
-                        <FieldLabel className={cn(props?.required ? 'ml-4' : 'ml-0 mb-0 pb-0', 'text-gray-500')}>
+                        <FieldLabel className={cn(props?.required ? 'ml-4' : 'ml-0 mb-0 pb-0', 'text-content-muted')}>
                             {props.label || ""}
                         </FieldLabel>
                     </label>
@@ -91,7 +91,14 @@ const SelectBairro = (props) => {
                         />
                     )}
                     {props?.hint && (
-                        <>
+                        <TooltipComponent
+                            content={
+                                <div className="text-xs z-20 max-w-[300px]">
+                                    {props?.hint}
+                                </div>
+                            }
+                            asChild
+                        >
                             <FontAwesomeIcon
                                 icon={faInfoCircle}
                                 width="16"
@@ -100,21 +107,11 @@ const SelectBairro = (props) => {
                                 className="self-start ml-2"
                                 tabIndex={-1}
                             />
-                            <TooltipComponent
-                                content={
-                                    <div className="text-xs z-20 max-w-[300px]">
-                                        {props?.hint}
-                                    </div>
-                                }
-                                asChild
-                            >
-
-                            </TooltipComponent>
-                        </>
+                        </TooltipComponent>
                     )}
                 </div>
             )}
-            <div className={`rounded-lg border ${hasError() ? "border-red-500" : "border-white"}`}>
+            <div className={`rounded-lg border ${hasError() ? "border-danger" : "border-border"}`}>
                 <Select
                     id={props.id}
                     loading={isLoadingData || false}
@@ -127,18 +124,18 @@ const SelectBairro = (props) => {
                     searchInputPlaceholder={"Digite para filtrar"}
 					classNames={{
                         menuButton: ({ isDisabled }) =>
-                            `flex text-sm text-gray-900 border border-gray-300 rounded-lg shadow-sm transition-all duration-300 focus:outline-none h-[36px] ${isDisabled
-                                ? "bg-gray-200"
-                                : "bg-white hover:border-gray-400 focus:border-blue-500 focus:ring focus:ring-blue-500/20"
+                            `flex text-sm text-content border border-input-border rounded-lg shadow-sm transition-all duration-300 focus:outline-none h-[36px] ${isDisabled
+                                ? "bg-disabled text-disabled-content cursor-not-allowed"
+                                : "bg-input hover:border-content-muted focus:border-focus focus:ring focus:ring-focus/30"
                             }`,
                         menu:
-                            "absolute z-20 w-full bg-white shadow-lg border rounded py-1 mt-1.5 text-sm text-gray-700",
+                            "absolute z-20 w-full bg-surface-secondary border border-border rounded py-1 mt-1.5 text-sm text-content shadow-lg",
                         list: "max-h-48 overflow-y-auto", // (opcional) limitar altura:
                     }}
                 />
             </div>
             {renderError()}
-            {props?.helperText && <div className="text-xs text-blue-600 absolute bottom-[-12px] right-0"> {props.helperText} </div>}
+            {props?.helperText && <div className="text-xs text-info absolute bottom-[-12px] right-0"> {props.helperText} </div>}
         </div>
     );
 };

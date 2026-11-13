@@ -62,14 +62,14 @@ const Calendar = ({ year, month, onSelectDate, selectedDate }) => {
     const weekDays = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"];
 
     return (
-        <div className="bg-white border border-gray-200 rounded-lg shadow-lg p-4 w-80">
-            <div className="text-center font-semibold text-gray-700 mb-4">
+        <div className="bg-surface border border-border rounded-lg shadow-lg p-4 w-80">
+            <div className="text-center font-semibold text-content mb-4">
                 {monthNames[month]} {year}
             </div>
 
             <div className="grid grid-cols-7 gap-2 mb-3">
                 {weekDays.map((day) => (
-                    <div key={day} className="text-center text-xs font-medium text-gray-600">
+                    <div key={day} className="text-center text-xs font-medium text-content-muted">
                         {day}
                     </div>
                 ))}
@@ -88,8 +88,8 @@ const Calendar = ({ year, month, onSelectDate, selectedDate }) => {
                                 selectedDate?.getDate() === day &&
                                 selectedDate?.getMonth() === month &&
                                 selectedDate?.getFullYear() === year
-                                ? "bg-blue-500 text-white"
-                                : "hover:bg-gray-100 text-gray-700",
+                                ? "bg-primary text-primary-content"
+                                : "hover:bg-hover text-content-secondary",
                         )}
                     >
                         {day}
@@ -167,13 +167,13 @@ const DatePicker = ({ label, onChange, id, maxDate, defaultDate, required }) => 
 
             <div
                 className={cn(
-                    "flex bg-gray-50 border border-gray-300 rounded-lg p-2 cursor-pointer",
-                    show && "border-blue-500 border-2",
+                    "flex bg-input border border-input-border rounded-lg p-2 cursor-pointer",
+                    show && "border-primary border-2",
                 )}
                 onClick={() => setShow(!show)}
             >
                 <div className="flex items-center mr-2">
-                    <FontAwesomeIcon icon={faCalendar} width="20" height="20" className={cn(show ? "text-blue-500" : "text-slate-500")} />
+                    <FontAwesomeIcon icon={faCalendar} width="20" height="20" className={cn(show ? "text-primary" : "text-content-muted")} />
                 </div>
                 <input
                     type="text"
@@ -181,26 +181,26 @@ const DatePicker = ({ label, onChange, id, maxDate, defaultDate, required }) => 
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
                     placeholder="Selecione uma data"
-                    className="outline-none bg-transparent w-full text-gray-700"
+                    className="outline-none bg-transparent w-full text-content placeholder:text-content-muted"
                     readOnly
                 />
             </div>
 
             {show && (
                 <div className="absolute top-full mt-2 z-50">
-                    <div className="bg-white border border-gray-200 rounded-lg shadow-lg p-4">
+                    <div className="bg-surface border border-border rounded-lg shadow-lg p-4">
                         <div className="flex justify-between items-center mb-4">
-                            <button onClick={handlePrevMonth} className="p-1 hover:bg-gray-100 rounded">
-                                <FontAwesomeIcon icon={faChevronCircleLeft} width="20" height="20" className="text-slate-500"/>
+                            <button type="button" aria-label="Mês anterior" onClick={handlePrevMonth} className="p-1 hover:bg-hover rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus">
+                                <FontAwesomeIcon icon={faChevronCircleLeft} width="20" height="20" className="text-content-muted"/>
                             </button>
-                            <span className="font-semibold text-gray-700">
+                            <span className="font-semibold text-content">
                                 {new Date(currentYear, currentMonth).toLocaleDateString("pt-BR", {
                                     month: "long",
                                     year: "numeric",
                                 })}
                             </span>
-                            <button onClick={handleNextMonth} className="p-1 hover:bg-gray-100 rounded">
-                                <FontAwesomeIcon icon={faChevronCircleRight} width="20" height="20" className="text-slate-500"
+                            <button type="button" aria-label="Próximo mês" onClick={handleNextMonth} className="p-1 hover:bg-hover rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus">
+                                <FontAwesomeIcon icon={faChevronCircleRight} width="20" height="20" className="text-content-muted"
                                 />
                             </button>
                         </div>
@@ -210,7 +210,7 @@ const DatePicker = ({ label, onChange, id, maxDate, defaultDate, required }) => 
                         <div className="flex gap-2 mt-4">
                             <button
                                 onClick={() => { const today = new Date(); handleSelectDate(today); }}
-                                className="flex-1 px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm"
+                                className="flex-1 px-3 py-1 bg-primary text-primary-content rounded hover:bg-primary-hover text-sm"
                             >
                                 Hoje
                             </button>
@@ -221,7 +221,7 @@ const DatePicker = ({ label, onChange, id, maxDate, defaultDate, required }) => 
                                     onChange("");
                                     setShow(false);
                                 }}
-                                className="flex-1 px-3 py-1 bg-gray-300 text-gray-700 rounded hover:bg-gray-400 text-sm"
+                                className="flex-1 px-3 py-1 bg-surface-muted text-content rounded hover:bg-hover text-sm"
                             >
                                 Limpar
                             </button>

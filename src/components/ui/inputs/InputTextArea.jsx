@@ -64,7 +64,7 @@ const InputTextArea = React.memo(function ({
         if (!hasError) return;
         let errorMsg = required[id].errorMsg || "Este campo é obrigatório";
 
-        return <div className="text-xs text-red-600 w-full">{errorMsg}</div>;
+        return <div className="text-xs text-danger w-full">{errorMsg}</div>;
     }, [hasError, required, id]);
 
     const RenderTextArea = React.useMemo(
@@ -80,9 +80,9 @@ const InputTextArea = React.memo(function ({
                 placeholder={placeholder}
                 maxLength={maxLength}
                 className={cn(
-                    "block p-2 w-full text-sm text-gray-900 rounded-lg border focus:ring-blue-500 focus:border-blue-500",
-                    disabled ? "bg-gray-100 cursor-not-allowed" : "bg-yellow-50",
-                    hasError ? "border-red-500" : "border-gray-300",
+                    "block p-2 w-full text-sm text-content rounded-lg border bg-input placeholder:text-content-muted focus:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:border-focus",
+                    disabled ? "bg-disabled text-disabled-content cursor-not-allowed" : "",
+                    hasError ? "border-danger" : "border-input-border",
                     className
                 )}
             />
@@ -93,7 +93,7 @@ const InputTextArea = React.memo(function ({
     return (
         <>
             {label && (
-                <label htmlFor={id} className={`${small ? 'mb-0.5 text-xs' : 'mb-2'} text-sm font-medium text-gray-900 inline-flex`}>
+                <label htmlFor={id} className={`${small ? 'mb-0.5 text-xs' : 'mb-2'} text-sm font-medium text-content inline-flex`}>
                     {required && (
                         <FontAwesomeIcon icon={faAsterisk} width="10" height="10" color="red" className="self-start" />
                     )}
@@ -114,7 +114,7 @@ const InputTextArea = React.memo(function ({
                     </Button>
                 </div>}
             </div>
-            {helperText && <div className="text-xs text-blue-600 text-right">{helperText}</div>}
+            {helperText && <div className="text-xs text-info text-right">{helperText}</div>}
             {renderError()}
         </>
     );

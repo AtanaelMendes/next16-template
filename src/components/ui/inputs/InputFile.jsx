@@ -109,20 +109,20 @@ const InputFile = (props) => {
         if (!hasError()) return;
         let errorMsg = props.required[props.id]?.errorMsg || "Este campo é obrigatório";
 
-        return <div className="text-xs text-red-600">{errorMsg}</div>;
+        return <div className="text-xs text-danger">{errorMsg}</div>;
     }
 
     return (
         <>
             <div
-                className={`border-2 rounded border-dashed px-2 py-1 align-center 
+                className={`border-2 rounded border-dashed px-2 py-1 align-center transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus
                     ${
                         props?.disabled
-                            ? "bg-gray-100 cursor-not-allowed text-gray-600"
-                            : `cursor-pointer text-blue-600 ${
+                            ? "bg-disabled cursor-not-allowed text-disabled-content border-border"
+                            : `cursor-pointer text-primary ${
                                   dragging
-                                      ? "border-blue-600 bg-blue-100"
-                                      : "bg-gray-50 border-slate-300"
+                                      ? "border-primary bg-info-subtle"
+                                      : "bg-input border-input-border hover:border-content-muted"
                               }`
                     }`}
                 onDragOver={handleDragOver}
@@ -137,17 +137,17 @@ const InputFile = (props) => {
                         <FontAwesomeIcon icon={faCloudUploadAlt} width="30" height="30" />
                     </div>
                     <div className="col-span-10">
-                        <span className="text-sm text-gray-600 block text-center">
+                        <span className="text-sm text-content-secondary block text-center">
                             <span className="font-bold">{props.label || "Arquivo"}</span>
                             <span className={"text-xs italic font-semibold"}>
                                 &nbsp;{props.subLabel || ""}
                             </span>
                         </span>
-                        <span className="text-sm text-gray-500 block text-center">
+                        <span className="text-sm text-content-muted block text-center">
                             <span className="font-semibold">Clique para selecionar </span> ou
                             arraste e solte
                         </span>
-                        <div className={"text-center text-sm"}>
+                        <div className={"text-center text-sm text-content"}>
                             {selectedFileName || "Nenhum arquivo escolhido"}
                         </div>
                     </div>
@@ -162,7 +162,7 @@ const InputFile = (props) => {
                     accept={`${allowedExtensions.join(", ")}`}
                 />
             </div>
-            {props?.helperText && <div className="text-xs text-blue-600"> {props.helperText} </div>}
+            {props?.helperText && <div className="text-xs text-info"> {props.helperText} </div>}
             {renderError()}
         </>
     );

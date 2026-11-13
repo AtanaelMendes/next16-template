@@ -39,7 +39,7 @@ const InputNumber = ({ label, value, onChange, placeholder, id, name, required, 
         if (empty(errorMsg)) return;
 
         return (
-            <div className="text-xs text-red-600">
+            <div className="text-xs text-danger">
                 {errorMsg}
             </div>
         )
@@ -47,9 +47,9 @@ const InputNumber = ({ label, value, onChange, placeholder, id, name, required, 
 
     return (
         <div className="w-full relative">
-            {label && <div className='flex absolute -top-2.25 left-2 w-fit z-10 text-xs px-0.5 rounded-md mb-0 pb-0 text-nowrap before:bg-white before:top-0.5 before:left-0 before:absolute before:w-full before:h-3 before:-z-10 before:content-[""] before:rounded-lg'>
+            {label && <div className='flex absolute -top-2.25 left-2 w-fit z-10 text-xs px-0.5 rounded-md mb-0 pb-0 text-nowrap before:bg-surface before:top-0.5 before:left-0 before:absolute before:w-full before:h-3 before:-z-10 before:content-[""] before:rounded-lg'>
                 <label htmlFor={id}>
-                    <FieldLabel className={cn(required ? 'ml-4' : 'ml-0 mb-0 pb-0', 'text-gray-500')}>
+                    <FieldLabel className={cn(required ? 'ml-4' : 'ml-0 mb-0 pb-0', 'text-content-muted')}>
                         {label || ""}
                     </FieldLabel>
                 </label>
@@ -70,16 +70,16 @@ const InputNumber = ({ label, value, onChange, placeholder, id, name, required, 
                 onChange={handleChange}
                 className={`
                     rounded-lg block w-full
-                    border 
-                    ${hasError() ? "border-red-500 focus:ring-red-500 focus:border-red-500" : "border-gray-300 focus:ring-blue-500 focus:border-blue-500"}
-                    text-gray-900 text-sm
-                    ${disabled ? "bg-gray-100 cursor-not-allowed" : ""}
+                    border bg-input text-content text-sm placeholder:text-content-muted
+                    focus:outline-none focus-visible:ring-2 focus-visible:border-focus
+                    ${hasError() ? "border-danger focus-visible:ring-danger" : "border-input-border focus-visible:ring-focus"}
+                    ${disabled ? "bg-disabled text-disabled-content cursor-not-allowed" : ""}
                     ${getInputClass()}
                     ${className}
                 `}
                 placeholder={placeholder || ""} />
             {renderError()}
-            {helperText && <div className="text-xs text-blue-600 absolute -bottom-3 right-0"> {helperText} </div>}
+            {helperText && <div className="text-xs text-info absolute -bottom-3 right-0"> {helperText} </div>}
         </div>
     );
 }

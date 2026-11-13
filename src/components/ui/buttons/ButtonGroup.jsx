@@ -29,10 +29,12 @@ const ButtonGroup = ({ buttons, small, className, vertical }) => {
 							onClick={() => handleClick(btn?.onclick)}
 							disabled={btn.disabled}
 							className={cn(
-								"text-sm font-medium bg-white border border-gray-300 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-transparent focus:text-blue-700",
+								"text-sm font-medium bg-surface text-content border border-border",
+								"hover:bg-hover hover:text-primary",
+								"focus:z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-1 focus-visible:ring-offset-background",
+								"disabled:cursor-not-allowed disabled:opacity-70 disabled:bg-disabled disabled:text-disabled-content disabled:border-border disabled:hover:bg-disabled disabled:hover:text-disabled-content",
 								small ? " px-2 py-1 " : "px-4 py-2",
-								btn.className,
-								btn.disabled && "cursor-not-allowed opacity-50"
+								btn.className
 							)}
 						>
 							{btn.label}

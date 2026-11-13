@@ -232,8 +232,8 @@ export function Drawer({
         inert={!isOpen ? true : undefined}
         tabIndex={isModal ? -1 : undefined}
         className={cn(
-          'flex flex-col bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100',
-          'border-gray-200 dark:border-gray-800',
+          'flex flex-col bg-surface text-content',
+          'border-border',
           positionClasses,
           className
         )}

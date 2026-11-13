@@ -8,11 +8,11 @@ const ButtonDropDown = ({ id, label, small, type, block, className, items }) => 
     const menuRef = useRef(null);
 
     const btnType = {
-        primary: `bg-blue-600 text-white border border-blue-600 hover:bg-blue-800 focus:ring-blue-300`,
-        secondary: `bg-white text-gray-900 border border-gray-300 hover:bg-gray-300 focus:ring-gray-100`,
-        success: `bg-green-600 text-white border border-green-600 hover:bg-green-700 focus:ring-green-300`,
-        danger: `bg-red-600 text-white border border-red-600 hover:bg-red-700 focus:ring-red-300`,
-        warning: `bg-yellow-500 text-white border border-yellow-500 hover:bg-yellow-500 focus:ring-yellow-300`,
+        primary: `bg-primary text-primary-content border border-primary hover:bg-primary-hover focus:ring-focus`,
+        secondary: `bg-surface-secondary text-content border border-border hover:bg-hover focus:ring-focus`,
+        success: `bg-success text-success-content border border-success hover:bg-success-hover focus:ring-success`,
+        danger: `bg-danger text-danger-content border border-danger hover:bg-danger-hover focus:ring-danger`,
+        warning: `bg-warning text-warning-content border border-warning hover:bg-warning-hover focus:ring-warning`,
     }
 
     const classButton = () => {
@@ -69,12 +69,12 @@ const ButtonDropDown = ({ id, label, small, type, block, className, items }) => 
                 </div>
             </button>
 
-            {isOpen && (<div id="dropdownChildren" ref={menuRef} className={`z-10 bg-white rounded shadow-lg absolute w-fit min-w-25 max-w-50 mt-1`}>
-                <ul className="space-y-1 self-end block p-1 w-full divide-y divide-gray-200">
+            {isOpen && (<div id="dropdownChildren" ref={menuRef} className={`z-10 bg-surface-secondary border border-border rounded shadow-lg absolute w-fit min-w-25 max-w-50 mt-1`}>
+                <ul className="space-y-1 self-end block p-1 w-full divide-y divide-border">
                     {items.map((item, index) => (
                         <li key={index} className={`
-                            self-end px-2 py-1
-                            ${item.hoverClassName || "hover:bg-blue-200 hover:text-primary hover:rounded cursor-pointer"}
+                            self-end px-2 py-1 text-content
+                            ${item.hoverClassName || "hover:bg-hover hover:text-primary hover:rounded cursor-pointer"}
                             transition-colors duration-300 ease-in-out`}>
                             <div className={`${item.itemClassName || ""} flex items-center p-1`} onClick={() => { item.action(); setIsOpen(false); }} >
                                 {item.icon && <FontAwesomeIcon icon={item.icon} className='mr-2' width="16" height="16" />}

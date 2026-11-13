@@ -14,8 +14,8 @@ const PageTabs = ({ pageTabs, onClick, wordWrap, scrollable }) => {
                 className={cn(
                     "object-contain hover:bg-blue-600 mx-0.5 mt-0.5 rounded-t-lg relative h-8 xl:h-10 transition-colors duration-200",
                     tabData.active
-                        ? "border-yellow-300 bg-blue-600"
-                        : "border border-slate-300",
+                        ? "border-yellow-300 bg-primary"
+                        : "border border-border bg-surface",
                     tabData?.contador >= 0 && "mt-3",
                     tabData.visible ? "" : "hidden"
                 )}
@@ -28,11 +28,11 @@ const PageTabs = ({ pageTabs, onClick, wordWrap, scrollable }) => {
                     }}
                     className={cn(
                         (!tabData.active && tabData?.blink) && "after:bg-danger after:animate-ping after:absolute after:bottom-1 after:left-4 after:rounded-t-lg after:w-1/2 after:h-3/5",
-                        "relative inline-block h-8 xl:h-10 px-1 border-b-4 rounded-t-lg hover:text-white hover:drop-shadow-text-subtle-dark hover:border-yellow-300 transition-colors duration-200",
+                        "relative inline-block h-8 xl:h-10 px-1 border-b-4 rounded-t-lg hover:text-primary-content hover:border-yellow-300 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus",
                         wordWrap ? "word-wrap" : "whitespace-nowrap",
                         tabData.active
-                            ? "text-white border-yellow-300 drop-shadow-text-subtle-dark"
-                            : "text-slate-600 border-slate-400"
+                            ? "text-primary-content border-yellow-300"
+                            : "text-content-secondary border-border hover:bg-primary"
                     )}
                     title={tabData.name}
                 >
@@ -50,7 +50,7 @@ const PageTabs = ({ pageTabs, onClick, wordWrap, scrollable }) => {
                     <button
                         type="button"
                         className={`
-                            bg-white absolute -top-2 -right-1.5 rounded-full cursor-pointer p-0.5 shadow border border-slate-300 z-40 transition-transform duration-200 h-[18px]
+                            bg-surface absolute -top-2 -right-1.5 rounded-full cursor-pointer p-0.5 shadow border border-border z-40 transition-transform duration-200 h-[18px]
                             ${tabData.active && reload ? " animate-spin " : " "}
                             ${tabData.active ? " " : " hidden"}
                         `}
@@ -74,7 +74,7 @@ const PageTabs = ({ pageTabs, onClick, wordWrap, scrollable }) => {
                         type="button"
                         className={`
                             text-primary
-                            bg-white absolute -top-2 -right-1.5 rounded-full cursor-pointer p-0.5 shadow border border-slate-300 z-40 transition-transform duration-200 h-[18px]
+                            bg-surface absolute -top-2 -right-1.5 rounded-full cursor-pointer p-0.5 shadow border border-border z-40 transition-transform duration-200 h-[18px]
                         `}
                         onClick={() => {
                             tabData.closeCallback();
