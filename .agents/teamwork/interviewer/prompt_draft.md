@@ -1,59 +1,56 @@
-Atualizar e aprimorar o projeto `next16-template` para ambiente de produção, removendo dependências legadas, implementando gavetas de navegação e contexto (Left Drawer e Right Drawer) reutilizáveis e acessíveis, integrando-as ao layout do dashboard com documentação interativa e cobertura de testes.
+Evoluir o SmartNFe para permitir preparar notas fiscais de exportação a partir de qualquer quantidade de NF-e recebidas de fornecedores (N origens → M destinos), com controle completo das mercadorias, preservação da origem dos itens e arquitetura unificada de alocação.
 
-Working directory: c:\www\next16-template
+Working directory: c:\www\smart-nfe
 Integrity mode: demo
-The team must NOT: copy code from existing open-source projects for core logic
+The team must NOT: use pre-built libraries or frameworks for core functionality
+
+Referência:
+- Frontend: https://github.com/AtanaelMendes/smart-nfe
+- Backend (reservado para outra etapa, não modificar): https://github.com/AtanaelMendes/smart-nfe-api
 
 ## Requirements
 
-### R1. Remoção de dependências e cliente HTTP nativo
-Remover completamente `axios`, `@amcharts/amcharts5` e `@amcharts/amcharts5-geodata`, verificando o projeto inteiro antes da remoção e atualizando `package.json` e `package-lock.json` via npm. Utilizar exclusivamente a API nativa `fetch` para chamadas HTTP, criando um cliente centralizado em `src/lib/http/` somente se necessário (com suporte a GET, POST, PUT, PATCH, DELETE, headers personalizados, tratamento padronizado de erros, AbortController, suporte a autenticação futura e respostas JSON, texto e sem conteúdo, sem abstração excessiva). Para os gráficos do dashboard demonstrativo, utilizar componentes leves reutilizáveis e responsivos com SVG e React, sem instalar bibliotecas pesadas.
+### R1. Correção definitiva do Left Drawer e layout
+Corrigir o estado de recolhimento do Left Drawer (`app/components/Layouts/AppLayout.jsx`, `app/components/Layouts/SmartNFeSidebar.jsx`, `app/components/Layouts/SmartNFeHeader.jsx`, `app/context/AppContext.jsx`) para persistir a escolha do usuário em `smartnfe_sidebar_collapsed` durante navegação e recarga sem hydration mismatch. O drawer deve permanecer expandido por padrão acima de 1024px quando não houver preferência salva e recolhido por padrão em LG ou inferior (até 1024px), oferecendo drawer móvel com backdrop, tecla Escape e botão de fechar, botão de toggle sempre acessível, sem interferir no editor de produtos nem no ScreenTourTip.
 
-### R2. Left Drawer e Right Drawer obrigatórios e reutilizáveis
-Implementar componentes independentes e reutilizáveis `LeftDrawer` e `RightDrawer` compartilhando uma estrutura base `Drawer` (com `side="left"` ou `side="right"`), além dos componentes auxiliares `DrawerHeader`, `DrawerContent`, `DrawerFooter` e `DrawerToggle`. Cada drawer deve suportar estado `open`, estado `closed`, abertura e fechamento por botão com transições suaves, layout responsivo, controle de estado independente (tanto controlado via `open`/`onOpenChange` quanto não controlado via `defaultOpen`), suporte a conteúdo dinâmico, persistência opcional no localStorage sem causar erros de hidratação (hydration mismatch), e navegação por teclado / acessibilidade (com `aria-label` e `aria-expanded`). O botão de alternância de estado (`DrawerToggle`) deve estar permanentemente disponível e acessível para o usuário tanto com o drawer aberto quanto fechado, para ambos os lados.
+### R2. Upload múltiplo de XML e organização de documentos com filtros avançados
+Na rota `/documentos/importar`, evoluir o importador para aceitar múltiplos arquivos XML na mesma operação (seleção múltipla e drag-and-drop), processando no navegador em lotes com concorrência limitada, progresso individual e geral, repetição de arquivos com falha e detecção de duplicidades pela chave de acesso sem travar a interface nem persistir XMLs reais no localStorage. Na rota `/documentos`, implementar pesquisa com debounce, filtros combináveis (cliente de exportação atribuído, fornecedor, NCM, produto, datas, valores e saldos), agrupamento visual por cliente ou fornecedor, e seleção estável de itens entre páginas exibindo contadores de notas, itens e valores.
 
-### R3. Comportamento específico dos Drawers e integração ao Dashboard
-O `LeftDrawer` é voltado para navegação (menu principal, ícones, identificação de item ativo, grupos recolhíveis, navegação entre páginas, scroll independente quando necessário) e no desktop pode recolher em modo compacto exibindo somente ícones. O `RightDrawer` é voltado para painel contextual (notificações, configurações, detalhes de registros, formulários rápidos) e pode ficar oculto quando fechado no desktop; no mobile, ambos operam como painéis temporários com overlay, fechamento por ESC e backdrop, gerenciamento de foco, bloqueio de scroll e retorno de foco ao disparador. O layout principal do dashboard deve integrar o Left Drawer, Header central, área principal responsiva e Right Drawer, ajustando a largura do conteúdo central conforme os drawers abrem ou fecham sem sobreposição indevida, cortes ou scroll horizontal.
+### R3. Fluxo e interface de Nova Preparação (N origens → M destinos)
+Criar rota `/preparacoes/nova` e tela de gerenciamento `/preparacoes` suportando os cenários de agrupamento (N → 1), divisão (1 → M) e preparação mista (N → M) a partir de upload múltiplo, seleção de documentos ou rascunhos, sem limites arbitrários de origens ou destinos. A interface deve ser compacta e de alta densidade (tabela ampla, cabeçalho fixo, filtros recolhíveis, totais sempre visíveis, painel de origens e destinos com abas, edição rápida de quantidades e saldos em tempo real), preservando a chave de origem (`sourceInvoiceId + sourceItemId`) e permitindo salvar rascunhos com aviso claro sobre retenção temporária em memória para documentos reais.
 
-### R4. Documentação interativa na página /components
-Criar demonstrações interativas na página `/components` cobrindo todos os estados (Left Drawer aberto/fechado, Right Drawer aberto/fechado, ambos abertos simultaneamente, ambos fechados, temporário, permanente, conteúdo personalizado), documentando propriedades, eventos, exemplos de código e comportamento responsivo, permitindo testar diretamente na interface.
+### R4. Motor unificado de alocação e evolução dos repositórios
+Evoluir a camada de cálculos (`app/lib/calculations/decimal.js`, `divisionMath.js`, `invoiceTotals.js`) e repositórios (`preparationRepository`, `invoiceRepository`, `preparedInvoiceRepository`) para uma arquitetura única de alocação com precisão decimal (BigInt, sem ponto flutuante binário), assegurando a regra de conservação (`disponível = original - soma das alocações ativas`) e impedindo duplicidade ou rateios arbitrários. Manter compatibilidade com preparações legadas baseadas em `parentInvoiceId` e assegurar que `/documentos/[id]/divisao` continue funcionando utilizando internamente o motor unificado.
 
-### R5. Testes obrigatórios com Playwright e restrições de infraestrutura
-Configurar o Playwright e implementar testes automatizados cobrindo os 10 cenários obrigatórios:
-1. Left Drawer abre e fecha.
-2. Right Drawer abre e fecha.
-3. Cada drawer mantém estado independente.
-4. O botão de toggle permanece acessível.
-5. Drawer fechado pode ser reaberto.
-6. Layout se adapta aos estados.
-7. Comportamento mobile funciona.
-8. ESC fecha drawer temporário.
-9. Navegação por teclado funciona.
-10. Não existem referências remanescentes a Axios ou amCharts.
-Executar todas as alterações no projeto existente sem recriá-lo e sem realizar push ou executar GitHub Actions automaticamente.
+### R5. Restrições de infraestrutura, mocks e entrega
+Criar a branch `feature/preparacoes-unificadas` a partir do repositório existente sem alterar diretamente a branch master, sem realizar deploy, merge ou acionar GitHub Actions sem autorização, e sem modificar a API PHP. Criar os cenários mockados especificados (de 2→1 até 50→5, fornecedores e clientes múltiplos, produtos repetidos e unidades incompatíveis) e atualizar tourtips em `app/config/screenTours.js`; a aplicação deve rodar de forma autônoma na Vercel sem backend, mantendo dados fiscais reais estritamente em memória temporária.
+
+## Verification Resources
+A equipe deve gerar fixtures mockadas de XML (abrangendo os cenários de 2 a 50 notas, múltiplos fornecedores e clientes, produtos repetidos e unidades incompatíveis) e implementar a suíte de testes automatizados diretamente no repositório (`tests/`).
 
 ## Acceptance Criteria
 
-### Integridade e Dependências
-- [ ] `axios`, `@amcharts/amcharts5` e `@amcharts/amcharts5-geodata` estão completamente removidos do projeto, de `package.json` e de `package-lock.json`.
-- [ ] Nenhuma referência, importação quebrada ou menção residual a Axios ou amCharts existe no repositório.
-- [ ] Gráficos do dashboard utilizam componentes leves com SVG e React sem bibliotecas pesadas adicionais.
-- [ ] Chamadas HTTP utilizam API nativa `fetch` (e cliente em `src/lib/http/` se necessário).
+### Left Drawer e Layout
+- [ ] O left drawer permanece recolhido quando o usuário assim escolhe e persiste a preferência em `smartnfe_sidebar_collapsed` durante navegação e recarga sem hydration mismatch.
+- [ ] Em telas LG ou inferior (até 1024px), o drawer inicia recolhido por padrão, e o menu móvel opera em overlay com backdrop, tecla Escape e botão de fechar.
+- [ ] O botão de expansão/recolhimento permanece sempre visível e acessível sem interferir no editor de produtos nem no ScreenTourTip.
 
-### Drawers e Acessibilidade
-- [ ] Componentes reutilizáveis `Drawer`, `DrawerHeader`, `DrawerContent`, `DrawerFooter`, `DrawerToggle`, `LeftDrawer` e `RightDrawer` implementados compartilhando lógica base.
-- [ ] Left Drawer e Right Drawer operam de forma independente nos modos controlado (`open`, `onOpenChange`) e não controlado (`defaultOpen`).
-- [ ] O usuário tem acesso permanente ao botão de alteração de estado (toggle) tanto no estado aberto quanto fechado em ambos os lados, inclusive em telas pequenas.
-- [ ] No desktop, ambos podem ficar abertos simultaneamente quando houver espaço.
-- [ ] Drawers temporários implementam overlay, fechamento por ESC, fechamento por backdrop, gerenciamento de foco, bloqueio de scroll e retorno de foco ao botão disparador.
-- [ ] Botões de controle possuem `aria-label` e `aria-expanded`.
-- [ ] Sem erros de hidratação (hydration mismatch) com persistência opcional no localStorage.
+### Importação e Documentos
+- [ ] O upload múltiplo de XML funciona em `/documentos/importar` com drag-and-drop, concorrência controlada, barra de progresso individual/geral, repetição de erros e detecção de duplicidade por chave de acesso.
+- [ ] O usuário consegue selecionar quantas NF-e forem necessárias, dentro dos recursos disponíveis, sem limites arbitrários de quantidade de notas ou fornecedores.
+- [ ] A busca e filtros em `/documentos` operam com debounce e suportam filtros combinados por cliente atribuído, fornecedor, produto, NCM, data e saldos.
+- [ ] A seleção de documentos não se perde ao filtrar, ordenar, paginar ou alternar agrupamento visual, exibindo contadores de notas, itens, valores e fornecedores.
+- [ ] Documentos fiscais são organizáveis por cliente de exportação atribuído (incluindo categoria "Sem cliente atribuído") sem alterar o destinatário original da NF-e.
 
-### Dashboard e Documentação
-- [ ] Layout principal integra Left Drawer, Header central e Right Drawer com redimensionamento fluido do conteúdo central sem sobreposições inadequadas ou scroll horizontal.
-- [ ] Página `/components` contém demonstrações interativas para todos os estados e documentação de propriedades, eventos e exemplos de código.
+### Motor de Preparação e Alocação
+- [ ] O sistema suporta agrupamento (N origens → 1 destino), divisão (1 origem → M destinos) e preparação mista (N origens → M destinos) sob a mesma arquitetura de alocação.
+- [ ] Cada produto alocado preserva sua identificação de origem através de `sourceInvoiceId` e `sourceItemId`, sem agrupar automaticamente produtos de fornecedores distintos.
+- [ ] O motor calcula saldos em tempo real e impede alocação de quantidade superior ao saldo disponível (`quantidade disponível = quantidade original - soma das alocações ativas`).
+- [ ] Todos os cálculos monetários e de quantidades utilizam precisão decimal baseada em BigInt, sem cálculos em ponto flutuante binário nem rateios fiscais arbitrários.
+- [ ] As preparações antigas com `parentInvoiceId` continuam legíveis e funcionais, e a rota `/documentos/[id]/divisao` continua operando utilizando o motor unificado.
 
-### Qualidade e Build
-- [ ] Todos os 10 cenários de testes automatizados com Playwright passam com sucesso.
-- [ ] Build de produção (`npm run build`) executa com sucesso sem erros.
-- [ ] Nenhum push para repositório remoto ou execução de GitHub Actions realizada.
+### Persistência, Infraestrutura e Qualidade
+- [ ] Dados fiscais reais e preparações com origens reais permanecem em memória temporária, apresentando aviso explícito de perda de sessão após atualização/fechamento, sem persistir XMLs reais no localStorage.
+- [ ] A aplicação opera de forma autônoma na Vercel sem dependência de execução da API PHP.
+- [ ] As alterações são desenvolvidas na branch `feature/preparacoes-unificadas`, sem modificação direta da master e sem deploy, merge ou GitHub Actions não autorizados.
+- [ ] A suíte de testes automatizados cobre Left Drawer, Upload múltiplo, Busca/Filtros, Preparações (N→1, 1→M, N→M, saldos, rascunhos) e Regressão, passando com sucesso junto ao lint e `npm run build`.
