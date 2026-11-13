@@ -63,7 +63,7 @@ const PageTabs = ({ pageTabs, onClick, wordWrap, scrollable }) => {
                             icon={faRotateRight}
                             width="12"
                             height="12"
-                            className="text-primary"
+                            className="text-primary-text"
                         />
                     </button>
                 }
@@ -73,7 +73,7 @@ const PageTabs = ({ pageTabs, onClick, wordWrap, scrollable }) => {
                     <button
                         type="button"
                         className={`
-                            text-primary
+                            text-primary-text
                             bg-surface absolute -top-2 -right-1.5 rounded-full cursor-pointer p-0.5 shadow border border-border z-40 transition-transform duration-200 h-[18px]
                         `}
                         onClick={() => {

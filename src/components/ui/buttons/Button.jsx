@@ -7,7 +7,7 @@ const btnType = (outline, bordered, buttonType) => {
 	const variants = {
 		primary: cn(
 			outline
-				? 'text-primary border-primary hover:bg-primary/10'
+				? 'text-primary-text border-primary hover:bg-primary/10'
 				: 'bg-primary text-primary-content hover:bg-primary-hover',
 			bordered && 'border border-primary',
 			outlineFocus
@@ -28,7 +28,7 @@ const btnType = (outline, bordered, buttonType) => {
 		),
 		danger: cn(
 			outline
-				? 'text-danger border-danger hover:bg-danger hover:text-danger-content'
+				? 'text-danger-text border-danger hover:bg-danger hover:text-danger-content'
 				: 'bg-danger text-danger-content hover:bg-danger-hover',
 			bordered && 'border border-danger',
 			'focus-visible:ring-danger'

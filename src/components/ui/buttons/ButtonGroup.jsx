@@ -30,7 +30,7 @@ const ButtonGroup = ({ buttons, small, className, vertical }) => {
 							disabled={btn.disabled}
 							className={cn(
 								"text-sm font-medium bg-surface text-content border border-border",
-								"hover:bg-hover hover:text-primary",
+								"hover:bg-hover hover:text-primary-text",
 								"focus:z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-1 focus-visible:ring-offset-background",
 								"disabled:cursor-not-allowed disabled:opacity-70 disabled:bg-disabled disabled:text-disabled-content disabled:border-border disabled:hover:bg-disabled disabled:hover:text-disabled-content",
 								small ? " px-2 py-1 " : "px-4 py-2",

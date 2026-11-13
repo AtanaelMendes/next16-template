@@ -15,7 +15,9 @@ export const FabCancel = ({ id, onClick, className, small, absolute, disableZInd
 
     return (
         <button
+            type="button"
             id={id || "fab-cancel"}
+            aria-label={props["aria-label"] || "Cancelar"}
             onClick={handleClick}
             disabled={disabled}
             className={cn(
@@ -43,7 +45,9 @@ export const FabSave = ({ id, onClick, className, small, absolute, disableZIndex
 
     return (
         <button
+            type="button"
             id={id || "fab-save"}
+            aria-label={props["aria-label"] || "Salvar"}
             onClick={handleClick}
             disabled={disabled}
             className={cn(
@@ -71,7 +75,9 @@ export const FabAdd = ({ id, onClick, className, small, absolute, disableZIndex,
 
     return (
         <button
+            type="button"
             id={id || "fab-add"}
+            aria-label={props["aria-label"] || label || "Adicionar"}
             onClick={handleClick}
             disabled={disabled}
             className={cn(
@@ -116,7 +122,9 @@ export const FabCustom = ({
 
     return (
         <button
+            type="button"
             id={id || "fab-custom"}
+            aria-label={props["aria-label"] || "Ação"}
             onClick={handleClick}
             disabled={disabled}
             className={cn(

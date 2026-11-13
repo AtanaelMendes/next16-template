@@ -74,7 +74,7 @@ const ButtonDropDown = ({ id, label, small, type, block, className, items }) => 
                     {items.map((item, index) => (
                         <li key={index} className={`
                             self-end px-2 py-1 text-content
-                            ${item.hoverClassName || "hover:bg-hover hover:text-primary hover:rounded cursor-pointer"}
+                            ${item.hoverClassName || "hover:bg-hover hover:text-primary-text hover:rounded cursor-pointer"}
                             transition-colors duration-300 ease-in-out`}>
                             <div className={`${item.itemClassName || ""} flex items-center p-1`} onClick={() => { item.action(); setIsOpen(false); }} >
                                 {item.icon && <FontAwesomeIcon icon={item.icon} className='mr-2' width="16" height="16" />}

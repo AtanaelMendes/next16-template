@@ -20,7 +20,7 @@ const InputMonth = (props) => {
         let errorMsg =
             props?.required[props.id].errorMsg || "Este campo é obrigatório";
 
-        return <div className="text-xs text-danger">{errorMsg}</div>;
+        return <div className="text-xs text-danger-text">{errorMsg}</div>;
     }
 
     function getValue() {
@@ -84,7 +84,7 @@ const InputMonth = (props) => {
             />
             {renderError()}
             {props.helperText && (
-                <div className="text-xs text-info"> {props.helperText} </div>
+                <div className="text-xs text-info-text"> {props.helperText} </div>
             )}
         </div>
     );

@@ -39,7 +39,7 @@ const InputNumber = ({ label, value, onChange, placeholder, id, name, required, 
         if (empty(errorMsg)) return;
 
         return (
-            <div className="text-xs text-danger">
+            <div className="text-xs text-danger-text">
                 {errorMsg}
             </div>
         )
@@ -79,7 +79,7 @@ const InputNumber = ({ label, value, onChange, placeholder, id, name, required, 
                 `}
                 placeholder={placeholder || ""} />
             {renderError()}
-            {helperText && <div className="text-xs text-info absolute -bottom-3 right-0"> {helperText} </div>}
+            {helperText && <div className="text-xs text-info-text absolute -bottom-3 right-0"> {helperText} </div>}
         </div>
     );
 }

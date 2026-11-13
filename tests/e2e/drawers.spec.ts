@@ -25,6 +25,13 @@ function getBackdrop(page: Page): Locator {
   return page.locator('[data-testid="drawer-backdrop"], [data-testid="drawer-overlay"]');
 }
 
+// Wait for the client theme provider to mount. Until hydration completes,
+// clicks on server-rendered buttons have no React handler attached.
+async function gotoDashboard(page: Page) {
+  await page.goto('/');
+  await page.waitForSelector('html[data-theme-ready="true"]', { state: 'attached' });
+}
+
 // Helper to ensure Left Drawer is open
 async function ensureLeftDrawerOpen(page: Page) {
   const toggle = getLeftToggle(page);
@@ -73,7 +80,7 @@ test.describe('Dual Drawer Architecture & Accessibility E2E Test Suite', () => {
 
   test.beforeEach(async ({ page }) => {
     // Navigate to root dashboard
-    await page.goto('/');
+    await gotoDashboard(page);
   });
 
   // --------------------------------------------------------------------------
@@ -153,7 +160,7 @@ test.describe('Dual Drawer Architecture & Accessibility E2E Test Suite', () => {
   test('Scenario 3: Each drawer maintains independent state across all permutations', async ({ page }) => {
     // Lock viewport to Desktop size to satisfy simultaneous open desktop contract
     await page.setViewportSize({ width: 1280, height: 800 });
-    await page.goto('/');
+    await gotoDashboard(page);
 
     const leftDrawer = getLeftDrawer(page);
     const rightDrawer = getRightDrawer(page);
@@ -204,7 +211,7 @@ test.describe('Dual Drawer Architecture & Accessibility E2E Test Suite', () => {
 
     for (const vp of viewports) {
       await page.setViewportSize({ width: vp.width, height: vp.height });
-      await page.goto('/');
+      await gotoDashboard(page);
 
       const leftToggle = getLeftToggle(page);
       const rightToggle = getRightToggle(page);
@@ -317,7 +324,7 @@ test.describe('Dual Drawer Architecture & Accessibility E2E Test Suite', () => {
   // --------------------------------------------------------------------------
   test('Scenario 6: Dashboard layout dynamically adjusts width with zero horizontal overflow', async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
-    await page.goto('/');
+    await gotoDashboard(page);
 
     const mainContent = getMainContent(page);
     const leftToggle = getLeftToggle(page);
@@ -364,7 +371,7 @@ test.describe('Dual Drawer Architecture & Accessibility E2E Test Suite', () => {
   // --------------------------------------------------------------------------
   test('Scenario 7: Mobile temporary drawer renders overlay backdrop, locks scroll, and closes on backdrop click', async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 });
-    await page.goto('/');
+    await gotoDashboard(page);
 
     const leftToggle = getLeftToggle(page);
     const leftDrawer = getLeftDrawer(page);
@@ -430,7 +437,7 @@ test.describe('Dual Drawer Architecture & Accessibility E2E Test Suite', () => {
   // --------------------------------------------------------------------------
   test('Scenario 8: ESC key dismisses temporary drawer and restores page state', async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 });
-    await page.goto('/');
+    await gotoDashboard(page);
 
     const leftToggle = getLeftToggle(page);
     const leftDrawer = getLeftDrawer(page);
@@ -486,7 +493,7 @@ test.describe('Dual Drawer Architecture & Accessibility E2E Test Suite', () => {
   // --------------------------------------------------------------------------
   test('Scenario 9: Keyboard navigation operates drawer, traps focus inside, and returns focus to trigger', async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 });
-    await page.goto('/');
+    await gotoDashboard(page);
 
     const leftToggle = getLeftToggle(page);
     const leftDrawer = getLeftDrawer(page);

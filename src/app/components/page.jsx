@@ -95,7 +95,7 @@ const PropTable = ({ props: propList }) => (
         {propList.map((p) => (
           <tr key={p.name} className="border-t border-border odd:bg-surface even:bg-surface-secondary dark:border-slate-700 dark:odd:bg-slate-900 dark:even:bg-slate-800/70">
             <td className="px-4 py-2 font-mono text-blue-700 dark:text-blue-400">{p.name}</td>
-            <td className="px-4 py-2 font-mono text-purple-600">{p.type}</td>
+            <td className="px-4 py-2 font-mono text-content-secondary">{p.type}</td>
             <td className="px-4 py-2 font-mono text-content-muted dark:text-content-muted">{p.default ?? '—'}</td>
             <td className="px-4 py-2 text-content-secondary dark:text-gray-300">{p.desc}</td>
           </tr>
@@ -237,7 +237,7 @@ export default function ComponentsPage() {
             </Link>
             <span className="text-content-muted">/</span>
             <span className="text-content-secondary font-semibold text-sm flex items-center gap-2 dark:text-gray-200">
-              <FontAwesomeIcon icon={faBookOpen} width={14} className="text-blue-600" />
+              <FontAwesomeIcon icon={faBookOpen} width={14} className="text-blue-600 dark:text-blue-400" />
               Catálogo de Componentes
             </span>
           </div>
@@ -373,7 +373,7 @@ export default function ComponentsPage() {
                   onClick={() => setFabDemoVisible(false)}
                 />
               </div>
-              {fabDemoVisible && <div className="mt-2 text-green-600 text-sm">✅ FAB Save clicado!</div>}
+              {fabDemoVisible && <div className="mt-2 text-success text-sm">✅ FAB Save clicado!</div>}
               <CodeSnippet code={`import { FabSave, FabCancel } from '@/components/ui/buttons/FloatActionButton';
 
 <FabSave onClick={handleSave} />
@@ -803,7 +803,7 @@ import PageTabs from '@/components/ui/navigation/PageTabs';
                   Abrir Confirmação
                 </Button>
                 {confirmResult !== null && (
-                  <span className={`text-sm font-medium ${confirmResult ? 'text-green-600' : 'text-red-600'}`}>
+                  <span className={`text-sm font-medium ${confirmResult ? 'text-success' : 'text-danger-text'}`}>
                     {confirmResult ? '✅ Confirmado!' : '❌ Cancelado'}
                   </span>
                 )}
@@ -1097,7 +1097,7 @@ const [rightOpen, setRightOpen] = useState(false);
 
           {/* ── Back to top ─────────────────────────────────────────────────── */}
           <div className="flex justify-center mt-8 pb-12">
-            <a href="#" className="text-sm text-blue-600 hover:underline flex items-center gap-1">
+            <a href="#" className="text-sm text-blue-600 hover:underline flex items-center gap-1 dark:text-blue-400">
               ↑ Voltar ao topo
             </a>
           </div>

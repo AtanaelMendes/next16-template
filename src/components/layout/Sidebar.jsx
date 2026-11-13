@@ -52,7 +52,7 @@ const Sidebar = ({ tabControl, subTabControl, sideBarControl, sidebarHoverContro
             <>
                 {/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
                 <div
-                    className={`flex flex-row hover:bg-blue-200 p-0.5 rounded select-none cursor-pointer items-center ${sideBarControl ? " " : "hidden"}`}
+                    className={`flex flex-row hover:bg-hover p-0.5 rounded select-none cursor-pointer items-center ${sideBarControl ? " " : "hidden"}`}
                     onClick={onClick}
                 >
                     <div className="flex flex-col w-[24px]">
@@ -72,7 +72,7 @@ const Sidebar = ({ tabControl, subTabControl, sideBarControl, sidebarHoverContro
     function getMenuLink(label, url, icon, hasPermission) {
         if (!hasPermission) return;
         return (
-            <div className={`flex flex-row hover:bg-blue-200 p-0.5 rounded select-none cursor-pointer items-center ${sideBarControl ? " " : "hidden"}`}>
+            <div className={`flex flex-row hover:bg-hover p-0.5 rounded select-none cursor-pointer items-center ${sideBarControl ? " " : "hidden"}`}>
                 <div className="flex flex-col w-[24px]">
                     {icon && <FontAwesomeIcon icon={icon} width="16" height="16" />}
                 </div>
@@ -107,7 +107,7 @@ const Sidebar = ({ tabControl, subTabControl, sideBarControl, sidebarHoverContro
             return (
                 <>
                     {/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
-                    <li key={`sub-sub-${subMenu.id}-${index}`} className="hover:bg-blue-200 rounded select-none p-0.5 cursor-pointer relative" onClick={subMenu.onClick}>
+                    <li key={`sub-sub-${subMenu.id}-${index}`} className="hover:bg-hover rounded select-none p-0.5 cursor-pointer relative" onClick={subMenu.onClick}>
                         <NewBadge
                             referenceDate={subMenu.newBadge?.referenceDate || ""}
                             days={subMenu.newBadge?.days}
@@ -123,7 +123,7 @@ const Sidebar = ({ tabControl, subTabControl, sideBarControl, sidebarHoverContro
         return (
             <>
                 {/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
-                <div key={`node-menu-${id}`} className={`flex flex-row w-full p-0.5 rounded select-none cursor-pointer items-center hover:bg-blue-200 ${sideBarControl ? "" : "hidden"}`} onClick={onClick}>
+                <div key={`node-menu-${id}`} className={`flex flex-row w-full p-0.5 rounded select-none cursor-pointer items-center hover:bg-hover ${sideBarControl ? "" : "hidden"}`} onClick={onClick}>
                     <div className={`flex flex-row w-full items-center relative ${toogleMenu?.[id] && "border-b border-blue-300"}`}>
                         {icon && (
                             <div className="flex flex-col w-[34px] xl:w-[28px]">
@@ -161,7 +161,7 @@ const Sidebar = ({ tabControl, subTabControl, sideBarControl, sidebarHoverContro
     }
 
     return (
-        <aside className="flex flex-col gap-y-0.5 text-primary">
+        <aside className="flex flex-col gap-y-0.5 text-primary-text">
             <div className="flex flex-row">
                 {sideBarControl ? (
                     <div className="mx-auto w-[176px] h-[42px] relative">
@@ -198,7 +198,7 @@ const Sidebar = ({ tabControl, subTabControl, sideBarControl, sidebarHoverContro
                 </div>
                 <TooltipComponent content={<span className="font-semibold uppercase">Opções</span>} asChild >
                     {/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
-                    <div className="cursor-pointer bg-blue-200 rounded-full p-0.5 flex-none" onClick={() => { setShowUserOpt(!showUserOpt); }}>
+                    <div className="cursor-pointer bg-surface-muted rounded-full p-0.5 flex-none" onClick={() => { setShowUserOpt(!showUserOpt); }}>
                         <FontAwesomeIcon icon={faGear} width="16" height="16" />
                     </div>
                 </TooltipComponent>
@@ -206,7 +206,7 @@ const Sidebar = ({ tabControl, subTabControl, sideBarControl, sidebarHoverContro
                     onMouseLeave={() => { setShowUserOpt(false); }}
                     className={`absolute gap-y-0.5 flex flex-col bg-surface border border-border h-fit rounded-md p-1 text-sm -top-[-100%] w-full ${showUserOpt ? "" : "hidden"}`}>
                     {/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
-                    <div className="cursor-pointer hover:bg-blue-200 rounded flex flex-row w-full p-1" onClick={handleLogout}>
+                    <div className="cursor-pointer hover:bg-hover rounded flex flex-row w-full p-1" onClick={handleLogout}>
                         <FontAwesomeIcon icon={faArrowRightFromBracket} width="16" height="16" />
                         <span className="ml-6">Sair</span>
                     </div>

@@ -64,7 +64,7 @@ const InputTextArea = React.memo(function ({
         if (!hasError) return;
         let errorMsg = required[id].errorMsg || "Este campo é obrigatório";
 
-        return <div className="text-xs text-danger w-full">{errorMsg}</div>;
+        return <div className="text-xs text-danger-text w-full">{errorMsg}</div>;
     }, [hasError, required, id]);
 
     const RenderTextArea = React.useMemo(
@@ -114,7 +114,7 @@ const InputTextArea = React.memo(function ({
                     </Button>
                 </div>}
             </div>
-            {helperText && <div className="text-xs text-info text-right">{helperText}</div>}
+            {helperText && <div className="text-xs text-info-text text-right">{helperText}</div>}
             {renderError()}
         </>
     );

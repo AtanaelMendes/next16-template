@@ -20,12 +20,12 @@ const Sidebar = ({ items, onItemClick, filtroAtivo, className, horizontal, respo
                     <div
                         key={index}
                         className={cn(
-                            "self-end rounded transition-colors duration-300 ease-in-out select-none cursor-pointer text-primary w-fit md:w-full",
+                            "self-end rounded transition-colors duration-300 ease-in-out select-none cursor-pointer text-primary-text w-fit md:w-full",
                             item.disabled
-                                ? "opacity-50 cursor-not-allowed text-gray-500"
+                                ? "opacity-70 cursor-not-allowed text-disabled-content"
                                 : item.id === filtroAtivo
-                                ? "bg-primary text-white"
-                                : item.hoverClassName || "hover:bg-blue-200 hover:text-primary",
+                                ? "bg-primary text-primary-content"
+                                : item.hoverClassName || "hover:bg-hover hover:text-primary-text",
                             item.className
                         )}
                     >

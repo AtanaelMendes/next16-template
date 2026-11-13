@@ -3,7 +3,7 @@ const RadioGroup = ({ active, name, items, onChange, type }) => {
     );
 
     const typeClasses = {
-        primary: (_) => {return 'peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-content hover:bg-hover hover:text-primary'},
+        primary: (_) => {return 'peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-content hover:bg-hover hover:text-primary-text'},
         danger: (_) => {return 'peer-checked:border-danger peer-checked:bg-danger peer-checked:text-danger-content hover:bg-danger-subtle hover:text-danger-subtle-content'}
     }
 

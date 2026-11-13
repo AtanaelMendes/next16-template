@@ -56,7 +56,7 @@ const Select = ({
         if (!hasError()) return;
         let errorMsg = required[id]?.errorMsg || "Este campo é obrigatório";
 
-        return <div className="text-xs text-danger">{errorMsg}</div>;
+        return <div className="text-xs text-danger-text">{errorMsg}</div>;
     }
 
     return (
@@ -113,7 +113,7 @@ const Select = ({
                 )}
                 {renderError()}
             </div>
-            {helperText && <div className="text-xs text-info pl-1"> {helperText} </div>}
+            {helperText && <div className="text-xs text-info-text pl-1"> {helperText} </div>}
         </>
     );
 };

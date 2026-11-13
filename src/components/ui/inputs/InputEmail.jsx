@@ -54,8 +54,8 @@ const InputEmail = ({
                 )}
             />
 
-            {error && <div id={errorId} className='text-xs text-danger'>{error === true ? 'E-mail inválido' : error}</div>}
-            {helperText && <div id={helperTextId} className='text-xs text-info'>{helperText}</div>}
+            {error && <div id={errorId} className='text-xs text-danger-text'>{error === true ? 'E-mail inválido' : error}</div>}
+            {helperText && <div id={helperTextId} className='text-xs text-info-text'>{helperText}</div>}
         </div>
     )
 }

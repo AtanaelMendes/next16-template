@@ -109,7 +109,7 @@ const InputFile = (props) => {
         if (!hasError()) return;
         let errorMsg = props.required[props.id]?.errorMsg || "Este campo é obrigatório";
 
-        return <div className="text-xs text-danger">{errorMsg}</div>;
+        return <div className="text-xs text-danger-text">{errorMsg}</div>;
     }
 
     return (
@@ -119,7 +119,7 @@ const InputFile = (props) => {
                     ${
                         props?.disabled
                             ? "bg-disabled cursor-not-allowed text-disabled-content border-border"
-                            : `cursor-pointer text-primary ${
+                            : `cursor-pointer text-primary-text ${
                                   dragging
                                       ? "border-primary bg-info-subtle"
                                       : "bg-input border-input-border hover:border-content-muted"
@@ -162,7 +162,7 @@ const InputFile = (props) => {
                     accept={`${allowedExtensions.join(", ")}`}
                 />
             </div>
-            {props?.helperText && <div className="text-xs text-info"> {props.helperText} </div>}
+            {props?.helperText && <div className="text-xs text-info-text"> {props.helperText} </div>}
             {renderError()}
         </>
     );

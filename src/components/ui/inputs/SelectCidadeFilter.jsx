@@ -37,7 +37,7 @@ const SelectCidadeFilter = ({onChange, id, required, value, label, hint, classNa
         if (!hasError()) return;
         let errorMsg = required[id].errorMsg || "Este campo é obrigatório";
 
-        return <div className="text-xs text-danger">{errorMsg}</div>;
+        return <div className="text-xs text-danger-text">{errorMsg}</div>;
     }
     
     const getCidades = async () => {
@@ -138,7 +138,7 @@ const SelectCidadeFilter = ({onChange, id, required, value, label, hint, classNa
                     }}
                 />
             </div>
-            {helperText && <div className="text-xs text-info absolute bottom-[-12px] right-0"> {helperText} </div>}
+            {helperText && <div className="text-xs text-info-text absolute bottom-[-12px] right-0"> {helperText} </div>}
             {renderError()}
         </div>
     );

@@ -178,7 +178,7 @@ const InputText = ({
         if (!hasError()) return;
         let errorMsg = required[id]?.errorMsg || "Este campo é obrigatório";
 
-        return <div className="text-xs text-danger">{errorMsg}</div>;
+        return <div className="text-xs text-danger-text">{errorMsg}</div>;
     }
 
     return (
@@ -243,7 +243,7 @@ const InputText = ({
                             "absolute top-1/2 -translate-y-1/2 right-2",
                             "w-5 h-5 flex items-center justify-center",
                             "cursor-pointer rounded-full",
-                            "text-content-muted hover:text-primary",
+                            "text-content-muted hover:text-primary-text",
                             "hover:bg-hover active:bg-surface-muted",
                             "transition-colors duration-150 ease-in-out",
                             "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus",
@@ -261,7 +261,7 @@ const InputText = ({
                 {mask === "currency" && (
                     <div className={`absolute ${small ? 'bottom-1' : 'bottom-2.25'} left-2 text-content-secondary text-sm`}>R$</div>
                 )}
-                {helperText && <div className="text-xs text-info absolute -bottom-3 right-0"> {helperText} </div>}
+                {helperText && <div className="text-xs text-info-text absolute -bottom-3 right-0"> {helperText} </div>}
             </div>
             {renderError()}
         </>

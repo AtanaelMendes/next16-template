@@ -63,7 +63,7 @@ export default function ThemeProvider({ children }) {
           icon={isDark ? faSun : faMoon}
           width='18'
           height='18'
-          className={isDark ? 'text-warning' : 'text-primary'}
+          className={isDark ? 'text-warning' : 'text-primary-text'}
         />
       </button>
     </>

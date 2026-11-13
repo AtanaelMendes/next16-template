@@ -173,7 +173,7 @@ const DatePicker = ({ label, onChange, id, maxDate, defaultDate, required }) => 
                 onClick={() => setShow(!show)}
             >
                 <div className="flex items-center mr-2">
-                    <FontAwesomeIcon icon={faCalendar} width="20" height="20" className={cn(show ? "text-primary" : "text-content-muted")} />
+                    <FontAwesomeIcon icon={faCalendar} width="20" height="20" className={cn(show ? "text-primary-text" : "text-content-muted")} />
                 </div>
                 <input
                     type="text"

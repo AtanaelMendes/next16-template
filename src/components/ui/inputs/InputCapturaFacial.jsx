@@ -1157,7 +1157,7 @@ const InputCapturaFacial = ({ init, id, onChange, currentImage, ...props }) => {
                             </svg>
                         </div>
                         <div className="text-sm text-content-secondary">
-                            <span className="font-medium text-primary hover:text-primary-hover">
+                            <span className="font-medium text-primary-text hover:text-primary-hover">
                                 Clique para selecionar
                             </span>
                             {' '}ou arraste e solte uma imagem

@@ -13,7 +13,7 @@ const Timeline = ({ data }) => {
         return data?.map((row, index) => {
             return (
                 <li className="mb-4 ms-6 shadow-md p-2 rounded-lg bg-surface border border-border text-content" key={`timelapse-${index}`}>
-                    <span className="absolute flex items-center justify-center w-8 h-8 bg-info-subtle rounded-full -inset-s-3 ring-6 ring-surface text-info">
+                    <span className="absolute flex items-center justify-center w-8 h-8 bg-info-subtle rounded-full -inset-s-3 ring-6 ring-surface text-info-text">
                         <FontAwesomeIcon icon={faClockRotateLeft} width="18" height="18" />
                     </span>
                     <h3 className="mb-1 ml-2 text-sm font-semibold text-content">{row?.title}</h3>

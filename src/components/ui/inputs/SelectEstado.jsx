@@ -32,7 +32,7 @@ const SelectEstado = (props) => {
         if (!hasError()) return;
         let errorMsg = props?.required[props.id].errorMsg || "Este campo é obrigatório";
 
-        return <div className="text-xs text-danger">{errorMsg}</div>;
+        return <div className="text-xs text-danger-text">{errorMsg}</div>;
     }
 
     useEffect(() => {
@@ -164,7 +164,7 @@ const SelectEstado = (props) => {
                 }}
                 isClearable={props.isClearable}
             />
-            {props?.helperText && <div className="text-xs text-info absolute bottom-[-12px] right-0"> {props.helperText} </div>}
+            {props?.helperText && <div className="text-xs text-info-text absolute bottom-[-12px] right-0"> {props.helperText} </div>}
             {renderError()}
         </div>
     );

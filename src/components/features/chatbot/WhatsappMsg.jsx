@@ -121,7 +121,7 @@ const WhatsAppMsg = ({ messages }) => {
                     </p>
                     {con.phones.map((phone) => {
                         return (
-                            <p key={phone.phone} className='text-primary'>
+                            <p key={phone.phone} className='text-primary-text'>
                                 {phone.phone}
                             </p>
                         );

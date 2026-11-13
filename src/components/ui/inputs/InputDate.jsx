@@ -7,9 +7,9 @@ import Button from '@/components/ui/buttons/Button'
 
 const InputDate = ({small, variant, ...props}) => {
 	const variantClasses = {
-		danger: 'border-danger text-danger',
+		danger: 'border-danger text-danger-text',
 		warning: 'border-warning text-warning',
-		info: 'border-info text-info',
+		info: 'border-info text-info-text',
 		success: 'border-success text-success',
 		default: 'border-border text-content-muted',
 	}
@@ -32,7 +32,7 @@ const InputDate = ({small, variant, ...props}) => {
 		if (!hasError()) return
 		let errorMsg = props?.required[props.id].errorMsg || 'Este campo é obrigatório'
 
-		return <div className='text-xs text-danger'>{errorMsg}</div>
+		return <div className='text-xs text-danger-text'>{errorMsg}</div>
 	}
 
 	function getValue() {
@@ -60,7 +60,7 @@ const InputDate = ({small, variant, ...props}) => {
 	return (
 		<div className={cn(
 			'relative w-full border rounded-md bg-input focus-within:ring-2 focus-within:ring-focus mt-1',
-			hasError() ? `border-danger text-danger` : 'border-input-border text-content-muted',
+			hasError() ? `border-danger text-danger-text` : 'border-input-border text-content-muted',
 			variantClasses[variant || "default"],
 			)}>
 			{props.label && (
@@ -103,14 +103,14 @@ const InputDate = ({small, variant, ...props}) => {
 					)}
 				/>
 				{renderError()}
-				{props.helperText && <div className='text-xs text-info'> {props.helperText} </div>}
+				{props.helperText && <div className='text-xs text-info-text'> {props.helperText} </div>}
 
 				{props?.copy && (
 					<TooltipComponent content={"Copiar data"} asChild>
 						<div>
 							<Button
 								onClick={copyFormatedDate}
-								className={`text-primary border border-border h-full rounded-md shadow px-2 py-1 ml-2 hover:bg-primary hover:text-primary-content`}
+								className={`text-primary-text border border-border h-full rounded-md shadow px-2 py-1 ml-2 hover:bg-primary hover:text-primary-content`}
 							>
 								<FontAwesomeIcon icon={faCopy} width="15" height="15" />
 							</Button>

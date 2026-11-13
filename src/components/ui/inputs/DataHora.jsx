@@ -20,7 +20,7 @@ const DataHora = (props) => {
         let errorMsg = props?.required[props.id].errorMsg || "Este campo é obrigatório";
 
         return (
-            <div className="text-xs text-danger">
+            <div className="text-xs text-danger-text">
                 {errorMsg}
             </div>
         );
@@ -94,7 +94,7 @@ const DataHora = (props) => {
                 </div>
             </div>
             {renderError()}
-            {props?.helperText && <div className="text-xs text-info"> {props.helperText} </div>}
+            {props?.helperText && <div className="text-xs text-info-text"> {props.helperText} </div>}
         </div>
     );
 };

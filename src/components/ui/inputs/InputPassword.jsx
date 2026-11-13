@@ -50,7 +50,7 @@ const InputPassword = ({
         if (!hasError()) return;
         let errorMsg = required?.password?.errorMsg || "Este campo é obrigatório";
 
-        return <div className="text-xs text-danger">{errorMsg}</div>;
+        return <div className="text-xs text-danger-text">{errorMsg}</div>;
     }
 
     return (
